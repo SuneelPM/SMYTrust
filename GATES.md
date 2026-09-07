@@ -27,7 +27,7 @@ Scope: complete every remaining item that does not require information only the 
 - [x] G5: the full build pipeline completes with zero verification errors
   CHECK: npm run build
   EXPECT: /VERIFY OK — \d+ pages, \d+ routes, 0 errors/
-  EVIDENCE: automatic-evidence=v1; definition-sha256=aad1af76f8923d4f2badcf02330d5fa2e2838d7a21aa8b387f22e4f25e4b715b; exit=0; EXPECT=matched; output-sha256=862ec2be4094df305def8b7a809c0e53df45cef8b846408646fc4c5daeda29f4; output-bytes=2607; shell=C:\Windows\system32\cmd.exe; cwd=C:\workspace\SMYTrust; path=fe351eaf25b9/44 entries
+  EVIDENCE: automatic-evidence=v1; definition-sha256=aad1af76f8923d4f2badcf02330d5fa2e2838d7a21aa8b387f22e4f25e4b715b; exit=0; EXPECT=matched; output-sha256=426ba342077cef3a41094764ca11a697a5589fcb29c929116e907d03f66fc2ca; output-bytes=2513; shell=C:\Windows\system32\cmd.exe; cwd=C:\workspace\SMYTrust; path=fe351eaf25b9/44 entries
 
 - [x] G6: every route renders from the production build with no horizontal overflow and all deferred content reachable
   CHECK: node scripts/gates/visual.mjs
@@ -42,7 +42,7 @@ Scope: complete every remaining item that does not require information only the 
 - [x] G15: no financial identifier appears in any git-tracked file or commit
   CHECK: node scripts/gates/no-secrets.mjs
   EXPECT: NO_SECRETS_OK
-  EVIDENCE: automatic-evidence=v1; definition-sha256=d27ee144304d40e067af6573ef8ded1d28d995baef764b92050c09c53cae7ddb; exit=0; EXPECT=matched; output-sha256=4aefa36e96fb080d193a36f5e6c1212c32ee69d0185cffdbcfd870eca7a50933; output-bytes=56; shell=C:\Windows\system32\cmd.exe; cwd=C:\workspace\SMYTrust; path=fe351eaf25b9/44 entries
+  EVIDENCE: automatic-evidence=v1; definition-sha256=d27ee144304d40e067af6573ef8ded1d28d995baef764b92050c09c53cae7ddb; exit=0; EXPECT=matched; output-sha256=c3d8b9b67d0b0321b45af9c345a4ae396de5c7ca3a4609be4aa7c101a69d687c; output-bytes=56; shell=C:\Windows\system32\cmd.exe; cwd=C:\workspace\SMYTrust; path=fe351eaf25b9/44 entries
 
 - [ ] G8: contact form delivery is live (Web3Forms key present and submissions reach info@smyservices.org)
   EVIDENCE: pending

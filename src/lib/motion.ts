@@ -117,36 +117,27 @@ export function initScrollAnimations() {
       const children = Array.from(group.children) as HTMLElement[];
       const stagger = parseFloat(group.dataset.revealStagger || '0.08');
 
-      if (children.length > BATCH_THRESHOLD) {
-        // Long grids (the 67-photo gallery): reveal per row as it enters the
-        // viewport instead of staggering every item off one trigger, which
-        // would leave the last items lagging seconds behind.
-        gsap.set(children, { autoAlpha: 0, y: 20 });
+      // Batch every group, not just long ones. A single trigger on the parent
+      // can miss its window when layout shifts after it is created, leaving the
+      // children permanently invisible; batching watches each child itself and
+      // also reveals anything already in view. Long grids (the 67-photo
+      // gallery) additionally avoid the last items lagging seconds behind.
+      gsap.set(children, { autoAlpha: 0, y: 20 });
 
-        ScrollTrigger.batch(children, {
-          start: 'top 92%',
-          once: true,
-          batchMax: 6,
-          onEnter: (batch) =>
-            gsap.to(batch, {
-              autoAlpha: 1,
-              y: 0,
-              duration: 0.55,
-              ease: 'power2.out',
-              stagger: 0.05,
-              overwrite: true,
-            }),
-        });
-      } else {
-        gsap.from(children, {
-          autoAlpha: 0,
-          y: 24,
-          duration: 0.6,
-          ease: 'power2.out',
-          stagger: Math.min(stagger, 0.08),
-          scrollTrigger: { trigger: group, start: 'top 85%', once: true },
-        });
-      }
+      ScrollTrigger.batch(children, {
+        start: 'top 95%',
+        once: true,
+        batchMax: children.length > BATCH_THRESHOLD ? 6 : children.length,
+        onEnter: (batch) =>
+          gsap.to(batch, {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.55,
+            ease: 'power2.out',
+            stagger: Math.min(stagger, 0.08),
+            overwrite: true,
+          }),
+      });
     });
 
     // --- Headline word reveal ---------------------------------------------
@@ -261,6 +252,23 @@ export function initCounters(root: ParentNode = document) {
   });
 }
 
+/**
+ * Reveal anything the viewer has already scroll ed completely past that is still
+ * hidden. A ScrollTrigger can miss its window when layout shifts after it was
+ * created (late fonts, images resizing, a tall hero), which would leave real
+ * content permanently invisible. Only elements fully above the viewport are
+ * swept, so an element that is mid-animation is never snapped.
+ */
+function sweepScrolledPast() {
+  document
+    .querySelectorAll<HTMLElement>('[data-reveal], [data-reveal-group] > *')
+    .forEach((el) => {
+      if (getComputedStyle(el).visibility !== 'hidden') return;
+      if (el.getBoundingClientRect().bottom >= 0) return;
+      gsap.set(el, { autoAlpha: 1, y: 0, x: 0, scale: 1 });
+    });
+}
+
 /** One call to wire up every standard behaviour on a page. */
 export function initPage() {
   try {
@@ -280,6 +288,16 @@ export function initPage() {
     document.fonts.ready.then(() => ScrollTrigger.refresh());
   }
   window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+
+  // Debounced sweep so nothing stays hidden after the viewer has passed it.
+  let sweepTimer: number | undefined;
+  const scheduleSweep = () => {
+    window.clearTimeout(sweepTimer);
+    sweepTimer = window.setTimeout(sweepScrolledPast, 220);
+  };
+  window.addEventListener('scroll', scheduleSweep, { passive: true });
+  window.addEventListener('load', scheduleSweep, { once: true });
+  ScrollTrigger.addEventListener('refresh', scheduleSweep);
 }
 
 export { gsap, ScrollTrigger, revealAll };

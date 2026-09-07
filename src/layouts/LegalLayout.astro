@@ -12,7 +12,7 @@ interface Props {
 const { title, description, updated } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} overlay>
   <PageHero eyebrow="Legal" title={title} image="/images/bg-26.jpg" />
 
   <section class="section-y">
