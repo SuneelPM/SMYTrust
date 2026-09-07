@@ -34,22 +34,22 @@ jobs:
 
       - name: Build
         env:
-          # e.g. https://suneelpm.github.io  and  /SMYTrust/
+          # e.g. https://suneelpm.github.io and /SMYTrust
           SITE_URL: ${{ steps.pages.outputs.origin }}
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: npm run build
 
-      # The Pages copy is a staging preview of a site whose real home is
-      # smyservices.org. Let it be crawled and it competes with production for
-      # the same content, so block indexing on this deployment only.
+      # This deployment is a staging preview of a site whose real home is
+      # smyservices.org. Left crawlable it would compete with production for the
+      # same content, so indexing is blocked on this copy only.
       - name: Block indexing of the preview deployment
         run: |
-          printf 'User-agent: *
-Disallow: /
-' > dist/robots.txt
-          find dist -name '*.html' -exec             sed -i 's#<meta name="viewport"#<meta name="robots" content="noindex, nofollow"><meta name="viewport"#' {} +
-          echo "robots.txt:" && cat dist/robots.txt
-          echo "noindex tags: $(grep -rl 'noindex' dist --include='*.html' | wc -l) pages"
+          printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+          find dist -name '*.html' -print0 | xargs -0 sed -i \
+            's#<meta name="viewport"#<meta name="robots" content="noindex, nofollow"><meta name="viewport"#'
+          echo "--- robots.txt ---"
+          cat dist/robots.txt
+          echo "noindex pages: $(grep -rl noindex dist --include='*.html' | wc -l)"
 
       - uses: actions/upload-pages-artifact@v3
         with:
