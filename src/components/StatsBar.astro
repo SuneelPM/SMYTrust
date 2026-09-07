@@ -1,0 +1,49 @@
+---
+import { stats } from '../data/site';
+---
+
+<section id="impact" class="statsbar">
+  <div class="container-x">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+      {stats.map((s) => (
+        <div class="stat">
+          <span class="stat__num" data-count={s.value} data-count-suffix={s.suffix}>0</span>
+          <span class="stat__label">{s.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .statsbar {
+    background: var(--c-ink);
+    color: #fff;
+    padding-block: clamp(2.5rem, 5vw, 3.75rem);
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat__num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.4vw, 3.1rem);
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--c-accent);
+  }
+
+  .stat__label {
+    display: block;
+    margin-top: 0.7rem;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+  }
+</style>

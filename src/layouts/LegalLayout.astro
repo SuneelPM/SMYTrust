@@ -1,0 +1,100 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { org } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  updated: string;
+}
+
+const { title, description, updated } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <PageHero eyebrow="Legal" title={title} image="/images/bg-26.jpg" />
+
+  <section class="section-y">
+    <div class="container-x">
+      <div class="legal">
+        <p class="legal__meta">Last updated: {updated}</p>
+        <slot />
+
+        <hr />
+        <p class="legal__meta">
+          Questions about this policy? Write to
+          <a href={org.emailHref} class="link-underline">{org.email}</a> or call
+          <a href={org.phoneHref} class="link-underline">{org.phone}</a>.<br />
+          {org.name} · {org.addressOneLine} · GST {org.gst} · CSR {org.csr}
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 46rem;
+  }
+
+  .legal :global(h2) {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-top: 2.75rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .legal :global(h2:first-of-type) {
+    margin-top: 1.5rem;
+  }
+
+  .legal :global(p) {
+    line-height: 1.8;
+    color: var(--c-muted);
+    margin-bottom: 1rem;
+  }
+
+  .legal :global(ul) {
+    margin: 0 0 1.25rem 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .legal :global(li) {
+    position: relative;
+    padding-left: 1.4rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.75;
+    color: var(--c-muted);
+  }
+
+  .legal :global(li)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--c-accent);
+  }
+
+  .legal :global(a) {
+    color: var(--c-brand);
+    font-weight: 500;
+  }
+
+  .legal :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--c-line);
+    margin-block: 2.5rem 1.5rem;
+  }
+
+  .legal__meta {
+    font-size: 0.8125rem;
+    color: var(--c-muted);
+    line-height: 1.7;
+  }
+</style>

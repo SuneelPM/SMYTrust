@@ -1,0 +1,51 @@
+---
+import { u } from '../lib/url';
+import Picture from './Picture.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  title?: string;
+  body?: string;
+  image?: string;
+}
+
+const {
+  title = 'Your support turns intent into outcome',
+  body = 'Every contribution is receipted, tax-exempt, and reported back to you with what it actually changed.',
+  image = '/images/campaign-02.jpg',
+} = Astro.props;
+---
+
+<section class="cta">
+  <div class="cta__bg" data-parallax="60" aria-hidden="true">
+    <Picture src={u(image)} alt="" class="media-cover" width="1920" height="800" loading="lazy" sizes="100vw" />
+  </div>
+  <div class="container-x relative text-center">
+    <h2 class="h2 mx-auto max-w-3xl text-white" data-split-text>{title}</h2>
+    <p class="mx-auto mt-5 max-w-xl leading-relaxed text-white/72" data-reveal="up">{body}</p>
+    <div class="mt-9 flex flex-wrap justify-center gap-4" data-reveal="up">
+      <a href={u('/donate/')} class="btn btn-primary btn-lg">Donate now<Icon name="arrow-right" class="btn-arrow" /></a>
+      <a href={u('/csr-fund/')} class="btn btn-glass btn-lg">Partner via CSR</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    overflow: hidden;
+    background: var(--c-ink);
+    padding-block: clamp(4rem, 8vw, 6.5rem);
+    isolation: isolate;
+  }
+
+  .cta__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 130%;
+    opacity: 0.22;
+    z-index: -1;
+    overflow: hidden;
+  }
+</style>

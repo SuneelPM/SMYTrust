@@ -1,0 +1,118 @@
+---
+import { u } from '../lib/url';
+import Picture from '../components/Picture.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CausesGrid from '../components/CausesGrid.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { org, services } from '../data/site';
+---
+
+<BaseLayout
+  title="Services"
+  description="Women empowerment, environment and sustainability, and disaster relief — the three programme areas run by Sri Matha Yellamanba Services."
+>
+  <PageHero
+    eyebrow="Services"
+    title="What we do"
+    lead={org.motto}
+    image="/images/person-doing-diy-activity-online-content-creation-scaled.jpg"
+  />
+
+  <section class="section-y">
+    <div class="container-x">
+      <div class="divide-y">
+        {
+          services.map((s, i) => (
+            <article class="prog group" id={s.slug}>
+              <div class="prog__num">{String(i + 1).padStart(2, '0')}</div>
+
+              <div>
+                <h2 class="h2" data-split-text>
+                  {s.title}
+                </h2>
+                <p class="lead mt-4 max-w-xl" data-reveal="up">
+                  {s.body}
+                </p>
+                <ul
+                  class="mt-7 grid max-w-2xl gap-x-8 gap-y-1 sm:grid-cols-2"
+                  data-reveal-group
+                  data-reveal-stagger="0.06"
+                >
+                  {s.points.map((p) => (
+                    <li class="flex gap-3 border-b py-3 text-[0.9375rem]">
+                      <span class="check" aria-hidden="true">
+                        ✓
+                      </span>
+                      <span style="color: var(--c-muted)">{p}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a href={u('/donate/')} class="btn btn-primary mt-8" data-reveal="up">
+                  Support this programme
+                  <Icon name="arrow-right" class="btn-arrow" />
+                </a>
+              </div>
+
+              <div class="prog__media" data-reveal="right">
+                <Picture src={u(s.image)}
+                  alt={s.title}
+                  class="media-cover transition-transform duration-[1100ms] group-hover:scale-[1.06]"
+                  width="700"
+                  height="880"
+                  loading="lazy" sizes="(min-width: 1024px) 50vw, 100vw" />
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <div style="background: var(--c-surface)"><CausesGrid /></div>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .prog {
+    display: grid;
+    gap: 2.5rem;
+    padding-block: clamp(3rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .prog:first-child {
+    padding-top: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .prog {
+      grid-template-columns: 4.5rem 1fr 20rem;
+      gap: 3rem;
+    }
+  }
+
+  .prog__num {
+    font-family: var(--font-display);
+    font-size: 2.6rem;
+    line-height: 1;
+    font-weight: 800;
+    color: var(--c-brand);
+    opacity: 0.35;
+  }
+
+  .prog__media {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 1.35rem;
+    background: var(--c-surface);
+  }
+
+  @media (max-width: 1023px) {
+    .prog__media {
+      aspect-ratio: 16 / 9;
+    }
+  }
+</style>

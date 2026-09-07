@@ -1,0 +1,54 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { org } from '../data/site';
+---
+
+<LegalLayout
+  title="Terms & Conditions"
+  description={`Terms governing the use of the ${org.name} website and donations made through it.`}
+  updated="7 September 2026"
+>
+  <p>
+    These terms govern your use of this website and any donation you make to {org.name}. By using this
+    site you accept them.
+  </p>
+
+  <h2>About us</h2>
+  <p>
+    {org.name} is a registered service organisation based at {org.addressOneLine}. Our GST number is
+    {org.gst} and our CSR registration number is {org.csr}.
+  </p>
+
+  <h2>Use of this website</h2>
+  <ul>
+    <li>Content on this site is provided for information about our work and may be updated at any time.</li>
+    <li>You may not use this site to transmit unlawful, misleading or harmful material.</li>
+    <li>Text, photographs and design on this site belong to us or are used with permission. Do not reproduce them commercially without written consent.</li>
+  </ul>
+
+  <h2>Donations</h2>
+  <ul>
+    <li>All donations are voluntary and are applied to our charitable objectives.</li>
+    <li>We allocate funds to the programme area you specify where you specify one. Where you do not, funds go where the need is greatest.</li>
+    <li>A receipt is issued for every donation, and a tax exemption certificate is provided in accordance with applicable law.</li>
+    <li>You confirm that funds donated are from a lawful source and are yours to give.</li>
+  </ul>
+
+  <h2>Accuracy of information</h2>
+  <p>
+    We take care to keep programme information, statistics and registration details accurate and
+    current. If you spot an error, please tell us and we will correct it.
+  </p>
+
+  <h2>Limitation of liability</h2>
+  <p>
+    We are not liable for any indirect or consequential loss arising from use of this website, or from
+    interruptions to its availability.
+  </p>
+
+  <h2>Governing law</h2>
+  <p>
+    These terms are governed by the laws of India. Any dispute is subject to the exclusive jurisdiction
+    of the courts at Visakhapatnam, Andhra Pradesh.
+  </p>
+</LegalLayout>

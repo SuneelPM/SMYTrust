@@ -1,0 +1,56 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { org, donate } from '../data/site';
+---
+
+<LegalLayout
+  title="Refund & Cancellation Policy"
+  description={`How ${org.name} handles donation refunds, cancellations and recurring giving.`}
+  updated="7 September 2026"
+>
+  <p>
+    We want every contribution to be intentional. If something has gone wrong with your donation, tell
+    us and we will put it right.
+  </p>
+
+  <h2>Donations are generally non-refundable</h2>
+  <p>
+    Once a donation is received it is committed to programme work, so donations are normally
+    non-refundable. The exceptions below are the situations where we will refund.
+  </p>
+
+  <h2>When we will refund</h2>
+  <ul>
+    <li>A duplicate transaction caused by a technical or banking error.</li>
+    <li>An amount debited that differs from the amount you authorised.</li>
+    <li>A donation made in error, where you notify us within 7 days of the transaction date.</li>
+    <li>An unauthorised transaction, once verified with your bank.</li>
+  </ul>
+
+  <h2>How to request a refund</h2>
+  <p>
+    Email <a href={org.emailHref}>{org.email}</a> or write to
+    <a href={"mailto:" + donate.bank.email}>{donate.bank.email}</a> with your name, the transaction
+    date, the amount, and the bank reference number. Call {org.phone} if you would rather speak to us.
+  </p>
+
+  <h2>Processing time</h2>
+  <ul>
+    <li>We acknowledge every refund request within 3 working days.</li>
+    <li>Approved refunds are processed within 7 to 10 working days.</li>
+    <li>Refunds are returned to the original payment method or bank account only.</li>
+  </ul>
+
+  <h2>Tax exemption certificates</h2>
+  <p>
+    If a tax exemption certificate has already been issued for a donation that is later refunded, the
+    certificate is cancelled and you must not claim it. We notify you in writing when this happens.
+  </p>
+
+  <h2>Cancelling recurring donations</h2>
+  <p>
+    You can stop a standing instruction at any time through your bank. Tell us as well so we can update
+    our records. Amounts already collected before cancellation are not refunded, except under the
+    conditions listed above.
+  </p>
+</LegalLayout>

@@ -1,0 +1,56 @@
+---
+import { u } from '../lib/url';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { nav } from '../data/site';
+---
+
+<BaseLayout title="Page not found" description="The page you were looking for does not exist.">
+  <section class="section-y">
+    <div class="container-x text-center">
+      <p class="nf__code">404</p>
+      <h1 class="h2 mt-4">This page has moved on</h1>
+      <p class="lead mx-auto mt-5 max-w-md">
+        The page you were looking for is not here. Try one of these instead.
+      </p>
+
+      <div class="mt-9 flex flex-wrap justify-center gap-4">
+        <a href={u('/')} class="btn btn-primary btn-lg">Back to home<Icon name="arrow-right" class="btn-arrow" /></a>
+        <a href={u('/contact/')} class="btn btn-outline btn-lg">Contact us</a>
+      </div>
+
+      <ul class="mt-12 flex flex-wrap justify-center gap-2.5">
+        {nav.map((n) => (
+          <li><a href={u(n.href)} class="nf__chip">{n.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf__code {
+    font-family: var(--font-display);
+    font-size: clamp(4.5rem, 16vw, 9rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--c-brand);
+    opacity: 0.22;
+  }
+
+  .nf__chip {
+    display: inline-block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+    padding: 0.55rem 1.15rem;
+    transition: all 0.35s var(--ease-out-expo);
+  }
+
+  .nf__chip:hover {
+    border-color: var(--c-brand);
+    color: var(--c-brand);
+  }
+</style>

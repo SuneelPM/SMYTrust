@@ -1,0 +1,267 @@
+---
+import { u } from '../lib/url';
+import { org, nav } from '../data/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  /** Transparent over a hero image (home) vs solid on inner pages. */
+  overlay?: boolean;
+}
+
+const { overlay = false } = Astro.props;
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header data-header class:list={['site-head', overlay ? 'site-head--overlay' : 'site-head--solid']}>
+  <div class="container-x">
+    <div class="site-head__bar">
+      <a href={u('/')} class="flex items-center gap-3" aria-label={`${org.name} — home`}>
+        <img src={u(org.logo)} alt="" width="48" height="48" class="h-11 w-11 object-contain" />
+        <span class="leading-tight">
+          <span class="site-head__name">{org.shortName}</span>
+          <span class="site-head__sub">Visakhapatnam</span>
+        </span>
+      </a>
+
+      <nav aria-label="Primary" class="site-head__nav">
+        {
+          nav.map((item) => (
+            <a
+              href={u(item.href)}
+              class:list={['site-head__link', isActive(item.href) && 'is-active']}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href={u('/donate/')} class="btn btn-primary hidden sm:inline-flex">
+          Donate
+          <Icon name="arrow-right" class="btn-arrow" />
+        </a>
+        <button type="button" class="site-head__burger" data-menu-open aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+          <Icon name="menu" class="h-6 w-6" />
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu -->
+<div id="mobile-menu" class="mnav" data-menu hidden>
+  <div class="mnav__panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="flex items-center justify-between">
+      <span class="site-head__name">{org.shortName}</span>
+      <button type="button" class="site-head__burger" data-menu-close aria-label="Close menu">
+        <Icon name="close" class="h-6 w-6" />
+      </button>
+    </div>
+
+    <nav aria-label="Mobile" class="mt-8 flex flex-col">
+      {
+        nav.map((item) => (
+          <a href={u(item.href)} class:list={['mnav__link', isActive(item.href) && 'is-active']}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a href={u('/donate/')} class="btn btn-primary btn-lg mt-8 w-full">
+      Donate
+      <Icon name="arrow-right" class="btn-arrow" />
+    </a>
+
+    <div class="mt-8 space-y-3 border-t pt-6 text-sm" style="color: var(--c-muted)">
+      <a href={org.phoneHref} class="flex items-center gap-2.5"><Icon name="phone" class="h-4 w-4" />{org.phone}</a>
+      <a href={org.emailHref} class="flex items-center gap-2.5"><Icon name="mail" class="h-4 w-4" />{org.email}</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+  function setOpen(open: boolean) {
+    if (!menu || !openBtn) return;
+    menu.hidden = !open;
+    openBtn.setAttribute('aria-expanded', String(open));
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) menu.querySelector<HTMLAnchorElement>('a')?.focus();
+    else openBtn.focus();
+  }
+
+  openBtn?.addEventListener('click', () => setOpen(true));
+  closeBtn?.addEventListener('click', () => setOpen(false));
+  menu?.addEventListener('click', (e) => {
+    if (e.target === menu) setOpen(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu && !menu.hidden) setOpen(false);
+  });
+</script>
+
+<style>
+  /* ---- Header ---- */
+  .site-head {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    transition: all 0.45s var(--ease-out-expo);
+  }
+
+  .site-head--overlay {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    color: #fff;
+  }
+
+  .site-head--solid {
+    background: var(--c-bg);
+    border-bottom: 1px solid var(--c-line);
+  }
+
+  .site-head__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1rem;
+    transition: padding 0.45s var(--ease-out-expo);
+  }
+
+  /* Stuck state applies to the overlay header once the page scrolls. */
+  :global(.site-head--overlay.is-stuck) {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    color: var(--c-ink);
+    box-shadow: 0 10px 40px -18px hsl(222 47% 11% / 0.24);
+  }
+
+  :global(.site-head.is-stuck) .site-head__bar {
+    padding-block: 0.7rem;
+  }
+
+  .site-head__name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .site-head__sub {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .site-head__nav {
+    display: none;
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  @media (min-width: 1100px) {
+    .site-head__nav {
+      display: flex;
+    }
+  }
+
+  .site-head__link {
+    position: relative;
+    font-size: 13.5px;
+    font-weight: 500;
+    padding-block: 0.35rem;
+    opacity: 0.82;
+    transition: opacity 0.3s ease;
+  }
+
+  .site-head__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background: var(--c-accent);
+    transition: width 0.4s var(--ease-out-expo);
+  }
+
+  .site-head__link:hover,
+  .site-head__link.is-active {
+    opacity: 1;
+  }
+
+  .site-head__link:hover::after,
+  .site-head__link.is-active::after {
+    width: 100%;
+  }
+
+  .site-head__burger {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 0.75rem;
+    border: 1px solid currentColor;
+    opacity: 0.55;
+    transition: opacity 0.3s ease;
+  }
+
+  .site-head__burger:hover {
+    opacity: 1;
+  }
+
+  @media (min-width: 1100px) {
+    .site-head__burger {
+      display: none;
+    }
+  }
+
+  /* ---- Mobile menu ---- */
+  .mnav {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    background: hsl(222 47% 11% / 0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .mnav__panel {
+    margin-left: auto;
+    height: 100%;
+    width: min(22rem, 88vw);
+    background: var(--c-bg);
+    padding: 1.5rem;
+    overflow-y: auto;
+    animation: slide-in 0.4s var(--ease-out-expo);
+  }
+
+  @keyframes slide-in {
+    from {
+      transform: translateX(100%);
+    }
+  }
+
+  .mnav__link {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid var(--c-line);
+  }
+
+  .mnav__link.is-active {
+    color: var(--c-brand);
+  }
+</style>

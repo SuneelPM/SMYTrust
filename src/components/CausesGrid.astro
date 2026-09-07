@@ -1,0 +1,26 @@
+---
+import { causes } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<section class="section-y">
+  <div class="container-x">
+    <div class="max-w-2xl">
+      <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>Where we work</p>
+      <h2 class="h2 mt-5" data-split-text>Six fronts, one mission</h2>
+      <p class="lead mt-5" data-reveal="up">
+        Every programme we run traces back to the same idea — build capability, not dependency.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group data-reveal-stagger="0.08">
+      {causes.map((c) => (
+        <article class="card p-7">
+          <span class="icon-badge"><Icon name={c.icon} /></span>
+          <h3 class="h3 mt-5">{c.title}</h3>
+          <p class="mt-2.5 text-[0.9375rem] leading-relaxed" style="color: var(--c-muted)">{c.body}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.scrape/
+.env
+.DS_Store
+public/opt/
+.shots/
+graphify-out/
+.archive/

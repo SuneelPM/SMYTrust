@@ -1,0 +1,115 @@
+---
+import { u } from '../lib/url';
+import Picture from '../components/Picture.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Lightbox from '../components/Lightbox.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { gallery } from '../data/media';
+---
+
+<BaseLayout
+  title="Gallery"
+  description={`${gallery.length} photographs from Sri Matha Yellamanba Services programmes and community outreach across Visakhapatnam.`}
+>
+  <PageHero
+    eyebrow="Gallery"
+    title="Our work, documented"
+    lead={`${gallery.length} photographs from outreach programmes, health camps, distribution drives and community events.`}
+    image="/images/joyful-children-playing-holi-festival-scaled.jpg"
+  />
+
+  <section class="section-y">
+    <div class="container-x">
+      <div class="masonry" data-reveal-group data-reveal-stagger="0.03">
+        {
+          gallery.map((g, i) => (
+            <figure class="masonry__item" data-lightbox>
+              <Picture src={u(g.src)}
+                alt={g.alt}
+                class="media-cover"
+                width="600"
+                height="600"
+                loading={i < 8 ? 'eager' : 'lazy'}
+                decoding="async" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" />
+              <span class="masonry__zoom" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"></circle>
+                  <path d="M11 8.5v5M8.5 11h5M16 16l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+                </svg>
+              </span>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Lightbox />
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .masonry {
+    columns: 2;
+    column-gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .masonry {
+      columns: 3;
+      column-gap: 1rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .masonry {
+      columns: 4;
+    }
+  }
+
+  .masonry__item {
+    position: relative;
+    break-inside: avoid;
+    margin-bottom: 0.75rem;
+    border-radius: 0.9rem;
+    overflow: hidden;
+    background: var(--c-surface);
+  }
+
+  @media (min-width: 640px) {
+    .masonry__item {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .masonry__item img {
+    height: auto;
+    transition: transform 0.9s var(--ease-out-expo);
+  }
+
+  .masonry__item:hover img {
+    transform: scale(1.05);
+  }
+
+  .masonry__zoom {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    background: hsl(222 47% 8% / 0.45);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out-expo);
+  }
+
+  .masonry__item:hover .masonry__zoom,
+  .masonry__item:focus-visible .masonry__zoom {
+    opacity: 1;
+  }
+
+  .masonry__zoom svg {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+</style>

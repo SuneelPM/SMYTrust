@@ -1,0 +1,167 @@
+---
+import { u } from '../lib/url';
+import { org, nav, social, activeSocial, legalNav } from '../data/site';
+import Icon from './Icon.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="container-x">
+    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <div class="flex items-center gap-3">
+          <img src={u(org.logo)} alt="" width="56" height="56" class="h-14 w-14 object-contain" />
+          <span class="font-display text-lg leading-tight font-bold">{org.name}</span>
+        </div>
+        <p class="mt-6 max-w-sm leading-relaxed text-white/60">{org.tagline}</p>
+
+        <ul class="mt-7 flex gap-2.5">
+          {
+            social.map((s) =>
+              s.href ? (
+                <li>
+                  <a
+                    href={u(s.href)}
+                    class="foot__social"
+                    aria-label={s.name}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Icon name={s.icon} size={16} />
+                  </a>
+                </li>
+              ) : (
+                <li>
+                  {/* No URL supplied yet: render a non-interactive placeholder
+                      rather than a link to the platform homepage. */}
+                  <span
+                    class="foot__social foot__social--pending"
+                    role="img"
+                    aria-label={`${s.name} — profile link coming soon`}
+                    title={`${s.name} — link to be added`}
+                  >
+                    <Icon name={s.icon} size={16} />
+                  </span>
+                </li>
+              ),
+            )
+          }
+        </ul>
+
+        {activeSocial.length === 0 && (
+          <p class="mt-2.5 text-[11px] text-white/35">Social profiles coming soon.</p>
+        )}
+
+        <p class="mt-7 text-xs text-white/40">GST {org.gst} · CSR {org.csr}</p>
+      </div>
+
+      <div class="lg:col-span-3">
+        <p class="foot__head">Explore</p>
+        <ul class="mt-5 space-y-2.5 text-sm text-white/70">
+          {nav.map((n) => <li><a href={u(n.href)} class="link-underline hover:text-white">{n.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="lg:col-span-4">
+        <p class="foot__head">Reach us</p>
+        <address class="mt-5 space-y-4 text-sm text-white/70 not-italic">
+          <p class="flex gap-3">
+            <Icon name="pin" class="foot__icon" size={16} />
+            <span>{org.address.line1}<br />{org.address.line2}<br />{org.address.city} — {org.address.pin}<br />{org.address.state}</span>
+          </p>
+          <p class="flex gap-3">
+            <Icon name="phone" class="foot__icon" size={16} />
+            <a href={org.phoneHref} class="link-underline hover:text-white">{org.phone}</a>
+          </p>
+          <p class="flex gap-3">
+            <Icon name="mail" class="foot__icon" size={16} />
+            <a href={org.emailHref} class="link-underline hover:text-white">{org.email}</a>
+          </p>
+        </address>
+      </div>
+    </div>
+
+    <div class="foot__base">
+      <p>© {year} {org.name}. All rights reserved.</p>
+      <ul class="flex flex-wrap gap-5">
+        {legalNav.map((l) => <li><a href={u(l.href)} class="hover:text-white/80">{l.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    background: var(--c-ink);
+    color: #fff;
+    padding-top: clamp(3.5rem, 7vw, 5.5rem);
+    padding-bottom: 2.5rem;
+  }
+
+  .foot__head {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  /* Descendant selector: the <svg> lives inside Icon.astro and does not carry
+     this component's scope id, so it must be matched via its parent. */
+  address :global(.foot__icon) {
+    flex: none;
+    margin-top: 0.2rem;
+    color: var(--c-accent);
+  }
+
+  .foot__social {
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.35s var(--ease-out-expo);
+  }
+
+  .foot__social--pending {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .foot__social--pending:hover {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.7);
+    transform: none;
+  }
+
+  .foot__social:not(.foot__social--pending):hover {
+    background: var(--c-brand);
+    border-color: transparent;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .foot__base {
+    margin-top: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.75rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  @media (min-width: 640px) {
+    .foot__base {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+</style>

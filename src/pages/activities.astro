@@ -1,0 +1,96 @@
+---
+import { u } from '../lib/url';
+import Picture from '../components/Picture.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Lightbox from '../components/Lightbox.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { activityPhotos } from '../data/media';
+---
+
+<BaseLayout
+  title="Activities"
+  description="Recent field activities and community programmes run by Sri Matha Yellamanba Services in and around Visakhapatnam."
+>
+  <PageHero
+    eyebrow="Activities"
+    title="Recent activities"
+    lead="Photographs from our most recent field programmes. Captions and dates are added as each activity is written up."
+    image="/images/side-view-people-celebrating-eid-al-fitr-scaled.jpg"
+  />
+
+  <section class="section-y">
+    <div class="container-x">
+      <!--
+        The source site publishes these as an uncaptioned photo set.
+        Replace this block with real activity write-ups when available — see CONTENT-TODO.md.
+      -->
+      <div class="placeholder mb-12" data-reveal="fade">
+        <span class="placeholder__tag">Content needed</span>
+        <p class="mt-2 text-sm leading-relaxed" style="color: var(--c-muted)">
+          The original site publishes these photos without titles or dates. Send us a name, date and
+          one-line description per activity and this page becomes a proper activity log with individual
+          entries. Until then it renders as a dated photo set.
+        </p>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group data-reveal-stagger="0.06">
+        {
+          activityPhotos.map((p, i) => (
+            <figure class="act" data-lightbox>
+              <div class="act__media">
+                <Picture src={u(p.src)}
+                  alt={p.alt}
+                  class="media-cover"
+                  width="600"
+                  height="450"
+                  loading={i < 6 ? 'eager' : 'lazy'} sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" />
+              </div>
+              <figcaption class="act__cap">{p.alt}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Lightbox />
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .act {
+    border: 1px solid var(--c-line);
+    border-radius: 1.1rem;
+    overflow: hidden;
+    background: var(--c-bg);
+    transition:
+      transform 0.5s var(--ease-out-expo),
+      box-shadow 0.5s var(--ease-out-expo);
+  }
+
+  .act:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 28px 50px -28px hsl(222 47% 11% / 0.3);
+  }
+
+  .act__media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--c-surface);
+  }
+
+  .act__media img {
+    transition: transform 0.9s var(--ease-out-expo);
+  }
+
+  .act:hover .act__media img {
+    transform: scale(1.06);
+  }
+
+  .act__cap {
+    padding: 1rem 1.15rem;
+    font-size: 0.8125rem;
+    color: var(--c-muted);
+  }
+</style>

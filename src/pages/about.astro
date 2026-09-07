@@ -1,0 +1,147 @@
+---
+import { u } from '../lib/url';
+import Picture from '../components/Picture.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import StatsBar from '../components/StatsBar.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { org, about, team, csr } from '../data/site';
+---
+
+<BaseLayout
+  title="About Us"
+  description={`Who we are: ${org.name} is a registered service organisation in Visakhapatnam building long-term capability in the communities it serves.`}
+>
+  <PageHero
+    eyebrow="About Us"
+    title={about.heading}
+    lead={about.subheading}
+    image="/images/photorealistic-portrait-non-traditional-family-structure-scaled.jpg"
+  />
+
+  <section class="section-y">
+    <div class="container-x">
+      <div class="grid gap-14 lg:grid-cols-2 lg:gap-20">
+        <div class="relative" data-reveal="left">
+          <div class="about__media">
+            <Picture src={u(about.image)} alt="Children supported by our programmes" class="media-cover" data-parallax="45" width="900" height="760" loading="eager" sizes="(min-width: 1024px) 50vw, 100vw" />
+          </div>
+        </div>
+
+        <div>
+          <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>Our story</p>
+          <h2 class="h2 mt-5" data-split-text>Kindness, made practical</h2>
+          <p class="lead mt-6" data-reveal="up">{about.lead}</p>
+          <div class="mt-6 space-y-4 leading-relaxed" style="color: var(--c-muted)" data-reveal-group>
+            {about.body.map((p) => <p>{p}</p>)}
+          </div>
+          <blockquote class="quote mt-9" data-reveal="up">{org.motto}</blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <StatsBar />
+
+  <!-- Mission / Vision / Values -->
+  <section class="section-y" style="background: var(--c-surface)">
+    <div class="container-x">
+      <div class="max-w-2xl">
+        <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>What drives us</p>
+        <h2 class="h2 mt-5" data-split-text>Mission, vision and values</h2>
+      </div>
+
+      <div class="mt-12 grid gap-5 md:grid-cols-3" data-reveal-group>
+        <article class="card p-7">
+          <span class="icon-badge"><Icon name="life-ring" /></span>
+          <h3 class="h3 mt-5">Our mission</h3>
+          <p class="mt-2.5 text-[0.9375rem] leading-relaxed" style="color: var(--c-muted)">
+            To protect children, empower women, and stand with communities in crisis — with help that is practical, measured and reported.
+          </p>
+        </article>
+        <article class="card p-7">
+          <span class="icon-badge"><Icon name="leaf" /></span>
+          <h3 class="h3 mt-5">Our vision</h3>
+          <p class="mt-2.5 text-[0.9375rem] leading-relaxed" style="color: var(--c-muted)">
+            Communities in and around Visakhapatnam that no longer need us — because the capability we helped build now belongs to them.
+          </p>
+        </article>
+        <article class="card p-7">
+          <span class="icon-badge"><Icon name="shield" /></span>
+          <h3 class="h3 mt-5">Our values</h3>
+          <ul class="mt-4 space-y-2 text-sm">
+            {['Transparency in every rupee', 'Dignity before charity', 'Long-term capability, not dependency', 'Communities lead, we support'].map((v) => (
+              <li class="flex gap-2.5"><span class="tick" aria-hidden="true" /><span style="color: var(--c-muted)">{v}</span></li>
+            ))}
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why partners choose us -->
+  <section class="section-y">
+    <div class="container-x">
+      <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div>
+          <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>Accountability</p>
+          <h2 class="h2 mt-5" data-split-text>Why partners trust us</h2>
+          <p class="lead mt-6" data-reveal="up">
+            We are registered, compliant, and happy to be checked. Our registration numbers are public and our certificates are on this site.
+          </p>
+          <a href={u('/certificate/')} class="btn btn-outline mt-8" data-reveal="up">View certificates<Icon name="arrow-right" class="btn-arrow" /></a>
+        </div>
+
+        <div class="space-y-4" data-reveal-group>
+          {csr.reasons.map((r) => (
+            <article class="reason">
+              <h3 class="h3">{r.title}</h3>
+              <p class="mt-2 text-[0.9375rem] leading-relaxed" style="color: var(--c-muted)">{r.body}</p>
+            </article>
+          ))}
+          <article class="reason">
+            <h3 class="h3">Registered &amp; compliant</h3>
+            <p class="mt-2 text-[0.9375rem] leading-relaxed" style="color: var(--c-muted)">
+              GST {org.gst} · CSR {org.csr}. Every donation is receipted and a tax exemption certificate is issued.
+            </p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="section-y pt-0">
+    <div class="container-x">
+      <div class="max-w-2xl">
+        <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>Leadership</p>
+        <h2 class="h2 mt-5" data-split-text>Meet the trustees</h2>
+      </div>
+
+      <div class="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+        {team.map((m) => (
+          <figure class="group">
+            <div class="team__media">
+              <Picture src={u(m.image)} alt={m.name} class="media-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]" width="500" height="620" loading="lazy" sizes="(min-width: 1024px) 50vw, 100vw" />
+            </div>
+            <figcaption class="pt-5">
+              <p class="font-display text-[1.05rem] font-semibold">{m.name}</p>
+              <p class="mt-0.5 text-[11px] font-medium tracking-[0.14em] uppercase" style="color: var(--c-brand)">{m.role}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</BaseLayout>
+
+<style>
+  .about__media { aspect-ratio: 6 / 5; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 40px 80px -38px hsl(222 47% 11% / 0.35); }
+  .about__media img { height: 118%; margin-top: -9%; }
+  .quote { border-left: 3px solid var(--c-brand); padding-left: 1.5rem; font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; line-height: 1.5; }
+  .reason { border: 1px solid var(--c-line); border-left: 3px solid var(--c-accent); border-radius: 0 1rem 1rem 0; padding: 1.5rem 1.75rem; }
+  .team__media { aspect-ratio: 4 / 5; overflow: hidden; border-radius: 1.25rem; background: var(--c-surface); }
+</style>

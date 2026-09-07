@@ -1,0 +1,102 @@
+---
+interface Props {
+  name: string;
+  class?: string;
+  /**
+   * Rendered size in px. Emitted as width/height attributes so the icon always
+   * has intrinsic dimensions — a class passed from a parent component cannot
+   * size it, because Astro's scoped-style attribute is not applied to markup
+   * rendered inside this component. Without this the SVG would fall back to the
+   * default replaced-element size (300x150).
+   */
+  size?: number;
+}
+
+const { name, class: className = '', size = 20 } = Astro.props;
+---
+
+<svg
+  class={className || undefined}
+  data-icon={name}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  {name === 'shield' && <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" />}
+  {
+    name === 'women' && (
+      <>
+        <circle cx="12" cy="8" r="4.2" />
+        <path d="M12 12.5V21M9 18h6" />
+      </>
+    )
+  }
+  {name === 'book' && <path d="M4 5.5A2 2 0 016 4h5v15H6a2 2 0 00-2 1.5v-15zM20 5.5A2 2 0 0018 4h-5v15h5a2 2 0 012 1.5v-15z" />}
+  {name === 'heart' && <path d="M12 20s-7-4.4-7-9.2A4 4 0 0112 8.6 4 4 0 0119 10.8C19 15.6 12 20 12 20z" />}
+  {name === 'leaf' && <path d="M20 4S8 4 6 12c-1.2 4.8 2 7 2 7s6-1 8-6 4-9 4-9zM8 19c1-4 3.5-7 7-9" />}
+  {
+    name === 'life-ring' && (
+      <>
+        <circle cx="12" cy="12" r="8.4" />
+        <circle cx="12" cy="12" r="3.4" />
+        <path d="M5.8 5.8l3.8 3.8M18.2 5.8l-3.8 3.8M5.8 18.2l3.8-3.8M18.2 18.2l-3.8-3.8" />
+      </>
+    )
+  }
+  {name === 'arrow-right' && <path d="M5 12h14M13 6l6 6-6 6" />}
+  {name === 'chevron-down' && <path d="M6 9l6 6 6-6" />}
+  {name === 'phone' && <path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" />}
+  {
+    name === 'mail' && (
+      <>
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <path d="M3 7l9 6 9-6" />
+      </>
+    )
+  }
+  {
+    name === 'pin' && (
+      <>
+        <path d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z" />
+        <circle cx="12" cy="10" r="2.6" />
+      </>
+    )
+  }
+  {
+    name === 'clock' && (
+      <>
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="M12 7v5l3 2" />
+      </>
+    )
+  }
+  {name === 'facebook' && <path d="M14 8.5h2.5V5.5H14c-2 0-3.5 1.5-3.5 3.5v2H8v3h2.5V21h3v-7h2.4l.6-3h-3V9.2c0-.4.3-.7.7-.7z" fill="currentColor" stroke="none" />}
+  {name === 'x' && <path d="M4 4l7 9-7 7h2l6-6 4.5 6H21l-7.3-9.6L20.5 4h-2l-5.6 5.6L8.7 4H4z" fill="currentColor" stroke="none" />}
+  {
+    name === 'instagram' && (
+      <>
+        <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+        <circle cx="12" cy="12" r="3.8" />
+        <circle cx="17" cy="7" r="0.9" fill="currentColor" />
+      </>
+    )
+  }
+  {
+    name === 'youtube' && (
+      <>
+        <rect x="2.8" y="5.8" width="18.4" height="12.4" rx="4" />
+        <path d="M10.4 9.6l4.6 2.4-4.6 2.4V9.6z" fill="currentColor" stroke="none" />
+      </>
+    )
+  }
+  {name === 'download' && <path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14" />}
+  {name === 'menu' && <path d="M4 7h16M4 12h16M4 17h16" />}
+  {name === 'close' && <path d="M6 6l12 12M18 6L6 18" />}
+</svg>

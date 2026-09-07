@@ -1,0 +1,8 @@
+# Sri Matha Yellamanba Services
+User-agent: *
+Allow: /
+
+# Nothing here is private, but these carry no crawlable value.
+Disallow: /opt/
+
+Sitemap: https://smyservices.org/sitemap-index.xml

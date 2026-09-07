@@ -1,0 +1,106 @@
+---
+import { u } from '../lib/url';
+import Picture from './Picture.astro';
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  image?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  lead,
+  image = '/images/side-view-people-celebrating-eid-al-fitr-scaled.jpg',
+} = Astro.props;
+
+const crumbs = Astro.url.pathname.split('/').filter(Boolean);
+---
+
+<section class="phero">
+  {/*
+    The scoped class must sit on an element in THIS component. Putting it on the
+    Picture component would target markup rendered inside that component, which
+    never receives this file's scope id, so the layout rules silently would not
+    apply. Verified on every build by scripts/verify.mjs.
+  */}
+  <div class="phero__bg" data-parallax="50" aria-hidden="true">
+    <Picture
+      src={u(image)}
+      alt=""
+      class="media-cover"
+      width="1920"
+      height="900"
+      fetchpriority="high"
+      loading="eager"
+      sizes="100vw"
+    />
+  </div>
+  <div class="phero__scrim"></div>
+
+  <div class="container-x relative">
+    <nav aria-label="Breadcrumb" class="phero__crumbs">
+      <a href={u('/')}>Home</a>
+      {crumbs.map((c) => (
+        <>
+          <span aria-hidden="true">/</span>
+          <span class="capitalize">{c.replace(/-/g, ' ')}</span>
+        </>
+      ))}
+    </nav>
+
+    <p class="eyebrow eyebrow--light mt-6"><span class="eyebrow-dot"></span>{eyebrow}</p>
+    <h1 class="h1 mt-4 text-white" data-split-text>{title}</h1>
+    {lead && <p class="phero__lead" data-reveal="up">{lead}</p>}
+  </div>
+</section>
+
+<style>
+  .phero {
+    position: relative;
+    overflow: hidden;
+    background: var(--c-ink);
+    padding-block: clamp(3.5rem, 8vw, 6.5rem);
+    isolation: isolate;
+  }
+
+  .phero__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 128%;
+    z-index: -2;
+    opacity: 0.85;
+    overflow: hidden;
+  }
+
+  .phero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to right, hsl(222 47% 9% / 0.88) 0%, hsl(222 47% 9% / 0.62) 55%, hsl(222 47% 9% / 0.42) 100%),
+      linear-gradient(to bottom, hsl(222 47% 9% / 0.55), hsl(222 47% 9% / 0.25) 45%, hsl(222 47% 9% / 0.6));
+  }
+
+  .phero__crumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .phero__crumbs a:hover {
+    color: #fff;
+  }
+
+  .phero__lead {
+    margin-top: 1.25rem;
+    max-width: 42rem;
+    font-size: 1.0625rem;
+    line-height: 1.72;
+    color: rgba(255, 255, 255, 0.78);
+  }
+</style>

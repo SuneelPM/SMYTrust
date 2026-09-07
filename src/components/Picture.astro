@@ -1,0 +1,93 @@
+---
+import { u, stripBase } from '../lib/url';
+/**
+ * Responsive image. Serves generated WebP variants with the original as fallback.
+ * Variants come from scripts/optimize-images.mjs (public/opt/<name>-<width>.webp).
+ */
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+  /** `sizes` attribute — tell the browser how wide this renders. */
+  sizes?: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  decoding?: 'sync' | 'async' | 'auto';
+  widths?: number[];
+}
+
+import fs from 'node:fs';
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  sizes = '100vw',
+  class: className = '',
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  decoding = 'async',
+} = Astro.props;
+
+/**
+ * Index public/opt once per build rather than stat-ing per image.
+ * Maps "<base>" -> sorted list of generated widths.
+ */
+const variantIndex = ((globalThis as any).__smyVariantIndex ??= (() => {
+  const index = new Map<string, number[]>();
+  try {
+    for (const file of fs.readdirSync('public/opt')) {
+      const m = file.match(/^(.+)-(\d+)\.webp$/);
+      if (!m) continue;
+      const list = index.get(m[1]!) ?? [];
+      list.push(Number(m[2]));
+      index.set(m[1]!, list);
+    }
+    for (const list of index.values()) list.sort((a, b) => a - b);
+  } catch {
+    /* public/opt not generated yet — fall back to the original image */
+  }
+  return index;
+})()) as Map<string, number[]>;
+
+// A caller may already have passed src through withBase(); variant lookup must
+// run against the raw path, so normalise first.
+const rawSrc = stripBase(src);
+const base = rawSrc.replace(/^\/images\//, '').replace(/\.[^.]+$/, '');
+const isOptimisable = /^\/images\/.+\.(jpe?g|png)$/i.test(rawSrc);
+const available = isOptimisable ? (variantIndex.get(base) ?? []) : [];
+
+const srcset = available.map((w) => `${u(`/opt/${base}-${w}.webp`)} ${w}w`).join(', ');
+---
+
+{
+  srcset ? (
+    <picture>
+      <source type="image/webp" srcset={srcset} sizes={sizes} />
+      <img
+        src={u(src)}
+        alt={alt}
+        width={width}
+        height={height}
+        class={className}
+        loading={loading}
+        fetchpriority={fetchpriority}
+        decoding={decoding}
+      />
+    </picture>
+  ) : (
+    <img
+      src={u(src)}
+      alt={alt}
+      width={width}
+      height={height}
+      class={className}
+      loading={loading}
+      fetchpriority={fetchpriority}
+      decoding={decoding}
+    />
+  )
+}

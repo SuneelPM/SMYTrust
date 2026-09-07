@@ -1,0 +1,127 @@
+---
+import { u } from '../lib/url';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import ContactRail from '../components/ContactRail.astro';
+import Preloader from '../components/Preloader.astro';
+import Footer from '../components/Footer.astro';
+import { org } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Transparent header sitting over a hero image. */
+  overlay?: boolean;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  overlay = false,
+  ogImage = '/images/joyful-children-playing-holi-festival-scaled.jpg',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://smyservices.org');
+const ogUrl = new URL(ogImage, Astro.site ?? 'https://smyservices.org');
+const fullTitle = title === org.name ? title : `${title} — ${org.shortName}`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NGO',
+  name: org.name,
+  alternateName: org.shortName,
+  url: canonical.origin,
+  logo: new URL(org.logo, canonical.origin).href,
+  email: org.email,
+  telephone: org.phone,
+  slogan: org.tagline,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${org.address.line1}, ${org.address.line2}`,
+    addressLocality: org.address.city,
+    postalCode: org.address.pin,
+    addressRegion: 'Andhra Pradesh',
+    addressCountry: 'IN',
+  },
+};
+---
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="icon" href={u(org.logo)} />
+    <link rel="apple-touch-icon" href={u('/images/cropped-cropped-logo-removebg-preview.png')} />
+    <meta name="theme-color" content="#0b64f3" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={org.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogUrl.href} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap"
+    />
+
+    <script is:inline>
+      document.documentElement.classList.remove('no-js');
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+
+  <body>
+    <Preloader />
+
+    <a href="#main" class="skip">Skip to content</a>
+
+    <Header overlay={overlay} />
+    <ContactRail />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <script>
+      import { initPage } from '../lib/motion';
+      initPage();
+    </script>
+
+    <style is:global>
+      /* Visually hidden without pushing the layout box off-canvas. */
+      .skip {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+        z-index: 100;
+      }
+
+      .skip:focus {
+        width: auto;
+        height: auto;
+        clip-path: none;
+        left: 1rem;
+        top: 1rem;
+        background: var(--c-ink);
+        color: #fff;
+        padding: 0.6rem 1rem;
+        border-radius: 0.5rem;
+      }
+    </style>
+  </body>
+</html>
