@@ -41,10 +41,20 @@ import Icon from './Icon.astro';
               {s.eyebrow}
             </p>
 
-            <h1 class="hero__title">
-              <span class="block">{s.title}</span>
-              <span class="hero__title-accent block">{s.titleAccent}</span>
-            </h1>
+            {/* Only the first slide carries the page h1. The other slides are
+                rotating variants of the same heading; four <h1> elements would
+                be poor semantics and poor SEO. */}
+            {i === 0 ? (
+              <h1 class="hero__title">
+                <span class="block">{s.title}</span>
+                <span class="hero__title-accent block">{s.titleAccent}</span>
+              </h1>
+            ) : (
+              <p class="hero__title" role="heading" aria-level="2">
+                <span class="block">{s.title}</span>
+                <span class="hero__title-accent block">{s.titleAccent}</span>
+              </p>
+            )}
 
             <p class="hero__body">{s.body}</p>
 
@@ -514,6 +524,27 @@ import Icon from './Icon.astro';
 
     .hero__dot-label {
       display: none;
+    }
+
+    /* Title, body, buttons and controls together exceeded 100svh on a phone,
+       pushing the hero a few pixels past the viewport. Tighten the vertical
+       rhythm so the hero fills the screen exactly, as it does on desktop. */
+    .hero__fg {
+      padding-top: 7.5rem;
+      padding-bottom: 1.75rem;
+    }
+
+    .hero__controls {
+      margin-top: clamp(1.25rem, 4vh, 2.5rem);
+      padding-top: 1rem;
+    }
+
+    .hero__body {
+      margin-top: 1.15rem;
+    }
+
+    .hero__actions {
+      margin-top: 1.6rem;
     }
   }
 </style>

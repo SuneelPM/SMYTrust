@@ -156,28 +156,38 @@ import { gallery } from '../data/media';
         <h2 class="h2 mt-5" data-split-text>The team behind the work</h2>
       </div>
 
-      <div class="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
-        {
-          team.map((m) => (
-            <figure class="group">
-              <div class="team__media">
-                <Picture src={u(m.image)}
-                  alt={m.name}
-                  class="media-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
-                  width="500"
-                  height="620"
-                  loading="lazy" sizes="(min-width: 1024px) 50vw, 100vw" />
-              </div>
-              <figcaption class="pt-5">
-                <p class="font-display text-[1.05rem] font-semibold">{m.name}</p>
-                <p class="mt-0.5 text-[11px] font-medium tracking-[0.14em] uppercase" style="color: var(--c-brand)">
-                  {m.role}
-                </p>
-              </figcaption>
-            </figure>
-          ))
-        }
-      </div>
+      {
+        team.length > 0 ? (
+          <div class="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+            {team.map((m) => (
+              <figure class="group">
+                <div class="team__media">
+                  <Picture src={u(m.image)}
+                    alt={m.name}
+                    class="media-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
+                    width="500"
+                    height="620"
+                    loading="lazy" sizes="(min-width: 1024px) 50vw, 100vw" />
+                </div>
+                <figcaption class="pt-5">
+                  <p class="font-display text-[1.05rem] font-semibold">{m.name}</p>
+                  <p class="mt-0.5 text-[11px] font-medium tracking-[0.14em] uppercase" style="color: var(--c-brand)">
+                    {m.role}
+                  </p>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        ) : (
+          <div class="placeholder mt-10 max-w-2xl" data-reveal="fade">
+            <span class="placeholder__tag">Trustee details in progress</span>
+            <p class="mt-2 text-sm leading-relaxed" style="color: var(--c-muted)">
+              The governing board and trustee member details are currently being updated.
+              The revised leadership list will be published shortly.
+            </p>
+          </div>
+        )
+      }
     </div>
   </section>
 
@@ -190,23 +200,34 @@ import { gallery } from '../data/media';
           <h2 class="h2 mt-5" data-split-text>Moments from the field</h2>
         </div>
         <a href={u('/gallery/')} class="btn btn-outline" data-reveal="fade">
-          View all {gallery.length} photos<Icon name="arrow-right" class="btn-arrow" />
+          {gallery.length > 0 ? `View all ${gallery.length} photos` : 'View gallery'}<Icon name="arrow-right" class="btn-arrow" />
         </a>
       </div>
 
-      <div
-        class="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
-        data-reveal-group
-        data-reveal-stagger="0.05"
-      >
-        {
-          gallery.slice(0, 8).map((g) => (
-            <figure class="gal">
-              <Picture src={u(g.src)} alt={g.alt} class="media-cover" width="480" height="480" loading="lazy" sizes="(min-width: 1024px) 50vw, 100vw" />
-            </figure>
-          ))
-        }
-      </div>
+      {
+        gallery.length > 0 ? (
+          <div
+            class="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
+            data-reveal-group
+            data-reveal-stagger="0.05"
+          >
+            {
+              gallery.slice(0, 8).map((g) => (
+                <figure class="gal">
+                  <Picture src={u(g.src)} alt={g.alt} class="media-cover" width="480" height="480" loading="lazy" sizes="(min-width: 1024px) 50vw, 100vw" />
+                </figure>
+              ))
+            }
+          </div>
+        ) : (
+          <div class="placeholder mt-10 max-w-2xl" data-reveal="fade">
+            <span class="placeholder__tag">Photos in progress</span>
+            <p class="mt-2 text-sm leading-relaxed" style="color: var(--c-muted)">
+              New photographs from recent field service activities and community programmes are being curated and will be uploaded soon.
+            </p>
+          </div>
+        )
+      }
     </div>
   </section>
 

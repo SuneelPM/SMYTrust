@@ -14,7 +14,7 @@ const year = new Date().getFullYear();
           <img src={u(org.logo)} alt="" width="56" height="56" class="h-14 w-14 object-contain" />
           <span class="font-display text-lg leading-tight font-bold">{org.name}</span>
         </div>
-        <p class="mt-6 max-w-sm leading-relaxed text-white/60">{org.tagline}</p>
+        <p class="mt-6 max-w-sm leading-relaxed text-white/75">{org.tagline}</p>
 
         <ul class="mt-7 flex gap-2.5">
           {
@@ -50,10 +50,10 @@ const year = new Date().getFullYear();
         </ul>
 
         {activeSocial.length === 0 && (
-          <p class="mt-2.5 text-[11px] text-white/35">Social profiles coming soon.</p>
+          <p class="mt-2.5 text-[11px] text-white/70">Social profiles coming soon.</p>
         )}
 
-        <p class="mt-7 text-xs text-white/40">GST {org.gst} · CSR {org.csr}</p>
+        <p class="mt-7 text-xs text-white/70">GST {org.gst} · CSR {org.csr}</p>
       </div>
 
       <div class="lg:col-span-3">
@@ -85,7 +85,7 @@ const year = new Date().getFullYear();
     <div class="foot__base">
       <p>© {year} {org.name}. All rights reserved.</p>
       <ul class="flex flex-wrap gap-5">
-        {legalNav.map((l) => <li><a href={u(l.href)} class="hover:text-white/80">{l.label}</a></li>)}
+        {legalNav.map((l) => <li><a href={u(l.href)} class="hover:text-white">{l.label}</a></li>)}
       </ul>
     </div>
   </div>
@@ -105,7 +105,9 @@ const year = new Date().getFullYear();
     letter-spacing: 0.2em;
     text-transform: uppercase;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.45);
+    /* 11px is below the large-text threshold, so this needs the full 4.5:1
+       against the footer's dark ground. 0.45 alpha measured ~3.1:1. */
+    color: rgba(255, 255, 255, 0.75);
   }
 
   /* Descendant selector: the <svg> lives inside Icon.astro and does not carry
@@ -155,7 +157,7 @@ const year = new Date().getFullYear();
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding-top: 1.75rem;
     font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.72);
   }
 
   @media (min-width: 640px) {

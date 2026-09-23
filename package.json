@@ -11,8 +11,10 @@
     "optimize": "node scripts/optimize-images.mjs",
     "verify": "node scripts/verify.mjs",
     "shoot": "node scripts/shoot.mjs",
-    "test:visual": "node scripts/shoot.mjs && node scripts/scrolltest.mjs",
-    "gates": "node scripts/gates/visual.mjs && node scripts/gates/robots.mjs && node scripts/gates/favicon.mjs && node scripts/gates/unused-images.mjs && node scripts/gates/social-links.mjs && node scripts/gates/content-todo.mjs"
+    "gates": "node scripts/gates/visual.mjs && node scripts/gates/robots.mjs && node scripts/gates/favicon.mjs && node scripts/gates/unused-images.mjs && node scripts/gates/social-links.mjs && node scripts/gates/content-todo.mjs",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
@@ -23,6 +25,8 @@
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
     "playwright": "^1.63.0",
     "sharp": "^0.35.4"
   }

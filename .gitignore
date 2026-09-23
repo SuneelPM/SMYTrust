@@ -8,3 +8,5 @@ public/opt/
 .shots/
 graphify-out/
 .archive/
+test-results/
+playwright-report/

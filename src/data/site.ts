@@ -209,16 +209,13 @@ export const services = [
   },
 ] as const;
 
-export const team = [
-  { name: 'CH. Venkata Lakshmi', role: 'President', image: '/images/1-1.jpg' },
-  { name: 'CH. Hemalatha Devi', role: 'Secretary', image: '/images/2-1.jpg' },
-  { name: 'CH. Gopal Krishna', role: 'Treasurer', image: '/images/Gopal-babu.jpeg' },
-  {
-    name: 'CH. Lokesh Kumar',
-    role: 'Managing Director',
-    image: '/images/ChatGPT-Image-Feb-7-2026-06_16_29-PM-1.png',
-  },
-] as const;
+export interface TeamMember {
+  readonly name: string;
+  readonly role: string;
+  readonly image: string;
+}
+
+export const team: readonly TeamMember[] = [];
 
 export const csr = {
   heading: 'Partner With Us Through CSR',

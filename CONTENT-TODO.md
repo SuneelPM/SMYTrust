@@ -136,3 +136,32 @@ If you want either section, send real material and it gets built:
 - **Testimonials:** a real quote, the person's name, their role or village, and their consent
   to publish it.
 - **News:** a title, date, two or three sentences, and a photo per item.
+
+---
+
+## 9. Trustee & Leadership members — required
+
+**Pages:** `/` and `/about/` · **Files:** `src/data/site.ts`, `src/pages/index.astro`, `src/pages/about.astro`
+
+The previous trustee member list has been removed per organisational request. A visible placeholder ("Trustee details in progress") is rendered on both the homepage and the About page until the updated list of trustees is supplied.
+
+Supply for each trustee member:
+- Full name
+- Role / designation (e.g., President, Secretary, Treasurer, Trustee)
+- Portrait photo (placed in `public/images/`)
+
+Then add each member to the `team` array in `src/data/site.ts`.
+
+---
+
+## 10. Gallery photographs — in progress
+
+**Pages:** `/gallery/` and `/` · **Files:** `src/pages/gallery.astro`, `src/data/media.ts`
+
+All previous gallery photos have been cleared per request and archived. A visible placeholder ("Gallery update in progress") is rendered on the Gallery page and the homepage until new photographs are supplied.
+
+To add new photographs:
+1. Drop image files into `public/images/`.
+2. Add entries to the `gallery` array in `src/data/media.ts` with the file path and descriptive `alt` text.
+3. Run `npm run build` to generate responsive WebP variants and verify the site.
+

@@ -1,7 +1,14 @@
 ---
 /**
  * Click any [data-lightbox] figure on the page to open it full-screen.
- * Arrow keys and swipe move between items; Escape closes.
+ *
+ * The viewer is a 3D coverflow carousel rather than a single image with
+ * prev/next buttons: neighbouring images sit behind and to the side on a
+ * perspective stage, and moving through the set rotates them into the centre.
+ * Click a side card, drag, swipe or use the arrow keys to move; Escape closes.
+ *
+ * Slides are created once per item but only the cards inside the visible
+ * window carry an `src`, so a 67-image gallery still loads about seven files.
  */
 ---
 
@@ -12,23 +19,18 @@
     >
   </button>
 
-  <button type="button" class="lb__nav lb__nav--prev" data-lb-prev aria-label="Previous image">
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"
-      ><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg
-    >
-  </button>
+  <div
+    class="lb__stage"
+    data-lb-stage
+    role="dialog"
+    aria-modal="true"
+    aria-label="Image viewer"
+    tabindex="-1"
+  >
+    <div class="lb__track" data-lb-track></div>
+  </div>
 
-  <figure class="lb__figure" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <img src="" alt="" data-lb-img />
-    <figcaption data-lb-caption></figcaption>
-  </figure>
-
-  <button type="button" class="lb__nav lb__nav--next" data-lb-next aria-label="Next image">
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"
-      ><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg
-    >
-  </button>
-
+  <p class="lb__caption" data-lb-caption aria-live="polite"></p>
   <p class="lb__count" data-lb-count></p>
 </div>
 
@@ -37,26 +39,122 @@
   const items = Array.from(document.querySelectorAll<HTMLElement>('[data-lightbox]'));
 
   if (root && items.length) {
-    const imgEl = root.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const track = root.querySelector<HTMLElement>('[data-lb-track]')!;
+    const stage = root.querySelector<HTMLElement>('[data-lb-stage]')!;
     const capEl = root.querySelector<HTMLElement>('[data-lb-caption]')!;
     const countEl = root.querySelector<HTMLElement>('[data-lb-count]')!;
+    const total = items.length;
+
+    // How many cards stay visible either side of the centre one. Anything
+    // beyond this is parked off-stage with no `src`, so it costs nothing.
+    const WINDOW = 3;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let index = 0;
     let lastFocused: HTMLElement | null = null;
 
+    // Keep the source element rather than a URL: `currentSrc` is only settled
+    // once the browser has picked a srcset candidate, which may be after this
+    // module runs.
+    const sources = items.map((item) => {
+      const img = item.querySelector('img')!;
+      return { el: img, alt: img.alt };
+    });
+
+    const srcOf = (i: number) => sources[i]!.el.currentSrc || sources[i]!.el.src;
+
+    // One card per item, built once on first open.
+    const cards = sources.map((source, i) => {
+      const card = document.createElement('button');
+      card.type = 'button';
+      card.className = 'lb__card';
+      card.dataset.i = String(i);
+      card.tabIndex = -1;
+
+      const img = document.createElement('img');
+      img.alt = source.alt;
+      img.draggable = false;
+      img.decoding = 'async';
+      card.append(img);
+
+      card.addEventListener('click', () => {
+        if (dragged) return;
+        if (i === index) return;
+        show(i);
+      });
+
+      track.append(card);
+      return card;
+    });
+
+    /** Shortest signed distance from the centre, wrapping around the set. */
+    function offsetOf(i: number) {
+      let off = i - index;
+      if (off > total / 2) off -= total;
+      if (off < -total / 2) off += total;
+      return off;
+    }
+
+    function layout() {
+      cards.forEach((card, i) => {
+        const off = offsetOf(i);
+        const far = Math.abs(off) > WINDOW;
+        const img = card.firstElementChild as HTMLImageElement;
+
+        if (far) {
+          // Off-stage: no src, no hit area, no paint.
+          card.hidden = true;
+          card.setAttribute('aria-hidden', 'true');
+          card.tabIndex = -1;
+          if (img.src) img.removeAttribute('src');
+          return;
+        }
+
+        card.hidden = false;
+        card.removeAttribute('aria-hidden');
+        if (!img.getAttribute('src')) img.src = srcOf(i);
+
+        const dir = Math.sign(off);
+        const dist = Math.abs(off);
+        // The centre card sits flat and forward; side cards fan outwards,
+        // fall back in Z and turn to face the centre. The step is measured
+        // from the stage so the whole fan stays on screen at any width.
+        const step = Math.min(stage.clientWidth * 0.15, 190);
+        const x = off * step;
+        const z = -dist * 150;
+        const rotate = dir * Math.min(dist, 3) * -26;
+        const scale = Math.max(0.6, 1 - dist * 0.1);
+        const opacity = dist === 0 ? 1 : Math.max(0.25, 0.7 - (dist - 1) * 0.18);
+
+        card.style.transform = `translate(-50%, -50%) translateX(${x}px) translateZ(${z}px) rotateY(${rotate}deg) scale(${scale})`;
+        card.style.opacity = String(opacity);
+        card.style.zIndex = String(100 - dist);
+        card.classList.toggle('is-current', dist === 0);
+        // Deep cards are rotated wide enough to overlap their neighbours on
+        // screen, so only the centre card and its two neighbours are clickable.
+        card.style.pointerEvents = dist <= 1 ? 'auto' : 'none';
+        card.tabIndex = dist <= 1 ? 0 : -1;
+        card.setAttribute(
+          'aria-label',
+          dist === 0 ? sources[i]!.alt || `Image ${i + 1}` : `Show image ${i + 1} of ${total}`,
+        );
+      });
+
+      capEl.textContent = sources[index]!.alt;
+      countEl.textContent = `${index + 1} / ${total}`;
+    }
+
     function show(i: number) {
-      index = (i + items.length) % items.length;
-      const source = items[index]!.querySelector('img')!;
-      imgEl.src = source.currentSrc || source.src;
-      imgEl.alt = source.alt;
-      capEl.textContent = source.alt;
-      countEl.textContent = `${index + 1} / ${items.length}`;
+      index = ((i % total) + total) % total;
+      layout();
     }
 
     function open(i: number) {
       lastFocused = document.activeElement as HTMLElement;
-      show(i);
+      // Unhide first: the fan is measured from the stage, which has no width
+      // while the overlay is still `hidden`.
       root!.hidden = false;
+      show(i);
       document.documentElement.style.overflow = 'hidden';
       root!.querySelector<HTMLButtonElement>('[data-lb-close]')?.focus();
     }
@@ -80,10 +178,11 @@
     });
 
     root.querySelector('[data-lb-close]')?.addEventListener('click', close);
-    root.querySelector('[data-lb-next]')?.addEventListener('click', () => show(index + 1));
-    root.querySelector('[data-lb-prev]')?.addEventListener('click', () => show(index - 1));
     root.addEventListener('click', (e) => {
-      if (e.target === root) close();
+      // A drag that ends over the backdrop still fires a click; that is a
+      // swipe, not a dismissal.
+      if (dragged) return;
+      if (e.target === root || e.target === stage || e.target === track) close();
     });
 
     document.addEventListener('keydown', (e) => {
@@ -91,14 +190,64 @@
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowRight') show(index + 1);
       if (e.key === 'ArrowLeft') show(index - 1);
+      if (e.key === 'Home') show(0);
+      if (e.key === 'End') show(total - 1);
     });
 
+    // Pointer drag doubles as touch swipe. `dragged` suppresses the click that
+    // a browser fires on the card the drag ended over.
     let startX = 0;
-    root.addEventListener('touchstart', (e) => { startX = e.touches[0]!.clientX; }, { passive: true });
-    root.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0]!.clientX - startX;
-      if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
-    }, { passive: true });
+    let startIndex = 0;
+    let dragging = false;
+    let dragged = false;
+
+    stage.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      dragged = false;
+      startX = e.clientX;
+      startIndex = index;
+      stage.classList.add('is-dragging');
+    });
+
+    stage.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 6) dragged = true;
+      // One card per ~110px of travel, live while the finger is down.
+      const step = Math.round(-dx / 110);
+      if (step !== index - startIndex) show(startIndex + step);
+    });
+
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      stage.classList.remove('is-dragging');
+      // Let the suppressed click land before re-enabling card clicks.
+      setTimeout(() => {
+        dragged = false;
+      }, 0);
+    };
+
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+    stage.addEventListener('pointerleave', endDrag);
+
+    stage.addEventListener(
+      'wheel',
+      (e) => {
+        const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+        if (Math.abs(d) < 12) return;
+        e.preventDefault();
+        show(index + (d > 0 ? 1 : -1));
+      },
+      { passive: false },
+    );
+
+    window.addEventListener('resize', () => {
+      if (!root!.hidden) layout();
+    });
+
+    if (reduced) root.classList.add('lb--reduced');
   }
 </script>
 
@@ -108,33 +257,77 @@
     inset: 0;
     z-index: 100;
     display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 1rem;
+    place-items: center;
     padding: clamp(1rem, 4vw, 3rem);
     background: hsl(222 47% 6% / 0.94);
     backdrop-filter: blur(6px);
   }
 
-  .lb__figure {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    min-width: 0;
+  .lb__stage {
+    position: relative;
+    width: 100%;
+    height: min(72vh, 40rem);
+    perspective: 1400px;
+    perspective-origin: 50% 50%;
+    touch-action: pan-y;
+    cursor: grab;
   }
 
-  .lb__figure img {
-    max-width: 100%;
-    max-height: 78vh;
+  .lb__stage.is-dragging {
+    cursor: grabbing;
+  }
+
+  .lb__track {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+  }
+
+  .lb__track :global(.lb__card) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(52%, 30rem);
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    transform: translate(-50%, -50%);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    cursor: pointer;
+    transition:
+      transform 0.65s var(--ease-out-expo),
+      opacity 0.65s var(--ease-out-expo);
+  }
+
+  .lb__track :global(.lb__card.is-current) {
+    cursor: default;
+  }
+
+  .lb__track :global(.lb__card img) {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     border-radius: 0.75rem;
+    filter: brightness(0.55);
+    transition: filter 0.65s var(--ease-out-expo);
+    -webkit-user-drag: none;
+    user-select: none;
   }
 
-  .lb__figure figcaption {
-    font-size: 0.8125rem;
-    color: rgba(255, 255, 255, 0.65);
-    text-align: center;
+  .lb__track :global(.lb__card.is-current img) {
+    filter: none;
+    box-shadow: 0 2rem 4rem hsl(222 47% 4% / 0.55);
+  }
+
+  .lb__track :global(.lb__card:focus-visible) {
+    outline: none;
+  }
+
+  .lb__track :global(.lb__card:focus-visible img) {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
   }
 
   .lb__close {
@@ -142,10 +335,6 @@
     top: 1.25rem;
     right: 1.25rem;
     z-index: 2;
-  }
-
-  .lb__close,
-  .lb__nav {
     display: grid;
     place-items: center;
     width: 2.9rem;
@@ -157,17 +346,26 @@
     cursor: pointer;
   }
 
-  .lb__close:hover,
-  .lb__nav:hover {
+  .lb__close:hover {
     background: #fff;
     color: hsl(222 47% 11%);
     border-color: transparent;
   }
 
-  .lb__close svg,
-  .lb__nav svg {
+  .lb__close svg {
     width: 1.2rem;
     height: 1.2rem;
+  }
+
+  .lb__caption {
+    position: absolute;
+    bottom: 3.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: min(90%, 40rem);
+    font-size: 0.8125rem;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.65);
   }
 
   .lb__count {
@@ -183,21 +381,25 @@
   }
 
   @media (max-width: 640px) {
-    .lb__nav {
-      position: absolute;
-      bottom: 1.25rem;
+    .lb__stage {
+      height: min(62vh, 30rem);
     }
 
-    .lb__nav--prev {
-      left: 1.25rem;
+    .lb__track :global(.lb__card) {
+      width: min(76%, 22rem);
     }
+  }
 
-    .lb__nav--next {
-      right: 1.25rem;
-    }
+  /* Reduced motion keeps the depth cue but drops the animated rotation. */
+  .lb--reduced .lb__track :global(.lb__card),
+  .lb--reduced .lb__track :global(.lb__card img) {
+    transition: none;
+  }
 
-    .lb {
-      grid-template-columns: 1fr;
+  @media (prefers-reduced-motion: reduce) {
+    .lb__track :global(.lb__card),
+    .lb__track :global(.lb__card img) {
+      transition: none;
     }
   }
 

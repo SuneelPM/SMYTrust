@@ -42,10 +42,20 @@ export function initSmoothScroll() {
     a.addEventListener('click', (e) => {
       const id = a.getAttribute('href');
       if (!id || id === '#') return;
-      const target = document.querySelector(id);
+      const target = document.querySelector<HTMLElement>(id);
       if (!target) return;
+
       e.preventDefault();
-      lenis?.scrollTo(target as HTMLElement, { offset: -80 });
+      lenis?.scrollTo(target, { offset: -80 });
+
+      /*
+       * preventDefault also cancels the browser's built-in focus move, which
+       * would silently break skip links: the keyboard user activates "Skip to
+       * content" and focus stays on the link, so the next Tab continues through
+       * the header anyway. Move focus manually to preserve that behaviour.
+       */
+      if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
     });
   });
 
