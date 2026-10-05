@@ -11,8 +11,8 @@ import { gallery } from '../data/media';
 <BaseLayout
   title="Gallery"
   description={gallery.length > 0
-    ? `${gallery.length} photographs from Sri Matha Yellamanba Services programmes and community outreach across Visakhapatnam.`
-    : 'Photographs and documentation from Sri Matha Yellamanba Services programmes and community outreach across Visakhapatnam.'}
+    ? `${gallery.length} photographs from Sri Matha Yellamanba Services programmes and community outreach across Vijayawada.`
+    : 'Photographs and documentation from Sri Matha Yellamanba Services programmes and community outreach across Vijayawada.'}
   overlay
 >
   <PageHero
@@ -28,27 +28,46 @@ import { gallery } from '../data/media';
     <div class="container-x">
       {
         gallery.length > 0 ? (
-          <div class="masonry" data-reveal-group data-reveal-stagger="0.03">
-            {
-              gallery.map((g, i) => (
-                <figure class="masonry__item" data-lightbox>
-                  <Picture src={u(g.src)}
-                    alt={g.alt}
-                    class="media-cover"
-                    width="600"
-                    height="600"
-                    loading={i < 8 ? 'eager' : 'lazy'}
-                    decoding="async" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" />
-                  <span class="masonry__zoom" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"></circle>
-                      <path d="M11 8.5v5M8.5 11h5M16 16l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
-                    </svg>
-                  </span>
-                </figure>
-              ))
-            }
-          </div>
+          <>
+            <div class="gallery-head" data-reveal="fade">
+              <p class="gallery-head__kicker">{gallery.length} moments</p>
+              <p class="gallery-head__copy">
+                Click any photograph to open the viewer. Use arrows, thumbnails, scroll wheel, or swipe to move through the collection.
+              </p>
+            </div>
+
+            <div class="masonry" data-reveal-group data-reveal-stagger="0.03">
+              {
+                gallery.map((g, i) => (
+                  <button
+                    type="button"
+                    class="masonry__item"
+                    data-lightbox
+                    aria-label={`Open gallery image ${i + 1}: ${g.alt}`}
+                  >
+                    <Picture
+                      src={u(g.src)}
+                      alt={g.alt}
+                      class="media-cover"
+                      width="600"
+                      height="600"
+                      loading={i < 8 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                    />
+                    <span class="masonry__shade" aria-hidden="true"></span>
+                    <span class="masonry__cap">{g.alt}</span>
+                    <span class="masonry__zoom" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.6"></circle>
+                        <path d="M11 8.5v5M8.5 11h5M16 16l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path>
+                      </svg>
+                    </span>
+                  </button>
+                ))
+              }
+            </div>
+          </>
         ) : (
           <div class="placeholder max-w-2xl mx-auto text-center py-16 px-6 sm:px-12" data-reveal="fade">
             <span class="placeholder__tag">Gallery update in progress</span>
@@ -69,9 +88,37 @@ import { gallery } from '../data/media';
 </BaseLayout>
 
 <style>
+  .gallery-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.5rem;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 1.35rem;
+    border-bottom: 1px solid var(--c-line);
+    padding-bottom: 1.1rem;
+  }
+
+  .gallery-head__kicker {
+    font-family: var(--font-display);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-brand);
+  }
+
+  .gallery-head__copy {
+    max-width: 42rem;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--c-muted);
+  }
+
   .masonry {
     columns: 2;
     column-gap: 0.75rem;
+    perspective: 1200px;
   }
 
   @media (min-width: 640px) {
@@ -89,11 +136,45 @@ import { gallery } from '../data/media';
 
   .masonry__item {
     position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
     break-inside: avoid;
     margin-bottom: 0.75rem;
-    border-radius: 0.9rem;
+    border-radius: 1.15rem;
     overflow: hidden;
     background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    text-align: left;
+    box-shadow: 0 22px 55px -42px hsl(222 47% 11% / 0.65);
+    transform: translateZ(0);
+    cursor: zoom-in;
+    transition:
+      transform 0.65s var(--ease-out-expo),
+      box-shadow 0.65s var(--ease-out-expo),
+      border-color 0.65s var(--ease-out-expo);
+    animation: gallery-rise both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 34%;
+  }
+
+  .masonry__item:nth-child(4n + 2) {
+    transform: translateY(1.2rem);
+  }
+
+  .masonry__item:nth-child(5n + 3) {
+    border-radius: 1.65rem 1rem 1.65rem 1rem;
+  }
+
+  .masonry__item:hover {
+    transform: translateY(-0.55rem) rotateX(2deg) rotateZ(-0.6deg);
+    border-color: hsl(217 91% 50% / 0.28);
+    box-shadow: 0 36px 80px -44px hsl(222 47% 11% / 0.75);
+  }
+
+  .masonry__item:focus-visible {
+    outline: 3px solid var(--c-brand);
+    outline-offset: 4px;
   }
 
   @media (min-width: 640px) {
@@ -103,21 +184,71 @@ import { gallery } from '../data/media';
   }
 
   .masonry__item img {
+    display: block;
+    width: 100%;
     height: auto;
-    transition: transform 0.9s var(--ease-out-expo);
+    transition:
+      transform 0.9s var(--ease-out-expo),
+      filter 0.9s var(--ease-out-expo);
   }
 
-  .masonry__item:hover img {
-    transform: scale(1.05);
+  .masonry__item:hover img,
+  .masonry__item:focus-visible img {
+    transform: scale(1.08);
+    filter: saturate(1.08) contrast(1.04);
+  }
+
+  .masonry__shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(180deg, transparent 22%, hsl(222 47% 8% / 0.08) 55%, hsl(222 47% 8% / 0.58)),
+      radial-gradient(circle at 50% 40%, transparent 0 18%, hsl(222 47% 8% / 0.2) 58%);
+    opacity: 0;
+    transition: opacity 0.45s var(--ease-out-expo);
+  }
+
+  .masonry__item:hover .masonry__shade,
+  .masonry__item:focus-visible .masonry__shade {
+    opacity: 1;
+  }
+
+  .masonry__cap {
+    position: absolute;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--c-ink);
+    padding: 0.45rem 0.75rem;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s var(--ease-out-expo);
+    backdrop-filter: blur(12px);
+  }
+
+  .masonry__item:hover .masonry__cap,
+  .masonry__item:focus-visible .masonry__cap {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .masonry__zoom {
     position: absolute;
     inset: 0;
+    z-index: 2;
     display: grid;
     place-items: center;
     color: #fff;
-    background: hsl(222 47% 8% / 0.45);
     opacity: 0;
     transition: opacity 0.4s var(--ease-out-expo);
   }
@@ -130,5 +261,32 @@ import { gallery } from '../data/media';
   .masonry__zoom svg {
     width: 1.8rem;
     height: 1.8rem;
+    border-radius: 999px;
+    background: hsl(222 47% 8% / 0.45);
+    padding: 0.34rem;
+    box-sizing: content-box;
+    backdrop-filter: blur(10px);
+  }
+
+  @keyframes gallery-rise {
+    from {
+      opacity: 0.35;
+      transform: translateY(2rem) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .masonry__item,
+    .masonry__item img,
+    .masonry__cap,
+    .masonry__zoom,
+    .masonry__shade {
+      animation: none;
+      transition: none;
+    }
   }
 </style>

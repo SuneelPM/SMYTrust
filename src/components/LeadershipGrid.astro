@@ -1,0 +1,331 @@
+---
+import Picture from './Picture.astro';
+import type { TeamMember } from '../data/site';
+
+interface Props {
+  members: readonly TeamMember[];
+}
+
+const { members } = Astro.props;
+---
+
+{
+  members.length > 0 ? (
+    <div
+      class="team-list mt-10"
+      data-reveal-group
+      data-reveal-stagger="0.08"
+    >
+      {members.map((m) => (
+        <article class="team-card group">
+          <div class="team__profile">
+            <div class="team__media">
+              <Picture
+                src={m.image}
+                alt={m.name}
+                class="media-cover"
+                width="500"
+                height="620"
+                loading="lazy"
+                sizes="7rem"
+              />
+            </div>
+            <p class="team__role">{m.role}</p>
+          </div>
+
+          <div class="team__content">
+            <h3 class="team__name">{m.name}</h3>
+
+            {m.bio && (
+              <p class="team__bio">
+                {m.bio}
+              </p>
+            )}
+
+            <div
+              class="team__contact"
+              aria-label={`Contact ${m.name}`}
+            >
+              {m.email && (
+                <a
+                  href={`mailto:${m.email}`}
+                  class="team__line"
+                  aria-label={`Email ${m.name}`}
+                >
+                  <span class="team__line-label">Email</span>
+                  <span class="team__line-value">{m.email}</span>
+                </a>
+              )}
+
+              {m.phoneHref && (
+                <a
+                  href={m.phoneHref}
+                  class="team__line"
+                  aria-label={`Call ${m.name}`}
+                >
+                  <span class="team__line-label">Call</span>
+                  <span class="team__line-value">{m.phone}</span>
+                </a>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  ) : (
+    <div
+      class="placeholder mt-10 max-w-2xl"
+      data-reveal="fade"
+    >
+      <span class="placeholder__tag">
+        Trustee details in progress
+      </span>
+
+      <p
+        class="mt-2 text-sm leading-relaxed"
+        style="color: var(--c-muted)"
+      >
+        The governing board and trustee member details are currently being
+        updated. The revised leadership list will be published shortly.
+      </p>
+    </div>
+  )
+}
+
+<style>
+  .team-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 23rem), 1fr));
+    gap: 1.1rem;
+    align-items: start;
+  }
+
+  .team-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: 1.05rem;
+    align-items: stretch;
+    overflow: hidden;
+    border: 1px solid var(--c-line);
+    border-radius: 1rem;
+    min-height: 10.75rem;
+    padding: 0.95rem;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.92)),
+      var(--c-bg);
+    box-shadow: 0 18px 48px -40px hsl(222 47% 11% / 0.62);
+    transition:
+      transform 0.5s var(--ease-out-expo),
+      border-color 0.5s var(--ease-out-expo),
+      box-shadow 0.5s var(--ease-out-expo);
+  }
+
+  .team-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 0% 0%, hsl(217 91% 60% / 0.06), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out-expo);
+  }
+
+  .team-card:hover {
+    transform: translateY(-4px);
+    border-color: hsl(217 91% 50% / 0.24);
+    box-shadow: 0 26px 58px -38px hsl(222 47% 11% / 0.7);
+  }
+
+  .team-card:hover::before {
+    opacity: 1;
+  }
+
+  .team__profile {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 0.55rem;
+    min-width: 0;
+  }
+
+  .team__media {
+    position: relative;
+    width: 7rem;
+    height: 8.15rem;
+    overflow: hidden;
+    border-radius: 0.85rem;
+    background: var(--c-surface);
+    box-shadow: inset 0 0 0 1px hsl(222 47% 11% / 0.06);
+  }
+
+  .team__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 18%;
+    transition:
+      transform 0.9s var(--ease-out-expo),
+      filter 0.9s var(--ease-out-expo);
+  }
+
+  .team-card:hover .team__media img {
+    transform: scale(1.045);
+    filter: saturate(1.04) contrast(1.025);
+  }
+
+  .team__role {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    min-height: 1.7rem;
+    border-radius: 999px;
+    background: var(--c-brand-soft);
+    color: var(--c-brand);
+    padding: 0.32rem 0.58rem;
+    font-family: var(--font-display);
+    font-size: 0.56rem;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: 0.08em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .team__content {
+    position: relative;
+    min-width: 0;
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    align-content: start;
+    padding-block: 0.1rem;
+  }
+
+  .team__name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 750;
+    line-height: 1.25;
+    color: var(--c-ink);
+    letter-spacing: -0.015em;
+  }
+
+  .team__bio {
+    margin-top: 0.38rem;
+    margin-bottom: 0;
+    font-size: 0.76rem;
+    line-height: 1.5;
+    color: var(--c-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-wrap: pretty;
+  }
+
+  .team__contact {
+    display: grid;
+    gap: 0.35rem;
+    align-self: end;
+    margin-top: 0.7rem;
+    border-radius: 0.72rem;
+    background: var(--c-surface);
+    padding: 0.56rem 0.58rem;
+  }
+
+  .team__line {
+    display: grid;
+    grid-template-columns: 2.15rem minmax(0, 1fr);
+    gap: 0.48rem;
+    align-items: baseline;
+    color: var(--c-ink);
+    font-size: 0.7rem;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+
+  .team__line-label {
+    color: var(--c-muted);
+    font-family: var(--font-display);
+    font-size: 0.52rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .team__line-value {
+    min-width: 0;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  .team__line:hover {
+    color: var(--c-brand);
+  }
+
+  .team__line:focus-visible {
+    outline: 2px solid var(--c-brand);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+
+  @media (max-width: 720px) {
+    .team-list {
+      grid-template-columns: 1fr;
+    }
+
+    .team-card {
+      grid-template-columns: 6rem minmax(0, 1fr);
+      min-height: auto;
+    }
+
+    .team__media {
+      width: 6rem;
+      height: 7rem;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .team-card {
+      grid-template-columns: 5.1rem minmax(0, 1fr);
+      gap: 0.78rem;
+      padding: 0.72rem;
+      border-radius: 0.9rem;
+    }
+
+    .team__media {
+      width: 5.1rem;
+      height: 6.25rem;
+      border-radius: 0.7rem;
+    }
+
+    .team__name {
+      font-size: 0.95rem;
+    }
+
+    .team__role {
+      min-height: 1.55rem;
+      padding: 0.28rem 0.45rem;
+      font-size: 0.54rem;
+    }
+
+    .team__bio {
+      margin-top: 0.55rem;
+      font-size: 0.72rem;
+      line-height: 1.48;
+    }
+
+    .team__contact {
+      padding: 0.45rem 0.5rem;
+    }
+
+    .team__line {
+      grid-template-columns: 2rem minmax(0, 1fr);
+      gap: 0.36rem;
+      font-size: 0.64rem;
+    }
+  }
+</style>

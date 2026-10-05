@@ -40,7 +40,7 @@ const mapSrc = `https://www.google.com/maps?q=${org.mapQuery}&output=embed`;
               <span>
                 <span class="cbox__label">Office</span>
                 <span class="cbox__value">
-                  {org.address.line1}<br />{org.address.line2}<br />{org.address.city} — {org.address.pin}
+                  {org.address.line1}<br />{org.address.line2}<br />{org.address.line3}<br />{org.address.city} — {org.address.pin}
                 </span>
               </span>
             </a>
@@ -112,7 +112,7 @@ const mapSrc = `https://www.google.com/maps?q=${org.mapQuery}&output=embed`;
             )}
           </div>
 
-          <p class="mt-9 text-xs" style="color: var(--c-muted)">GST {org.gst} · CSR {org.csr}</p>
+          <p class="mt-9 text-xs" style="color: var(--c-muted)">CSR {org.csr}</p>
         </div>
 
         <!-- Form -->

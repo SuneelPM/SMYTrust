@@ -67,8 +67,7 @@ test.describe('content integrity', () => {
   test('registration numbers are published for due diligence', async ({ page }) => {
     await page.goto('/certificate/');
     await settle(page);
-    await expect(page.locator('body')).toContainText('CSR00095311');
-    await expect(page.locator('body')).toContainText('37AFHFS3406G1Z0');
+    await expect(page.locator('body')).toContainText('CSR00116527');
   });
 
   test('bank identifiers appear only when configured, never as an empty row', async ({ page }) => {

@@ -53,7 +53,7 @@ const year = new Date().getFullYear();
           <p class="mt-2.5 text-[11px] text-white/70">Social profiles coming soon.</p>
         )}
 
-        <p class="mt-7 text-xs text-white/70">GST {org.gst} · CSR {org.csr}</p>
+        <p class="mt-7 text-xs text-white/70">CSR {org.csr}</p>
       </div>
 
       <div class="lg:col-span-3">
@@ -68,7 +68,7 @@ const year = new Date().getFullYear();
         <address class="mt-5 space-y-4 text-sm text-white/70 not-italic">
           <p class="flex gap-3">
             <Icon name="pin" class="foot__icon" size={16} />
-            <span>{org.address.line1}<br />{org.address.line2}<br />{org.address.city} — {org.address.pin}<br />{org.address.state}</span>
+            <span>{org.address.line1}<br />{org.address.line2}<br />{org.address.line3}<br />{org.address.city} — {org.address.pin}<br />{org.address.state}</span>
           </p>
           <p class="flex gap-3">
             <Icon name="phone" class="foot__icon" size={16} />

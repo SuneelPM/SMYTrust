@@ -33,7 +33,7 @@ test.describe('SEO and metadata', () => {
     const data = JSON.parse(raw!);
     expect(data['@type']).toBe('NGO');
     expect(data.name).toContain('Sri Matha Yellamanba');
-    expect(data.address.addressLocality).toBe('Visakhapatnam');
+    expect(data.address.addressLocality).toBe('Vijayawada');
     expect(data.telephone).toBeTruthy();
   });
 
@@ -61,6 +61,6 @@ test.describe('SEO and metadata', () => {
     const res = await page.request.get('/about/');
     const html = await res.text();
     expect(html).toContain('Give a Helping Hand');
-    expect(html).toContain('Visakhapatnam');
+    expect(html).toContain('Vijayawada');
   });
 });

@@ -9,22 +9,23 @@ export const org = {
   initials: 'SMY',
   tagline: 'Spreading compassion, serving humanity with love.',
   motto: 'Prayer in action is love, love in action is service.',
-  gst: '37AFHFS3406G1Z0',
-  csr: 'CSR00095311',
-  phone: '+91 8096399461',
-  phoneHref: 'tel:+918096399461',
-  email: 'info@smyservices.org',
-  emailHref: 'mailto:info@smyservices.org',
+  csr: 'CSR00116527',
+  phone: '+91 9032229748',
+  phoneHref: 'tel:+919032229748',
+  email: 'smyservice888@gmail.com',
+  emailHref: 'mailto:smyservice888@gmail.com',
   address: {
-    line1: 'D.No: 52-14-2/6, Old Resapuvanipalem',
-    line2: 'Tech Mahindra Back Side, NH-5 Road',
-    city: 'Visakhapatnam',
-    pin: '530013',
+    line1: 'Door No: 21-10/2-257/4H, Srinivasam',
+    line2: 'Near SS Towers, Pandiri Road, GVR Nagar',
+    line3: 'Behind Trendset Meadows',
+    city: 'Vijayawada',
+    pin: '520003',
     state: 'Andhra Pradesh, India',
   },
   addressOneLine:
-    'D.No: 52-14-2/6, Old Resapuvanipalem, Tech Mahindra Back Side, NH-5 Road, Visakhapatnam - 530013',
-  mapQuery: 'Old+Resapuvanipalem,+Visakhapatnam,+Andhra+Pradesh+530013',
+    'Door No: 21-10/2-257/4H, Srinivasam, Near SS Towers, Pandiri Road, GVR Nagar, Behind Trendset Meadows, Vijayawada - 520003',
+  mapQuery:
+    'Door+No+21-10%2F2-257%2F4H,+Srinivasam,+Near+SS+Towers,+Pandiri+Road,+GVR+Nagar,+Behind+Trendset+Meadows,+Vijayawada+520003',
   copyright: '© 2024 Upendra & Co',
   logo: '/images/logo-removebg-preview.png',
 } as const;
@@ -107,19 +108,14 @@ export const heroSlides = [
 /** Programme areas shown as a compact grid. All grounded in the listed services. */
 export const causes = [
   {
-    title: 'Child Protection',
-    body: 'Safeguarding children from harm, abuse and neglect through prevention, education and rapid response.',
-    icon: 'shield',
-  },
-  {
-    title: 'Women Empowerment',
-    body: 'Financial independence, leadership training and advocacy for gender equality and safety.',
-    icon: 'women',
-  },
-  {
     title: 'Education',
     body: 'Learning support, scholarships and school resources for underprivileged and differently-abled children.',
     icon: 'book',
+  },
+  {
+    title: 'Child Protection',
+    body: 'Safeguarding children from harm, abuse and neglect through prevention, education and rapid response.',
+    icon: 'shield',
   },
   {
     title: 'Healthcare',
@@ -130,6 +126,11 @@ export const causes = [
     title: 'Environment',
     body: 'Tree plantations, clean-up drives and climate action led together with local communities.',
     icon: 'leaf',
+  },
+  {
+    title: 'Women Empowerment',
+    body: 'Financial independence, leadership training and advocacy for gender equality and safety.',
+    icon: 'women',
   },
   {
     title: 'Disaster Relief',
@@ -144,7 +145,7 @@ export const about = {
   subheading: 'Kindness is the key — help the needy today and light the path ahead.',
   lead: 'A little help goes a long way. Extend your hand today and bring hope, food, and education to those who need it most.',
   body: [
-    'Sri Matha Yellamanba Services is a registered service organisation based in Visakhapatnam, Andhra Pradesh. We work at the intersection of child welfare, women empowerment, environmental sustainability and disaster relief.',
+    'Sri Matha Yellamanba Services is a registered service organisation based in Vijayawada, Andhra Pradesh. We work at the intersection of education, child health, women empowerment, environmental sustainability and disaster relief.',
     'Our work is built on a simple conviction: true progress begins with empowerment. Rather than one-off charity, we build long-term capability in the communities we serve — skills, education, health and dignity.',
     'Every rupee contributed is tracked against measurable outcomes, and every contributor receives a receipt, a tax exemption certificate, and periodic updates on the projects their support made possible.',
   ],
@@ -153,28 +154,27 @@ export const about = {
 } as const;
 
 export const stats = [
-  { value: 2500, suffix: '+', label: 'Happy Children' },
-  { value: 270, suffix: '+', label: 'Volunteers' },
-  { value: 3150, suffix: '+', label: 'Products & Gifts' },
-  { value: 8700, suffix: '+', label: 'Worldwide Donors' },
+  { value: 100, suffix: '+', label: 'Volunteers' },
+  { value: 1150, suffix: '+', label: 'Products & Gifts' },
+  { value: 200, suffix: '+', label: 'Donors' },
 ] as const;
 
 export const services = [
   {
-    slug: 'women-empowerment',
-    title: 'Women Empowerment',
-    icon: 'women',
+    slug: 'digital-education',
+    title: 'Digital Education',
+    icon: 'book',
     summary:
-      'Helping women achieve financial autonomy, obtain education, and build leadership competencies.',
-    body: 'We assist women in achieving financial autonomy, obtaining education, and building leadership competencies. We advocate for gender parity and work to combat gender-based violence in the communities we serve.',
+      'Making government-school classrooms more digitally capable, usable and worth returning to every morning.',
+    body: 'We assess school needs first, then fund and maintain digital education support that closes real classroom gaps instead of supplying convenient one-off commodities.',
     points: [
-      'Self-help groups and microloans',
-      'Entrepreneurship and skills training',
-      'Legal aid and gender rights education',
-      'Safe shelters for domestic abuse survivors',
-      'Menstrual health and hygiene workshops',
+      'School-level infrastructure assessment',
+      'Digital learning tools and classroom support',
+      'Maintenance for the full partnership term',
+      'Usage monitoring and evidence-backed reporting',
+      'Accountability to schools, government and funding partners',
     ],
-    image: '/images/person-doing-diy-activity-online-content-creation-scaled.jpg',
+    image: '/images/woman-teaching-classroom-scaled.jpg',
   },
   {
     slug: 'environment-sustainability',
@@ -193,17 +193,33 @@ export const services = [
     image: '/images/environment-scaled.jpg',
   },
   {
-    slug: 'disaster-relief',
-    title: 'Disaster Relief & Humanitarian Aid',
+    slug: 'women-empowerment',
+    title: 'Women Empowerment',
+    icon: 'women',
+    summary:
+      'Helping women build confidence, practical skills and stronger participation in family and community decisions.',
+    body: 'Women empowerment programmes focus on capability that lasts: skills, awareness, dignity, and support systems that help women participate safely and independently.',
+    points: [
+      'Skills and livelihood readiness',
+      'Awareness and confidence-building sessions',
+      'Health and hygiene support',
+      'Leadership and community participation',
+      'Referral support where specialist help is needed',
+    ],
+    image: '/images/person-doing-diy-activity-online-content-creation-scaled.jpg',
+  },
+  {
+    slug: 'disaster-management',
+    title: 'Disaster Management',
     icon: 'shield',
     summary:
-      'Rapid mobilisation during natural disasters, pandemics and conflicts to deliver immediate aid.',
-    body: 'We mobilise rapidly during crises — natural disasters, pandemics, or conflicts — to deliver immediate assistance to affected populations, then stay for the rebuilding.',
+      'Prepared, practical support for communities during floods, emergencies and disruption.',
+    body: 'Disaster management work focuses on readiness, response and responsible follow-through so urgent aid reaches people quickly and recovery does not stop after the first distribution.',
     points: [
-      'Emergency food, water, and medical aid',
-      'Temporary shelter and clothing',
-      'Psychological first aid and trauma counselling',
-      'Long-term rehabilitation support',
+      'Emergency needs assessment',
+      'Food, water and essential relief support',
+      'Coordination with local institutions',
+      'Post-crisis follow-up and documentation',
     ],
     image: '/images/campaign-02.jpg',
   },
@@ -213,9 +229,82 @@ export interface TeamMember {
   readonly name: string;
   readonly role: string;
   readonly image: string;
+  readonly email?: string;
+  readonly phone?: string;
+  readonly phoneHref?: string;
+  readonly bio: string;
+  readonly source: string;
+  readonly verified: boolean;
 }
 
-export const team: readonly TeamMember[] = [];
+export const team: readonly TeamMember[] = [
+  {
+    name: 'Mopuri Aushish Kumar',
+    role: 'Chairman',
+    image: '/images/Leadership/IMG-20260904-WA0021.jpg',
+    email: org.email,
+    phone: org.phone,
+    phoneHref: org.phoneHref,
+    bio: 'Leads the trust with a focus on transparency, accountable partnerships and programmes that create lasting community capability.',
+    source: 'Role verified from the supplied chairman message.',
+    verified: true,
+  },
+  {
+    name: 'CH. Gopal Krishna',
+    role: 'Treasurer',
+    image: '/images/Leadership/IMG-20260904-WA0022.jpg',
+    email: org.email,
+    phone: org.phone,
+    phoneHref: org.phoneHref,
+    bio: 'Profile details will be updated after final confirmation from the organisation.',
+    source: 'Role verified from the public SMY Services website; portrait pending confirmation.',
+    verified: false,
+  },
+  {
+    name: 'CH. Venkata Lakshmi',
+    role: 'President',
+    image: '/images/Leadership/Gemini_Generated_Image_9chgej9chgej9chg.png',
+    email: org.email,
+    phone: org.phone,
+    phoneHref: org.phoneHref,
+    bio: 'Profile details will be updated after final confirmation from the organisation.',
+    source: 'Role verified from the public SMY Services website; portrait pending confirmation.',
+    verified: false,
+  },
+  {
+    name: 'CH. Hemalatha Devi',
+    role: 'Secretary',
+    image: '/images/Leadership/manohar image2.jpg',
+    email: org.email,
+    phone: org.phone,
+    phoneHref: org.phoneHref,
+    bio: 'Profile details will be updated after final confirmation from the organisation.',
+    source: 'Role verified from the public SMY Services website; portrait pending confirmation.',
+    verified: false,
+  },
+  {
+    name: 'CH. Lokesh Kumar',
+    role: 'Managing Director',
+    image: '/images/Leadership/IMG-20260905-WA0015.jpg',
+    email: org.email,
+    phone: org.phone,
+    phoneHref: org.phoneHref,
+    bio: 'Profile details will be updated after final confirmation from the organisation.',
+    source: 'Role verified from the public SMY Services website; portrait pending confirmation.',
+    verified: false,
+  },
+  {
+    name: 'Sajja Venkata Siva Kumar',
+    role: 'Leadership details pending',
+    image: '/images/Leadership/IMG-20260904-WA0062.jpg',
+    email: org.email,
+    phone: org.phone,
+    phoneHref: org.phoneHref,
+    bio: 'Profile details will be updated after final confirmation from the organisation.',
+    source: 'Background from supplied member note; trust position pending confirmation.',
+    verified: false,
+  },
+];
 
 export const csr = {
   heading: 'Partner With Us Through CSR',
@@ -284,12 +373,11 @@ export const donate = {
     micr: import.meta.env.PUBLIC_BANK_MICR ?? '',
     product: import.meta.env.PUBLIC_BANK_PRODUCT ?? '',
     currency: 'INR',
-    email: import.meta.env.PUBLIC_BANK_EMAIL ?? 'info@smyservices.org',
+    email: import.meta.env.PUBLIC_BANK_EMAIL ?? 'smyservice888@gmail.com',
   },
 } as const;
 
 export const certificates = [
   { title: 'Registration Certificate', image: '/images/Untitled-6_page-0001.jpg' },
-  { title: 'CSR Registration — CSR00095311', image: '/images/Web_Photo_Editor.jpg' },
-  { title: 'GST Registration — 37AFHFS3406G1Z0', image: '/images/Add-a-heading.png' },
+  { title: 'CSR Registration — CSR00116527', image: '/images/Web_Photo_Editor.jpg' },
 ] as const;

@@ -7,18 +7,51 @@ import StatsBar from '../components/StatsBar.astro';
 import CausesGrid from '../components/CausesGrid.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
+import LeadershipGrid from '../components/LeadershipGrid.astro';
 import { org, about, services, team, csr } from '../data/site';
 import { gallery } from '../data/media';
 ---
 
 <BaseLayout
   title={org.name}
-  description={`${org.name} — a registered service organisation in Visakhapatnam working in child protection, women empowerment, healthcare, education, environment and disaster relief.`}
+  description={`${org.name} — a registered service organisation in Vijayawada working in education, child health, healthcare, environment, women empowerment and disaster relief.`}
   overlay
 >
   <HeroCarousel />
   <StatsBar />
   <CausesGrid />
+
+  <!-- ================= PROJECT ================= -->
+  <section class="project section-y">
+    <div class="container-x">
+      <div class="project__grid">
+        <div>
+          <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>The Project</p>
+          <h2 class="h2 mt-5" data-split-text>SMYS Vidya Seva Initiative</h2>
+        </div>
+        <div class="project__body" data-reveal="up">
+          <p>
+            The SMYS Vidya Seva Initiative (SMYS-VSI), subtitled the Comprehensive School Support &amp;
+            Development Programme, is a multi-component Government-school development initiative for
+            Andhra Pradesh.
+          </p>
+          <p>
+            Its distinguishing feature is that it does not treat a school as a single deficiency to be
+            corrected. A school where the computer laboratory is new but the girls' toilet is unusable
+            is not a functioning school; nor is a school with sound classrooms and no safe drinking
+            water.
+          </p>
+          <p>
+            SMYS-VSI therefore assesses and improves the whole school environment across forty defined
+            objectives spanning classroom and civil infrastructure, electrical infrastructure, digital
+            infrastructure and school administration, sanitation, safe drinking water, environment,
+            sports and support manpower, together with the maintenance and monitoring that keep those
+            improvements working.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- ================= ABOUT ================= -->
   <section class="section-y" style="background: var(--c-surface)">
@@ -35,7 +68,7 @@ import { gallery } from '../data/media';
               loading="lazy" sizes="(min-width: 1024px) 50vw, 100vw" />
           </div>
           <div class="about__badge">
-            <span class="about__badge-num">12+</span>
+            <span class="about__badge-num">3+</span>
             <span class="text-[11px] leading-tight tracking-wide uppercase" style="color: var(--c-muted)"
               >Years serving<br />Visakhapatnam</span
             >
@@ -73,7 +106,7 @@ import { gallery } from '../data/media';
         </a>
       </div>
 
-      <div class="mt-14 grid gap-7 md:grid-cols-3" data-reveal-group data-reveal-stagger="0.12">
+      <div class="mt-14 grid gap-7 md:grid-cols-2 lg:grid-cols-4" data-reveal-group data-reveal-stagger="0.12">
         {
           services.map((s, i) => (
             <article class="card group overflow-hidden">
@@ -156,38 +189,7 @@ import { gallery } from '../data/media';
         <h2 class="h2 mt-5" data-split-text>The team behind the work</h2>
       </div>
 
-      {
-        team.length > 0 ? (
-          <div class="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
-            {team.map((m) => (
-              <figure class="group">
-                <div class="team__media">
-                  <Picture src={u(m.image)}
-                    alt={m.name}
-                    class="media-cover transition-transform duration-[1000ms] group-hover:scale-[1.05]"
-                    width="500"
-                    height="620"
-                    loading="lazy" sizes="(min-width: 1024px) 50vw, 100vw" />
-                </div>
-                <figcaption class="pt-5">
-                  <p class="font-display text-[1.05rem] font-semibold">{m.name}</p>
-                  <p class="mt-0.5 text-[11px] font-medium tracking-[0.14em] uppercase" style="color: var(--c-brand)">
-                    {m.role}
-                  </p>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        ) : (
-          <div class="placeholder mt-10 max-w-2xl" data-reveal="fade">
-            <span class="placeholder__tag">Trustee details in progress</span>
-            <p class="mt-2 text-sm leading-relaxed" style="color: var(--c-muted)">
-              The governing board and trustee member details are currently being updated.
-              The revised leadership list will be published shortly.
-            </p>
-          </div>
-        )
-      }
+      <LeadershipGrid members={team} />
     </div>
   </section>
 
@@ -240,6 +242,32 @@ import { gallery } from '../data/media';
     border-radius: 1.5rem;
     overflow: hidden;
     box-shadow: 0 40px 80px -38px hsl(222 47% 11% / 0.35);
+  }
+
+  .project {
+    background: var(--c-bg);
+    border-top: 1px solid var(--c-line);
+  }
+
+  .project__grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .project__grid {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 5rem;
+      align-items: start;
+    }
+  }
+
+  .project__body {
+    display: grid;
+    gap: 1.1rem;
+    color: var(--c-muted);
+    font-size: 1.02rem;
+    line-height: 1.85;
   }
 
   .about__media img {
@@ -311,13 +339,6 @@ import { gallery } from '../data/media';
     backdrop-filter: blur(10px);
     border-radius: 1.25rem;
     padding: 1.85rem;
-  }
-
-  .team__media {
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    border-radius: 1.25rem;
-    background: var(--c-surface);
   }
 
   .gal {

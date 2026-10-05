@@ -30,8 +30,21 @@
     <div class="lb__track" data-lb-track></div>
   </div>
 
+  <button type="button" class="lb__nav lb__nav--prev" data-lb-prev aria-label="Previous image">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </button>
+
+  <button type="button" class="lb__nav lb__nav--next" data-lb-next aria-label="Next image">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </button>
+
   <p class="lb__caption" data-lb-caption aria-live="polite"></p>
   <p class="lb__count" data-lb-count></p>
+  <div class="lb__thumbs" data-lb-thumbs aria-label="Gallery thumbnails"></div>
 </div>
 
 <script>
@@ -43,6 +56,7 @@
     const stage = root.querySelector<HTMLElement>('[data-lb-stage]')!;
     const capEl = root.querySelector<HTMLElement>('[data-lb-caption]')!;
     const countEl = root.querySelector<HTMLElement>('[data-lb-count]')!;
+    const thumbsEl = root.querySelector<HTMLElement>('[data-lb-thumbs]')!;
     const total = items.length;
 
     // How many cards stay visible either side of the centre one. Anything
@@ -85,6 +99,25 @@
 
       track.append(card);
       return card;
+    });
+
+    const thumbs = sources.map((source, i) => {
+      const thumb = document.createElement('button');
+      thumb.type = 'button';
+      thumb.className = 'lb__thumb';
+      thumb.setAttribute('aria-label', `Show image ${i + 1} of ${total}`);
+
+      const img = document.createElement('img');
+      img.alt = '';
+      img.draggable = false;
+      img.decoding = 'async';
+      img.loading = 'lazy';
+      img.src = srcOf(i);
+      thumb.append(img);
+
+      thumb.addEventListener('click', () => show(i));
+      thumbsEl.append(thumb);
+      return thumb;
     });
 
     /** Shortest signed distance from the centre, wrapping around the set. */
@@ -142,6 +175,12 @@
 
       capEl.textContent = sources[index]!.alt;
       countEl.textContent = `${index + 1} / ${total}`;
+      thumbs.forEach((thumb, i) => {
+        const current = i === index;
+        thumb.classList.toggle('is-current', current);
+        thumb.setAttribute('aria-current', current ? 'true' : 'false');
+      });
+      thumbs[index]?.scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduced ? 'auto' : 'smooth' });
     }
 
     function show(i: number) {
@@ -178,6 +217,8 @@
     });
 
     root.querySelector('[data-lb-close]')?.addEventListener('click', close);
+    root.querySelector('[data-lb-prev]')?.addEventListener('click', () => show(index - 1));
+    root.querySelector('[data-lb-next]')?.addEventListener('click', () => show(index + 1));
     root.addEventListener('click', (e) => {
       // A drag that ends over the backdrop still fires a click; that is a
       // swipe, not a dismissal.
@@ -258,7 +299,7 @@
     z-index: 100;
     display: grid;
     place-items: center;
-    padding: clamp(1rem, 4vw, 3rem);
+    padding: clamp(1rem, 4vw, 3rem) clamp(1rem, 4vw, 3rem) 7.5rem;
     background: hsl(222 47% 6% / 0.94);
     backdrop-filter: blur(6px);
   }
@@ -266,7 +307,7 @@
   .lb__stage {
     position: relative;
     width: 100%;
-    height: min(72vh, 40rem);
+    height: min(68vh, 39rem);
     perspective: 1400px;
     perspective-origin: 50% 50%;
     touch-action: pan-y;
@@ -357,9 +398,55 @@
     height: 1.2rem;
   }
 
+  .lb__nav {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: hsl(222 47% 6% / 0.32);
+    color: #fff;
+    transform: translateY(-50%);
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+    transition:
+      transform 0.3s var(--ease-out-expo),
+      background 0.3s var(--ease-out-expo),
+      color 0.3s var(--ease-out-expo),
+      border-color 0.3s var(--ease-out-expo);
+  }
+
+  .lb__nav:hover {
+    background: #fff;
+    color: hsl(222 47% 11%);
+    border-color: transparent;
+  }
+
+  .lb__nav:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
+  .lb__nav--prev {
+    left: clamp(1rem, 3vw, 2rem);
+  }
+
+  .lb__nav--next {
+    right: clamp(1rem, 3vw, 2rem);
+  }
+
+  .lb__nav svg {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
   .lb__caption {
     position: absolute;
-    bottom: 3.25rem;
+    bottom: 5.15rem;
     left: 50%;
     transform: translateX(-50%);
     max-width: min(90%, 40rem);
@@ -370,7 +457,7 @@
 
   .lb__count {
     position: absolute;
-    bottom: 1.5rem;
+    bottom: 3.7rem;
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-display);
@@ -380,13 +467,116 @@
     color: rgba(255, 255, 255, 0.7);
   }
 
+  .lb__thumbs {
+    position: absolute;
+    left: 50%;
+    bottom: 1rem;
+    z-index: 3;
+    display: flex;
+    width: min(92vw, 52rem);
+    max-width: calc(100vw - 2rem);
+    gap: 0.55rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    padding: 0.25rem 0.3rem 0.45rem;
+    transform: translateX(-50%);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.42) transparent;
+  }
+
+  .lb__thumbs::-webkit-scrollbar {
+    height: 0.45rem;
+  }
+
+  .lb__thumbs::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .lb__thumbs::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.38);
+  }
+
+  .lb__thumbs :global(.lb__thumb) {
+    flex: 0 0 auto;
+    width: 4.25rem;
+    height: 3.25rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 0.58rem;
+    padding: 0;
+    background: hsl(222 47% 6% / 0.42);
+    opacity: 0.58;
+    cursor: pointer;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s var(--ease-out-expo),
+      border-color 0.25s var(--ease-out-expo);
+  }
+
+  .lb__thumbs :global(.lb__thumb img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .lb__thumbs :global(.lb__thumb:hover),
+  .lb__thumbs :global(.lb__thumb.is-current) {
+    opacity: 1;
+    transform: translateY(-0.12rem);
+    border-color: rgba(255, 255, 255, 0.82);
+  }
+
+  .lb__thumbs :global(.lb__thumb:focus-visible) {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+
   @media (max-width: 640px) {
+    .lb {
+      padding: 4.25rem 0.75rem 7rem;
+    }
+
     .lb__stage {
       height: min(62vh, 30rem);
     }
 
     .lb__track :global(.lb__card) {
       width: min(76%, 22rem);
+    }
+
+    .lb__nav {
+      top: auto;
+      bottom: 3.15rem;
+      width: 2.75rem;
+      height: 2.75rem;
+    }
+
+    .lb__nav--prev {
+      left: 0.85rem;
+    }
+
+    .lb__nav--next {
+      right: 0.85rem;
+    }
+
+    .lb__caption {
+      bottom: 5.1rem;
+      font-size: 0.75rem;
+    }
+
+    .lb__count {
+      bottom: 3.85rem;
+    }
+
+    .lb__thumbs {
+      width: calc(100vw - 5.4rem);
+    }
+
+    .lb__thumbs :global(.lb__thumb) {
+      width: 3.6rem;
+      height: 2.75rem;
     }
   }
 

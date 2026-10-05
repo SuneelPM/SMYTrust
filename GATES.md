@@ -44,7 +44,7 @@ Scope: complete every remaining item that does not require information only the 
   EXPECT: NO_SECRETS_OK
   EVIDENCE: automatic-evidence=v1; definition-sha256=d27ee144304d40e067af6573ef8ded1d28d995baef764b92050c09c53cae7ddb; exit=0; EXPECT=matched; output-sha256=de6c6fb47240e2a32a158d789c2bff8eb809699c042c91a4b932ede99e37b6c2; output-bytes=56; shell=C:\Windows\system32\cmd.exe; cwd=C:\workspace\SMYTrust; path=9d02ef105ee4/43 entries
 
-- [ ] G8: contact form delivery is live (Web3Forms key present and submissions reach info@smyservices.org)
+- [ ] G8: contact form delivery is live (Web3Forms key present and submissions reach smyservice888@gmail.com)
   EVIDENCE: pending
 
 - [ ] G9: real social media profile URLs are published

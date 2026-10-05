@@ -15,7 +15,7 @@ Search the codebase for `placeholder` or `CONTENT-TODO` to find them all.
 The form currently falls back to opening the visitor's mail client. To have submissions
 emailed to you instead:
 
-1. Go to <https://web3forms.com> and enter `info@smyservices.org`. It is free.
+1. Go to <https://web3forms.com> and enter `smyservice888@gmail.com`. It is free.
 2. Copy the access key they email you.
 3. Create a file named `.env` in the project root containing:
    ```
@@ -60,7 +60,7 @@ The page then becomes a proper activity log instead of a photo set.
 
 **Page:** `/certificate/` · **File:** `src/pages/certificate.astro` and `src/data/site.ts`
 
-Three documents are published. Corporate donors doing due diligence usually also ask for:
+Two documents are published. Corporate donors doing due diligence usually also ask for:
 
 - 12A registration certificate
 - 80G registration certificate
@@ -109,17 +109,16 @@ confirmation. Tell us the real hours and the note is removed.
 
 **File:** `src/data/site.ts`, the `stats` array
 
-These four figures are carried over from the existing site as-is:
+These figures are currently shown on the site:
 
-- 2,500+ happy children
-- 270+ volunteers
-- 3,150+ products & gifts
-- 8,700+ worldwide donors
+- 100+ volunteers
+- 1,150+ products & gifts
+- 200+ donors
 
 They are prominent on the homepage and on the About page, and CSR partners may ask you to
 evidence them. Confirm they are current and defensible, or send updated numbers.
 
-The "12+ years serving Visakhapatnam" badge on the homepage and About page is an estimate —
+The "3+ years serving Visakhapatnam" badge on the homepage is an estimate —
 confirm the actual founding year.
 
 ---
@@ -139,26 +138,27 @@ If you want either section, send real material and it gets built:
 
 ---
 
-## 9. Trustee & Leadership members — required
+## 9. Trustee & Leadership members — verify
 
 **Pages:** `/` and `/about/` · **Files:** `src/data/site.ts`, `src/pages/index.astro`, `src/pages/about.astro`
 
-The previous trustee member list has been removed per organisational request. A visible placeholder ("Trustee details in progress") is rendered on both the homepage and the About page until the updated list of trustees is supplied.
+Leadership cards are now populated from the public smyservices.org team list and supplied member notes. Roles marked "Verified" have a supplied local source; cards marked "Pending confirmation" need the organisation to confirm the portrait-to-person mapping and any final bio details before launch.
 
-Supply for each trustee member:
-- Full name
-- Role / designation (e.g., President, Secretary, Treasurer, Trustee)
-- Portrait photo (placed in `public/images/`)
+Please confirm for each trustee member:
+- Correct full name spelling
+- Role / designation
+- Correct portrait photo
+- Whether the public website roles are still current
 
-Then add each member to the `team` array in `src/data/site.ts`.
+Then update the `team` array in `src/data/site.ts` and set `verified: true` for confirmed cards.
 
 ---
 
-## 10. Gallery photographs — in progress
+## 10. Gallery photographs — review
 
 **Pages:** `/gallery/` and `/` · **Files:** `src/pages/gallery.astro`, `src/data/media.ts`
 
-All previous gallery photos have been cleared per request and archived. A visible placeholder ("Gallery update in progress") is rendered on the Gallery page and the homepage until new photographs are supplied.
+The gallery has been repopulated from existing project images and activity photos. Review the image selection and captions before launch.
 
 To add new photographs:
 1. Drop image files into `public/images/`.

@@ -11,7 +11,7 @@ import { org, certificates } from '../data/site';
 
 <BaseLayout
   title="Certificate"
-  description={`Registration and compliance documents for ${org.name} — GST ${org.gst}, CSR ${org.csr}.`}
+  description={`Registration and compliance documents for ${org.name} — CSR ${org.csr}.`}
   overlay
 >
   <PageHero
@@ -30,13 +30,6 @@ import { org, certificates } from '../data/site';
           <div>
             <p class="regcard__label">CSR Registration Number</p>
             <p class="regcard__value">{org.csr}</p>
-          </div>
-        </div>
-        <div class="regcard">
-          <span class="icon-badge"><Icon name="book" /></span>
-          <div>
-            <p class="regcard__label">GST Number</p>
-            <p class="regcard__value">{org.gst}</p>
           </div>
         </div>
       </div>
