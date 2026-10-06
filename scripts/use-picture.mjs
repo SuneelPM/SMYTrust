@@ -14,7 +14,6 @@ const targets = [
   ['src/pages/about.astro', null, '../components/Picture.astro'],
   ['src/pages/services.astro', null, '../components/Picture.astro'],
   ['src/pages/csr-fund.astro', null, '../components/Picture.astro'],
-  ['src/pages/gallery.astro', null, '../components/Picture.astro'],
   ['src/pages/activities.astro', null, '../components/Picture.astro'],
   ['src/pages/certificate.astro', null, '../components/Picture.astro'],
 ];

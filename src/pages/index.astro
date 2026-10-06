@@ -201,8 +201,8 @@ import { gallery } from '../data/media';
           <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>Gallery</p>
           <h2 class="h2 mt-5" data-split-text>Moments from the field</h2>
         </div>
-        <a href={u('/gallery/')} class="btn btn-outline" data-reveal="fade">
-          {gallery.length > 0 ? `View all ${gallery.length} photos` : 'View gallery'}<Icon name="arrow-right" class="btn-arrow" />
+        <a href={u('/activities/')} class="btn btn-outline" data-reveal="fade">
+          View gallery<Icon name="arrow-right" class="btn-arrow" />
         </a>
       </div>
 
@@ -214,18 +214,22 @@ import { gallery } from '../data/media';
             data-reveal-stagger="0.05"
           >
             {
-              gallery.slice(0, 8).map((g) => (
-                <figure class="gal">
+              gallery.slice(0, 8).map((g, i) => (
+                <a
+                  href={u(`/activities/?image=${i + 1}`)}
+                  class="gal"
+                  aria-label={`Open gallery image ${i + 1}: ${g.alt}`}
+                >
                   <Picture src={u(g.src)} alt={g.alt} class="media-cover" width="480" height="480" loading="lazy" sizes="(min-width: 1024px) 50vw, 100vw" />
-                </figure>
+                </a>
               ))
             }
           </div>
         ) : (
           <div class="placeholder mt-10 max-w-2xl" data-reveal="fade">
-            <span class="placeholder__tag">Photos in progress</span>
+            <span class="placeholder__tag">Field documentation</span>
             <p class="mt-2 text-sm leading-relaxed" style="color: var(--c-muted)">
-              New photographs from recent field service activities and community programmes are being curated and will be uploaded soon.
+              Photographs from field service activities and community programmes will be published here.
             </p>
           </div>
         )
@@ -342,17 +346,39 @@ import { gallery } from '../data/media';
   }
 
   .gal {
+    position: relative;
+    display: block;
     aspect-ratio: 1;
     overflow: hidden;
     border-radius: 0.9rem;
     background: var(--c-surface);
   }
 
+  .gal::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 45%, hsl(222 47% 8% / 0.32));
+    opacity: 0;
+    transition: opacity 0.45s var(--ease-out-expo);
+  }
+
   .gal img {
     transition: transform 1s var(--ease-out-expo);
   }
 
-  .gal:hover img {
+  .gal:hover img,
+  .gal:focus-visible img {
     transform: scale(1.07);
+  }
+
+  .gal:hover::after,
+  .gal:focus-visible::after {
+    opacity: 1;
+  }
+
+  .gal:focus-visible {
+    outline: 3px solid var(--c-brand);
+    outline-offset: 4px;
   }
 </style>

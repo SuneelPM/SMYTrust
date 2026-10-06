@@ -1,6 +1,6 @@
 ---
 /**
- * Click any [data-lightbox] figure on the page to open it full-screen.
+ * Click any [data-lightbox] item on the page to open it full-screen.
  *
  * The viewer is a 3D coverflow carousel rather than a single image with
  * prev/next buttons: neighbouring images sit behind and to the side on a
@@ -66,6 +66,7 @@
 
     let index = 0;
     let lastFocused: HTMLElement | null = null;
+    let restoreBodyOverflow = '';
 
     // Keep the source element rather than a URL: `currentSrc` is only settled
     // once the browser has picked a srcset candidate, which may be after this
@@ -194,26 +195,42 @@
       // while the overlay is still `hidden`.
       root!.hidden = false;
       show(i);
+      restoreBodyOverflow = document.body.style.overflow;
       document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
       root!.querySelector<HTMLButtonElement>('[data-lb-close]')?.focus();
     }
 
     function close() {
       root!.hidden = true;
       document.documentElement.style.overflow = '';
+      document.body.style.overflow = restoreBodyOverflow;
       lastFocused?.focus();
+    }
+
+    function requestedInitialIndex() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = params.get('image') ?? params.get('photo') ?? params.get('gallery');
+      const hashMatch = window.location.hash.match(/^#(?:image|photo|gallery)-?(\d+)$/i);
+      const value = raw ?? hashMatch?.[1];
+      if (!value) return null;
+      const number = Number(value);
+      if (!Number.isInteger(number)) return null;
+      return Math.min(Math.max(number - 1, 0), total - 1);
     }
 
     items.forEach((item, i) => {
       item.addEventListener('click', () => open(i));
-      item.setAttribute('role', 'button');
-      item.setAttribute('tabindex', '0');
-      item.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          open(i);
-        }
-      });
+      if (item.tagName !== 'BUTTON' && item.tagName !== 'A') {
+        item.setAttribute('role', 'button');
+        item.setAttribute('tabindex', '0');
+        item.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            open(i);
+          }
+        });
+      }
     });
 
     root.querySelector('[data-lb-close]')?.addEventListener('click', close);
@@ -233,6 +250,23 @@
       if (e.key === 'ArrowLeft') show(index - 1);
       if (e.key === 'Home') show(0);
       if (e.key === 'End') show(total - 1);
+      if (e.key === 'Tab') {
+        const focusable = Array.from(
+          root.querySelectorAll<HTMLElement>(
+            'button:not([hidden]):not([disabled]), [href], [tabindex]:not([tabindex="-1"])',
+          ),
+        ).filter((el) => el.offsetParent !== null);
+        if (!focusable.length) return;
+        const first = focusable[0]!;
+        const last = focusable[focusable.length - 1]!;
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     });
 
     // Pointer drag doubles as touch swipe. `dragged` suppresses the click that
@@ -287,6 +321,11 @@
     window.addEventListener('resize', () => {
       if (!root!.hidden) layout();
     });
+
+    const initialIndex = requestedInitialIndex();
+    if (initialIndex !== null) {
+      requestAnimationFrame(() => open(initialIndex));
+    }
 
     if (reduced) root.classList.add('lb--reduced');
   }
@@ -446,31 +485,45 @@
 
   .lb__caption {
     position: absolute;
-    bottom: 5.15rem;
+    bottom: 5.75rem;
     left: 50%;
     transform: translateX(-50%);
     max-width: min(90%, 40rem);
-    font-size: 0.8125rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: hsl(222 47% 6% / 0.64);
+    padding: 0.55rem 0.9rem;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    font-weight: 600;
     text-align: center;
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1.25rem 3rem hsl(222 47% 4% / 0.28);
+    backdrop-filter: blur(14px);
   }
 
   .lb__count {
     position: absolute;
-    bottom: 3.7rem;
+    top: clamp(4.6rem, 8vh, 5.8rem);
     left: 50%;
     transform: translateX(-50%);
+    z-index: 4;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: hsl(222 47% 6% / 0.62);
+    padding: 0.36rem 0.68rem;
     font-family: var(--font-display);
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.12em;
     color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
   }
 
   .lb__thumbs {
     position: absolute;
     left: 50%;
-    bottom: 1rem;
+    bottom: 1.05rem;
     z-index: 3;
     display: flex;
     width: min(92vw, 52rem);
@@ -478,23 +531,18 @@
     gap: 0.55rem;
     overflow-x: auto;
     overscroll-behavior-x: contain;
-    padding: 0.25rem 0.3rem 0.45rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.95rem;
+    background: hsl(222 47% 6% / 0.34);
+    padding: 0.42rem;
     transform: translateX(-50%);
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.42) transparent;
+    scrollbar-width: none;
+    backdrop-filter: blur(14px);
+    mask-image: linear-gradient(90deg, transparent, #000 1.3rem, #000 calc(100% - 1.3rem), transparent);
   }
 
   .lb__thumbs::-webkit-scrollbar {
-    height: 0.45rem;
-  }
-
-  .lb__thumbs::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .lb__thumbs::-webkit-scrollbar-thumb {
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.38);
+    display: none;
   }
 
   .lb__thumbs :global(.lb__thumb) {
@@ -562,12 +610,14 @@
     }
 
     .lb__caption {
-      bottom: 5.1rem;
+      bottom: 5.5rem;
       font-size: 0.75rem;
+      max-width: calc(100vw - 1.5rem);
+      border-radius: 0.85rem;
     }
 
     .lb__count {
-      bottom: 3.85rem;
+      top: 4.55rem;
     }
 
     .lb__thumbs {

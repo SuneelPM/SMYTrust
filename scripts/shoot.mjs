@@ -12,7 +12,6 @@ const routes = [
   '/about/',
   '/services/',
   '/activities/',
-  '/gallery/',
   '/certificate/',
   '/csr-fund/',
   '/contact/',

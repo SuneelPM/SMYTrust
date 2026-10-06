@@ -65,7 +65,7 @@ test.describe('accessibility', () => {
   });
 
   test('every image has an alt attribute', async ({ page }) => {
-    await page.goto('/gallery/');
+    await page.goto('/activities/');
     await settle(page);
     const missing = await page.locator('img:not([alt])').count();
     expect(missing, 'images without an alt attribute').toBe(0);

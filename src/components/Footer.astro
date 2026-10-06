@@ -38,8 +38,7 @@ const year = new Date().getFullYear();
                   <span
                     class="foot__social foot__social--pending"
                     role="img"
-                    aria-label={`${s.name} — profile link coming soon`}
-                    title={`${s.name} — link to be added`}
+                    aria-label={`${s.name} profile`}
                   >
                     <Icon name={s.icon} size={16} />
                   </span>
@@ -50,7 +49,7 @@ const year = new Date().getFullYear();
         </ul>
 
         {activeSocial.length === 0 && (
-          <p class="mt-2.5 text-[11px] text-white/70">Social profiles coming soon.</p>
+          <p class="mt-2.5 text-[11px] text-white/70">Coming soon.</p>
         )}
 
         <p class="mt-7 text-xs text-white/70">CSR {org.csr}</p>

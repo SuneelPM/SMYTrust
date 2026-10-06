@@ -30,7 +30,7 @@ test.describe('content integrity', () => {
     }
   });
 
-  test('unset social profiles render as inert placeholders, not links', async ({ page }) => {
+  test('unset social profiles render as inert profile icons, not links', async ({ page }) => {
     await page.goto('/');
     await settle(page);
 
@@ -41,7 +41,7 @@ test.describe('content integrity', () => {
     for (let i = 0; i < count; i++) {
       const el = pending.nth(i);
       expect(await el.evaluate((n) => n.tagName)).toBe('SPAN');
-      await expect(el).toHaveAttribute('aria-label', /coming soon/i);
+      await expect(el).toHaveAttribute('aria-label', /profile/i);
     }
     await expect(page.locator('footer')).toContainText(/coming soon/i);
   });
@@ -56,12 +56,11 @@ test.describe('content integrity', () => {
     }
   });
 
-  test('outstanding content gaps are visibly marked, not silently blank', async ({ page }) => {
+  test('activities page publishes visible photo content', async ({ page }) => {
     await page.goto('/activities/');
     await settle(page);
     await forceReveal(page);
-    await expect(page.locator('.placeholder').first()).toBeVisible();
-    await expect(page.locator('.placeholder__tag').first()).toContainText(/content needed/i);
+    await expect(page.locator('[data-lightbox]').first()).toBeVisible();
   });
 
   test('registration numbers are published for due diligence', async ({ page }) => {

@@ -33,7 +33,7 @@ test.describe('mobile menu', () => {
 
 test.describe('gallery lightbox', () => {
   test('opens an image, navigates, and closes on Escape', async ({ page }) => {
-    await page.goto('/gallery/');
+    await page.goto('/activities/');
     await settle(page);
     const hasGalleryItems = (await page.locator('[data-lightbox]').count()) > 0;
     if (!hasGalleryItems) {
@@ -57,7 +57,7 @@ test.describe('gallery lightbox', () => {
   });
 
   test('gallery items are keyboard reachable', async ({ page }) => {
-    await page.goto('/gallery/');
+    await page.goto('/activities/');
     await settle(page);
     const hasGalleryItems = (await page.locator('[data-lightbox]').count()) > 0;
     if (!hasGalleryItems) {
@@ -65,8 +65,8 @@ test.describe('gallery lightbox', () => {
       await settle(page);
     }
     const first = page.locator('[data-lightbox]').first();
-    await expect(first).toHaveAttribute('tabindex', '0');
-    await expect(first).toHaveAttribute('role', 'button');
+    await expect(first).toBeVisible();
+    expect(await first.evaluate((el) => el.tagName)).toBe('BUTTON');
   });
 });
 
@@ -110,7 +110,7 @@ test.describe('contact form', () => {
 
     if (action?.startsWith('mailto:')) {
       expect(method?.toLowerCase()).toBe('get');
-      await expect(page.locator('.placeholder')).toContainText(/setup needed/i);
+      await expect(page.locator('.notice')).toContainText(/email enquiry/i);
     } else {
       expect(action).toContain('web3forms.com');
     }

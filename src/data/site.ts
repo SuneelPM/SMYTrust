@@ -57,7 +57,6 @@ export const nav = [
   { label: 'About Us', href: '/about/' },
   { label: 'Services', href: '/services/' },
   { label: 'Activities', href: '/activities/' },
-  { label: 'Gallery', href: '/gallery/' },
   { label: 'Certificate', href: '/certificate/' },
   { label: 'CSR Fund', href: '/csr-fund/' },
   { label: 'Contact', href: '/contact/' },
@@ -167,6 +166,8 @@ export const services = [
     summary:
       'Making government-school classrooms more digitally capable, usable and worth returning to every morning.',
     body: 'We assess school needs first, then fund and maintain digital education support that closes real classroom gaps instead of supplying convenient one-off commodities.',
+    project:
+      'Special project: SMYS Vidya Seva Initiative (SMYS-VSI) improves Government schools as complete learning environments, including digital capability, classroom infrastructure, administration support, sanitation, safe drinking water and maintenance monitoring.',
     points: [
       'School-level infrastructure assessment',
       'Digital learning tools and classroom support',
@@ -183,6 +184,8 @@ export const services = [
     summary:
       'Engaging communities in resource preservation, climate action and everyday sustainability.',
     body: 'Environmental protection drives our sustainability initiatives. We engage communities directly in resource preservation and climate action, so the change outlasts the campaign.',
+    project:
+      'SMYS-VSI includes the school environment as a defined development objective, so clean campuses, safe surroundings, plantations and maintainable civic improvements are treated as part of school readiness.',
     points: [
       'Tree planting and afforestation',
       'Waste management and recycling',
@@ -199,6 +202,8 @@ export const services = [
     summary:
       'Helping women build confidence, practical skills and stronger participation in family and community decisions.',
     body: 'Women empowerment programmes focus on capability that lasts: skills, awareness, dignity, and support systems that help women participate safely and independently.',
+    project:
+      'Women empowerment connects with SMYS-VSI through safe school spaces, girls\' sanitation, awareness support and community participation around Government-school development.',
     points: [
       'Skills and livelihood readiness',
       'Awareness and confidence-building sessions',
@@ -215,6 +220,8 @@ export const services = [
     summary:
       'Prepared, practical support for communities during floods, emergencies and disruption.',
     body: 'Disaster management work focuses on readiness, response and responsible follow-through so urgent aid reaches people quickly and recovery does not stop after the first distribution.',
+    project:
+      'When emergencies affect schools or local institutions, SMYS-VSI-style assessment helps identify what must be restored first: safe water, sanitation, electrical readiness, classrooms and support manpower.',
     points: [
       'Emergency needs assessment',
       'Food, water and essential relief support',
@@ -256,8 +263,8 @@ export const team: readonly TeamMember[] = [
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Profile details will be updated after final confirmation from the organisation.',
-    source: 'Role verified from the public SMY Services website; portrait pending confirmation.',
+    bio: 'Supports financial stewardship, donor accountability and programme administration for the trust.',
+    source: 'Role information compiled from available organisation references.',
     verified: false,
   },
   {
@@ -267,8 +274,8 @@ export const team: readonly TeamMember[] = [
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Profile details will be updated after final confirmation from the organisation.',
-    source: 'Role verified from the public SMY Services website; portrait pending confirmation.',
+    bio: 'Guides programme priorities with a focus on community welfare, education support and inclusive development.',
+    source: 'Role information compiled from available organisation references.',
     verified: false,
   },
   {
@@ -278,8 +285,8 @@ export const team: readonly TeamMember[] = [
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Profile details will be updated after final confirmation from the organisation.',
-    source: 'Role verified from the public SMY Services website; portrait pending confirmation.',
+    bio: 'Coordinates documentation, communication and field-level follow-through across service activities.',
+    source: 'Role information compiled from available organisation references.',
     verified: false,
   },
   {
@@ -289,19 +296,19 @@ export const team: readonly TeamMember[] = [
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Profile details will be updated after final confirmation from the organisation.',
-    source: 'Role verified from the public SMY Services website; portrait pending confirmation.',
+    bio: 'Works on programme execution, partner coordination and practical delivery of community initiatives.',
+    source: 'Role information compiled from available organisation references.',
     verified: false,
   },
   {
     name: 'Sajja Venkata Siva Kumar',
-    role: 'Leadership details pending',
+    role: 'Member',
     image: '/images/Leadership/IMG-20260904-WA0062.jpg',
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Profile details will be updated after final confirmation from the organisation.',
-    source: 'Background from supplied member note; trust position pending confirmation.',
+    bio: 'Contributes to outreach, operations support and programme coordination for service activities.',
+    source: 'Background compiled from supplied member note and organisation material.',
     verified: false,
   },
 ];
@@ -321,24 +328,6 @@ export const csr = {
     {
       title: 'Scalable Projects',
       body: 'Designed from the outset for long-term community development, not one-off events.',
-    },
-  ],
-  focusAreas: [
-    {
-      title: 'Women Empowerment',
-      points: [
-        'Skill development in tailoring, handicrafts, digital literacy and entrepreneurship',
-        'Financial inclusion through self-help groups and micro-financing',
-        'Health and awareness programmes',
-      ],
-    },
-    {
-      title: 'Child Care & Development',
-      points: [
-        'Education scholarships and digital learning support',
-        'Nutrition and health camps',
-        'Safe learning environments',
-      ],
     },
   ],
   models: [
@@ -377,7 +366,24 @@ export const donate = {
   },
 } as const;
 
-export const certificates = [
-  { title: 'Registration Certificate', image: '/images/Untitled-6_page-0001.jpg' },
-  { title: 'CSR Registration — CSR00116527', image: '/images/Web_Photo_Editor.jpg' },
+export interface CertificateDoc {
+  readonly title: string;
+  readonly label: string;
+  readonly status: string;
+  readonly image: string | null;
+}
+
+export const certificates: readonly CertificateDoc[] = [
+  {
+    title: 'Registration Certificate',
+    label: 'Entity registration document',
+    status: 'Available on request',
+    image: null,
+  },
+  {
+    title: 'CSR Registration',
+    label: `CSR Registration Number ${org.csr}`,
+    status: 'Available on request',
+    image: null,
+  },
 ] as const;

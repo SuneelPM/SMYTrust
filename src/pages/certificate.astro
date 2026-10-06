@@ -7,6 +7,13 @@ import Lightbox from '../components/Lightbox.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import { org, certificates } from '../data/site';
+
+const documentRequestHref = (title: string) =>
+  u(
+    `/contact/?topic=${encodeURIComponent('Document request')}&message=${encodeURIComponent(
+      `Please send me the ${title} for ${org.name}.`,
+    )}`,
+  );
 ---
 
 <BaseLayout
@@ -23,39 +30,58 @@ import { org, certificates } from '../data/site';
 
   <section class="section-y">
     <div class="container-x">
-      <!-- Registration numbers -->
-      <div class="grid gap-4 sm:grid-cols-2" data-reveal-group>
-        <div class="regcard">
-          <span class="icon-badge"><Icon name="shield" /></span>
+      <!-- Certificate images -->
+      <div>
+        <div class="docs-head">
           <div>
-            <p class="regcard__label">CSR Registration Number</p>
-            <p class="regcard__value">{org.csr}</p>
+            <h2 class="h2" data-split-text>Documents</h2>
+            <p class="lead mt-4 max-w-xl" data-reveal="up">
+              Request compliance documents directly from the trust for donor or CSR verification.
+            </p>
+          </div>
+
+          <div class="regcard" data-reveal="fade">
+            <span class="icon-badge"><Icon name="shield" /></span>
+            <div>
+              <p class="regcard__label">CSR Registration Number</p>
+              <p class="regcard__value">{org.csr}</p>
+            </div>
           </div>
         </div>
-      </div>
-
-      <!-- Certificate images -->
-      <div class="mt-14">
-        <h2 class="h2" data-split-text>Documents</h2>
-        <p class="lead mt-4 max-w-xl" data-reveal="up">
-          Click any document to view it full-screen.
-        </p>
 
         <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-reveal-group>
           {
-            certificates.map((c) => (
-              <figure class="cert" data-lightbox>
-                <div class="cert__media">
-                  <Picture src={u(c.image)} alt={c.title} class="media-cover" width="700" height="950" loading="lazy" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" />
-                </div>
-                <figcaption class="cert__cap">
-                  <span>{c.title}</span>
-                  <a href={u(c.image)} download class="cert__dl" aria-label={`Download ${c.title}`} onclick="event.stopPropagation()">
-                    <Icon name="download" class="h-4 w-4" />
-                  </a>
-                </figcaption>
-              </figure>
-            ))
+            certificates.map((c) =>
+              c.image ? (
+                <figure class="cert" data-lightbox>
+                  <div class="cert__media">
+                    <Picture src={u(c.image)} alt={c.title} class="media-cover" width="700" height="950" loading="lazy" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw" />
+                  </div>
+                  <figcaption class="cert__cap">
+                    <span>
+                      <strong>{c.title}</strong>
+                      <small>{c.label}</small>
+                    </span>
+                    <a href={u(c.image)} download class="cert__dl" aria-label={`Download ${c.title}`} onclick="event.stopPropagation()">
+                      <Icon name="download" class="h-4 w-4" />
+                    </a>
+                  </figcaption>
+                </figure>
+              ) : (
+                <a class="cert cert--placeholder" href={documentRequestHref(c.title)}>
+                  <div class="cert__placeholder" aria-hidden="true">
+                    <Icon name="file" size={42} />
+                  </div>
+                  <div class="cert__cap">
+                    <span>
+                      <strong>{c.title}</strong>
+                      <small>{c.label}</small>
+                    </span>
+                    <span class="cert__status">{c.status}</span>
+                  </div>
+                </a>
+              )
+            )
           }
         </div>
       </div>
@@ -63,9 +89,8 @@ import { org, certificates } from '../data/site';
       <div class="placeholder mt-12" data-reveal="fade">
         <span class="placeholder__tag">Verify before you give</span>
         <p class="mt-2 text-sm leading-relaxed" style="color: var(--c-muted)">
-          Corporate partners requiring 12A / 80G certificates, audited accounts or an FCRA status letter
-          can request them at <a href={org.emailHref} class="link-underline font-medium">{org.email}</a>.
-          Add those documents to this page once they are ready to publish.
+          Corporate partners requiring 12A / 80G certificates, audited accounts or other compliance
+          documents can request them at <a href={org.emailHref} class="link-underline font-medium">{org.email}</a>.
         </p>
       </div>
     </div>
@@ -84,6 +109,22 @@ import { org, certificates } from '../data/site';
     border-radius: 1.25rem;
     padding: 1.6rem;
     background: var(--c-brand-soft);
+  }
+
+  .docs-head {
+    display: grid;
+    gap: 1.5rem;
+    align-items: end;
+  }
+
+  @media (min-width: 768px) {
+    .docs-head {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .docs-head .regcard {
+      width: min(100%, 24rem);
+    }
   }
 
   .regcard__label {
@@ -109,6 +150,8 @@ import { org, certificates } from '../data/site';
     border-radius: 1.1rem;
     overflow: hidden;
     background: var(--c-bg);
+    color: inherit;
+    text-decoration: none;
     transition:
       transform 0.5s var(--ease-out-expo),
       box-shadow 0.5s var(--ease-out-expo);
@@ -117,6 +160,21 @@ import { org, certificates } from '../data/site';
   .cert:hover {
     transform: translateY(-5px);
     box-shadow: 0 28px 50px -28px hsl(222 47% 11% / 0.3);
+  }
+
+  .cert--placeholder {
+    display: grid;
+    min-height: 18rem;
+  }
+
+  .cert__placeholder {
+    display: grid;
+    min-height: 12rem;
+    place-items: center;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.52)),
+      var(--c-brand-soft);
+    color: var(--c-brand);
   }
 
   .cert__media {
@@ -138,6 +196,36 @@ import { org, certificates } from '../data/site';
     font-size: 0.875rem;
     font-weight: 500;
     border-top: 1px solid var(--c-line);
+  }
+
+  .cert__cap span {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .cert__cap strong {
+    color: var(--c-ink);
+  }
+
+  .cert__cap small {
+    color: var(--c-muted);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .cert__status {
+    flex: none;
+    border-radius: 999px;
+    background: var(--c-brand-soft);
+    color: var(--c-brand);
+    padding: 0.35rem 0.65rem;
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
   }
 
   .cert__dl {

@@ -12,6 +12,35 @@ const sdgs = [
   'SDG 8 — Decent Work',
   'SDG 10 — Reduced Inequalities',
 ];
+
+const scheduleAreas = [
+  'Education',
+  'Support for poor and needy students',
+  'Government-school development',
+  'Healthcare',
+  'Women and child welfare',
+  'Rural development',
+  'Poverty alleviation',
+  'Vocational and skill development',
+  'Environmental activities',
+  'Sanitation',
+  'Community welfare',
+  'Support to Government schools',
+  'Infrastructure and institutional support',
+  'Vidyanjali-related activities',
+];
+
+const sponsorshipOptions = [
+  'Complete school adoption',
+  'Component-wise sponsorship',
+  'Digital school sponsorship',
+  'Sanitation and water sponsorship',
+  'Classroom infrastructure sponsorship',
+  'District-level sponsorship',
+  'Cluster-level sponsorship',
+  'Annual maintenance sponsorship',
+  'Manpower sponsorship',
+];
 ---
 
 <BaseLayout
@@ -50,29 +79,36 @@ const sdgs = [
     </div>
   </section>
 
-  <!-- Focus areas -->
+  <!-- Schedule VII alignment -->
   <section class="section-y pt-0">
     <div class="container-x">
-      <div class="grid gap-6 md:grid-cols-2">
-        {
-          csr.focusAreas.map((f) => (
-            <article class="focus">
-              <h3 class="h2" data-split-text>
-                {f.title}
-              </h3>
-              <ul class="mt-6 space-y-3" data-reveal-group data-reveal-stagger="0.07">
-                {f.points.map((p) => (
-                  <li class="flex gap-3 text-[0.9375rem]">
-                    <span class="check" aria-hidden="true">
-                      ✓
-                    </span>
-                    <span style="color: var(--c-muted)">{p}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))
-        }
+      <div class="schedule">
+        <div class="max-w-3xl">
+          <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>CSR Schedule VII alignment</p>
+          <h2 class="h2 mt-5" data-split-text>Designed for permitted CSR activities</h2>
+          <p class="lead mt-6" data-reveal="up">
+            Every component of SMYS-VSI maps to activities permitted under Schedule VII of the Companies Act, 2013 — principally promotion of education, sanitation and safe drinking water, environmental sustainability, and training to promote sports.
+          </p>
+          <p class="mt-4 max-w-2xl leading-relaxed" style="color: var(--c-muted)" data-reveal="up">
+            Component-wise mapping can be shared with funding partners for internal compliance review, board notes and CSR committee documentation.
+          </p>
+        </div>
+
+        <div class="mt-10 grid gap-8 lg:grid-cols-2">
+          <article class="schedule__panel" data-reveal="left">
+            <h3 class="h3">Eligible focus areas</h3>
+            <div class="taggrid mt-6">
+              {scheduleAreas.map((item) => <span>{item}</span>)}
+            </div>
+          </article>
+
+          <article class="schedule__panel" data-reveal="right">
+            <h3 class="h3">Sponsorship structures</h3>
+            <div class="taggrid mt-6">
+              {sponsorshipOptions.map((item) => <span>{item}</span>)}
+            </div>
+          </article>
+        </div>
       </div>
     </div>
   </section>
@@ -158,12 +194,6 @@ const sdgs = [
     font-size: 0.85rem;
   }
 
-  .focus {
-    border: 1px solid var(--c-line);
-    border-radius: 1.35rem;
-    padding: clamp(1.75rem, 3vw, 2.5rem);
-  }
-
   .model {
     border: 1px solid var(--c-line);
     border-radius: 1.1rem;
@@ -219,5 +249,37 @@ const sdgs = [
   .reg dd {
     font-weight: 600;
     font-variant-numeric: tabular-nums;
+  }
+
+  .schedule {
+    border: 1px solid var(--c-line);
+    border-radius: 1.75rem;
+    background: var(--c-bg);
+    padding: clamp(1.75rem, 4vw, 3.25rem);
+    box-shadow: 0 28px 70px -54px hsl(222 47% 11% / 0.55);
+  }
+
+  .schedule__panel {
+    border: 1px solid var(--c-line);
+    border-radius: 1.25rem;
+    background: var(--c-surface);
+    padding: clamp(1.35rem, 3vw, 2rem);
+  }
+
+  .taggrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .taggrid span {
+    border: 1px solid hsl(217 91% 50% / 0.14);
+    border-radius: 999px;
+    background: var(--c-brand-soft);
+    color: var(--c-ink);
+    padding: 0.5rem 0.78rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.25;
   }
 </style>

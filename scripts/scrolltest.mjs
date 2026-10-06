@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 const page = await ctx.newPage();
-const routes = ['/', '/about/', '/services/', '/gallery/', '/csr-fund/', '/donate/', '/contact/', '/activities/', '/certificate/'];
+const routes = ['/', '/about/', '/services/', '/activities/', '/csr-fund/', '/donate/', '/contact/', '/certificate/'];
 let bad = 0;
 for (const r of routes) {
   await page.goto('http://localhost:4321' + r, { waitUntil: 'networkidle' });

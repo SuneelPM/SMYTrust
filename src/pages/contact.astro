@@ -92,12 +92,7 @@ const mapSrc = `https://www.google.com/maps?q=${org.mapQuery}&output=embed`;
                     </li>
                   ) : (
                     <li>
-                      <span
-                        class="social social--pending"
-                        role="img"
-                        aria-label={`${s.name} — profile link coming soon`}
-                        title={`${s.name} — link to be added`}
-                      >
+                      <span class="social social--pending" role="img" aria-label={`${s.name} profile`}>
                         <Icon name={s.icon} size={16} />
                       </span>
                     </li>
@@ -107,7 +102,7 @@ const mapSrc = `https://www.google.com/maps?q=${org.mapQuery}&output=embed`;
             </ul>
             {activeSocial.length === 0 && (
               <p class="mt-2.5 text-[11px]" style="color: var(--c-muted)">
-                Social profiles coming soon.
+                Coming soon.
               </p>
             )}
           </div>
@@ -124,12 +119,10 @@ const mapSrc = `https://www.google.com/maps?q=${org.mapQuery}&output=embed`;
 
           {
             !formKey && (
-              <div class="placeholder mt-6">
-                <span class="placeholder__tag">Setup needed</span>
+              <div class="notice mt-6">
+                <span class="notice__tag">Email enquiry</span>
                 <p class="mt-2 text-sm leading-relaxed" style="color: var(--c-muted)">
-                  Add a free Web3Forms access key to <code>.env</code> as{' '}
-                  <code>PUBLIC_WEB3FORMS_KEY</code> and this form will email submissions straight to{' '}
-                  {org.email}. Until then it falls back to opening the visitor's mail client.
+                  Submitting this form will open your email app addressed to {org.email}.
                 </p>
               </div>
             )
@@ -175,6 +168,7 @@ const mapSrc = `https://www.google.com/maps?q=${org.mapQuery}&output=embed`;
                 <option>General enquiry</option>
                 <option>Making a donation</option>
                 <option>CSR partnership</option>
+                <option>Document request</option>
                 <option>Volunteering</option>
                 <option>Media / press</option>
               </select>
@@ -213,6 +207,24 @@ const mapSrc = `https://www.google.com/maps?q=${org.mapQuery}&output=embed`;
 <script>
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
   const status = document.querySelector<HTMLElement>('[data-form-status]');
+
+  if (form) {
+    const params = new URLSearchParams(window.location.search);
+    const topic = params.get('topic');
+    const message = params.get('message');
+    const topicField = form.elements.namedItem('topic') as HTMLSelectElement | null;
+    const messageField = form.elements.namedItem('message') as HTMLTextAreaElement | null;
+
+    if (topic && topicField) {
+      const hasOption = Array.from(topicField.options).some((option) => option.value === topic);
+      if (!hasOption) topicField.add(new Option(topic, topic));
+      topicField.value = topic;
+    }
+
+    if (message && messageField) {
+      messageField.value = message;
+    }
+  }
 
   // Only intercept when the form actually posts to Web3Forms.
   if (form && status && form.method.toLowerCase() === 'post') {
@@ -329,6 +341,26 @@ const mapSrc = `https://www.google.com/maps?q=${org.mapQuery}&output=embed`;
     border-radius: 1.5rem;
     padding: clamp(1.5rem, 3.5vw, 2.5rem);
     background: var(--c-surface);
+  }
+
+  .notice {
+    border: 1px solid var(--c-line);
+    border-radius: 1rem;
+    background: var(--c-bg);
+    padding: 1rem;
+  }
+
+  .notice__tag {
+    display: inline-flex;
+    border-radius: 999px;
+    background: var(--c-brand-soft);
+    color: var(--c-brand);
+    padding: 0.28rem 0.6rem;
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .field {

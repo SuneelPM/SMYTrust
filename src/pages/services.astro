@@ -11,7 +11,7 @@ import { org, services } from '../data/site';
 
 <BaseLayout
   title="Services"
-  description="Women empowerment, environment and sustainability, and disaster relief — the three programme areas run by Sri Matha Yellamanba Services."
+  description="Digital education, school development, environment, women empowerment and disaster management programmes run by Sri Matha Yellamanba Services."
   overlay
 >
   <PageHero
@@ -36,6 +36,14 @@ import { org, services } from '../data/site';
                 <p class="lead mt-4 max-w-xl" data-reveal="up">
                   {s.body}
                 </p>
+                {'project' in s && s.project && (
+                  <div class="project-note mt-6" data-reveal="up">
+                    <span class="project-note__icon" aria-hidden="true">
+                      <Icon name="book" size={18} />
+                    </span>
+                    <p>{s.project}</p>
+                  </div>
+                )}
                 <ul
                   class="mt-7 grid max-w-2xl gap-x-8 gap-y-1 sm:grid-cols-2"
                   data-reveal-group
@@ -109,6 +117,31 @@ import { org, services } from '../data/site';
     overflow: hidden;
     border-radius: 1.35rem;
     background: var(--c-surface);
+  }
+
+  .project-note {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.8rem;
+    max-width: 42rem;
+    border: 1px solid hsl(217 91% 50% / 0.16);
+    border-radius: 1rem;
+    background: var(--c-brand-soft);
+    padding: 1rem 1.1rem;
+    color: var(--c-ink);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+
+  .project-note__icon {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--c-brand);
+    box-shadow: 0 12px 28px -20px hsl(222 47% 11% / 0.6);
   }
 
   @media (max-width: 1023px) {
