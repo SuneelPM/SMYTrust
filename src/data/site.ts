@@ -279,7 +279,7 @@ export const team: readonly TeamMember[] = [
     verified: false,
   },
   {
-    name: 'Hemalatha Devi',
+    name: 'Manohar',
     role: 'Secretary',
     image: '/images/Leadership/manohar image2.jpg',
     email: org.email,
