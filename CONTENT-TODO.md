@@ -158,7 +158,7 @@ Then update the `team` array in `src/data/site.ts` and set `verified: true` for 
 
 **Pages:** `/gallery/` and `/` · **Files:** `src/pages/gallery.astro`, `src/data/media.ts`
 
-The gallery has been repopulated from existing project images and activity photos. Review the image selection and captions before launch.
+The gallery is currently empty: `/activities/` and the home page show a placeholder block instead of photographs. Supply curated photographs with captions to restore it.
 
 To add new photographs:
 1. Drop image files into `public/images/`.
