@@ -257,7 +257,7 @@ export const team: readonly TeamMember[] = [
     verified: true,
   },
   {
-    name: 'CH. Gopal Krishna',
+    name: 'Gopal Krishna',
     role: 'Treasurer',
     image: '/images/Leadership/IMG-20260904-WA0022.jpg',
     email: org.email,
@@ -268,7 +268,7 @@ export const team: readonly TeamMember[] = [
     verified: false,
   },
   {
-    name: 'CH. Venkata Lakshmi',
+    name: 'Ramu Kondala',
     role: 'President',
     image: '/images/Leadership/Gemini_Generated_Image_9chgej9chgej9chg.png',
     email: org.email,
@@ -279,7 +279,7 @@ export const team: readonly TeamMember[] = [
     verified: false,
   },
   {
-    name: 'CH. Hemalatha Devi',
+    name: 'Hemalatha Devi',
     role: 'Secretary',
     image: '/images/Leadership/manohar image2.jpg',
     email: org.email,
