@@ -1,0 +1,27 @@
+# Global security and HTML cache headers
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# Fingerprinted Astro assets (never change)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Generated and static images
+/opt/*
+  Cache-Control: public, max-age=15552000, immutable
+
+/images/*
+  Cache-Control: public, max-age=15552000, immutable
+
+# Fonts and static assets
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Webmanifest and favicon
+/site.webmanifest
+  Content-Type: application/manifest+json
+  Cache-Control: public, max-age=86400

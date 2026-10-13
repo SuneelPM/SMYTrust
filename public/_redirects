@@ -1,0 +1,11 @@
+# 301 Redirects from old WordPress URLs to current routes
+/about-us /about/ 301
+/about-us/ /about/ 301
+/contact-us /contact/ 301
+/contact-us/ /contact/ 301
+/donate-now /donate/ 301
+/donate-now/ /donate/ 301
+/refund-and-cancellation-policy /refund-policy/ 301
+/refund-and-cancellation-policy/ /refund-policy/ 301
+/terms-conditions /terms-conditions/ 301
+/terms-conditions/ /terms-conditions/ 301
