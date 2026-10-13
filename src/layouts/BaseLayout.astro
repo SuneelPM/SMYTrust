@@ -22,8 +22,8 @@ const {
   ogImage = '/images/joyful-children-playing-holi-festival-scaled.jpg',
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://smyservices.org');
-const ogUrl = new URL(ogImage, Astro.site ?? 'https://smyservices.org');
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://smytrust.in');
+const ogUrl = new URL(ogImage, Astro.site ?? 'https://smytrust.in');
 const fullTitle = title === org.name ? title : `${title} — ${org.shortName}`;
 
 const jsonLd = {

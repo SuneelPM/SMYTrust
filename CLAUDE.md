@@ -6,7 +6,7 @@ Guidance for working in this repository.
 
 Static marketing/donation website for **Sri Matha Yellamanba Services**, a registered service
 organisation in Visakhapatnam, India. Rebuilt from the original WordPress site at
-smyservices.org. Deploys to **Hostinger shared hosting** as plain files — there is no server,
+smyservices.org. Deploys to **Cloudflare Pages** at **smytrust.in** as plain files — there is no server,
 no database, no runtime.
 
 **Stack:** Astro 7 (static output) · Tailwind CSS 4 · GSAP 3 + ScrollTrigger · Lenis ·

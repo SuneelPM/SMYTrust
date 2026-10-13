@@ -95,7 +95,7 @@ array in `src/data/media.ts`.
 
 5. **Submit the sitemap**
 
-   `https://smyservices.org/sitemap-index.xml` → Google Search Console.
+   `https://smytrust.in/sitemap-index.xml` → Google Search Console.
 
 ### Environment variables
 
