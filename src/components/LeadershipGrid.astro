@@ -20,15 +20,28 @@ const { members } = Astro.props;
         <article class="team-card group">
           <div class="team__profile">
             <div class="team__media">
-              <Picture
-                src={m.image}
-                alt={m.name}
-                class="media-cover"
-                width="500"
-                height="620"
-                loading="lazy"
-                sizes="7rem"
-              />
+              {m.image ? (
+                <Picture
+                  src={m.image}
+                  alt={m.name}
+                  class="media-cover"
+                  width="500"
+                  height="620"
+                  loading="lazy"
+                  sizes="7rem"
+                />
+              ) : (
+                <div class="team__media-placeholder" aria-hidden="true">
+                  <span class="team__initials">
+                    {m.name
+                      .split(/\s+/)
+                      .filter(Boolean)
+                      .slice(0, 2)
+                      .map((part) => part[0]?.toUpperCase())
+                      .join('')}
+                  </span>
+                </div>
+              )}
             </div>
             <p class="team__role">{m.role}</p>
           </div>
@@ -37,37 +50,34 @@ const { members } = Astro.props;
             <h3 class="team__name">{m.name}</h3>
 
             {m.bio && (
-              <p class="team__bio">
-                {m.bio}
-              </p>
+              <div class="team__bio-wrap">
+                <p class="team__bio" data-bio>
+                  {m.bio}
+                </p>
+                <button
+                  type="button"
+                  class="team__bio-more"
+                  data-bio-toggle
+                  aria-expanded="false"
+                  aria-label={`Show full bio for ${m.name}`}
+                  hidden
+                >
+                  <span data-bio-toggle-label>Read more</span>
+                  <svg class="team__bio-more-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
             )}
 
-            <div
-              class="team__contact"
-              aria-label={`Contact ${m.name}`}
-            >
-              {m.email && (
-                <a
-                  href={`mailto:${m.email}`}
-                  class="team__line"
-                  aria-label={`Email ${m.name}`}
-                >
-                  <span class="team__line-label">Email</span>
-                  <span class="team__line-value">{m.email}</span>
-                </a>
-              )}
-
-              {m.phoneHref && (
-                <a
-                  href={m.phoneHref}
-                  class="team__line"
-                  aria-label={`Call ${m.name}`}
-                >
-                  <span class="team__line-label">Call</span>
-                  <span class="team__line-value">{m.phone}</span>
-                </a>
-              )}
-            </div>
+            {m.qualification && (
+              <div class="team__contact" aria-label={`Qualification of ${m.name}`}>
+                <p class="team__line team__line--stacked">
+                  <span class="team__line-label">Qualification</span>
+                  <span class="team__line-value">{m.qualification}</span>
+                </p>
+              </div>
+            )}
           </div>
         </article>
       ))}
@@ -91,6 +101,41 @@ const { members } = Astro.props;
     </div>
   )
 }
+
+<script>
+  // Bios are CSS-clamped to 2 lines. If a bio's text actually overflows that
+  // clamp, reveal a "···" button next to it; clicking toggles the full text.
+  const wraps = Array.from(document.querySelectorAll<HTMLElement>('.team__bio-wrap'));
+
+  const markOverflow = () => {
+    for (const wrap of wraps) {
+      const bio = wrap.querySelector<HTMLElement>('[data-bio]');
+      const toggle = wrap.querySelector<HTMLButtonElement>('[data-bio-toggle]');
+      if (!bio || !toggle) continue;
+      if (bio.classList.contains('is-expanded')) continue;
+
+      const overflowing = bio.scrollHeight > bio.clientHeight + 1;
+      toggle.hidden = !overflowing;
+    }
+  };
+
+  wraps.forEach((wrap) => {
+    const bio = wrap.querySelector<HTMLElement>('[data-bio]');
+    const toggle = wrap.querySelector<HTMLButtonElement>('[data-bio-toggle]');
+    const label = wrap.querySelector<HTMLElement>('[data-bio-toggle-label]');
+    if (!bio || !toggle || !label) return;
+
+    toggle.addEventListener('click', () => {
+      const expanded = bio.classList.toggle('is-expanded');
+      toggle.classList.toggle('is-open', expanded);
+      toggle.setAttribute('aria-expanded', String(expanded));
+      label.textContent = expanded ? 'Show less' : 'Read more';
+    });
+  });
+
+  markOverflow();
+  window.addEventListener('resize', markOverflow);
+</script>
 
 <style>
   .team-list {
@@ -175,6 +220,22 @@ const { members } = Astro.props;
     filter: saturate(1.04) contrast(1.025);
   }
 
+  .team__media-placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, var(--c-brand-soft), var(--c-surface));
+  }
+
+  .team__initials {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--c-brand);
+  }
+
   .team__role {
     display: inline-flex;
     align-items: center;
@@ -213,17 +274,72 @@ const { members } = Astro.props;
     letter-spacing: -0.015em;
   }
 
+  .team__bio-wrap {
+    display: grid;
+    gap: 0.3rem;
+  }
+
   .team__bio {
+    display: block;
+    width: 100%;
+    margin: 0;
     margin-top: 0.38rem;
-    margin-bottom: 0;
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+    text-align: left;
     font-size: 0.76rem;
     line-height: 1.5;
     color: var(--c-muted);
-    display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    display: -webkit-box;
     overflow: hidden;
     text-wrap: pretty;
+  }
+
+  .team__bio.is-expanded {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .team__bio-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    justify-self: start;
+    border: none;
+    background: none;
+    padding: 0.15rem 0;
+    color: var(--c-brand);
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: color 0.25s var(--ease-out-expo);
+  }
+
+  .team__bio-more:hover,
+  .team__bio-more:focus-visible {
+    color: var(--c-ink);
+  }
+
+  .team__bio-more:focus-visible {
+    outline: 2px solid var(--c-brand);
+    outline-offset: 3px;
+    border-radius: 0.25rem;
+  }
+
+  .team__bio-more-icon {
+    width: 0.8rem;
+    height: 0.8rem;
+    transition: transform 0.35s var(--ease-out-expo);
+  }
+
+  .team__bio-more.is-open .team__bio-more-icon {
+    transform: rotate(180deg);
   }
 
   .team__contact {
@@ -241,10 +357,10 @@ const { members } = Astro.props;
     grid-template-columns: 2.15rem minmax(0, 1fr);
     gap: 0.48rem;
     align-items: baseline;
+    margin: 0;
     color: var(--c-ink);
     font-size: 0.7rem;
     line-height: 1.35;
-    text-decoration: none;
   }
 
   .team__line-label {
@@ -258,18 +374,13 @@ const { members } = Astro.props;
 
   .team__line-value {
     min-width: 0;
-    white-space: nowrap;
     font-weight: 600;
   }
 
-  .team__line:hover {
-    color: var(--c-brand);
-  }
-
-  .team__line:focus-visible {
-    outline: 2px solid var(--c-brand);
-    outline-offset: 2px;
-    border-radius: 0.25rem;
+  .team__line--stacked {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
   }
 
   @media (max-width: 720px) {
@@ -316,16 +427,6 @@ const { members } = Astro.props;
       margin-top: 0.55rem;
       font-size: 0.72rem;
       line-height: 1.48;
-    }
-
-    .team__contact {
-      padding: 0.45rem 0.5rem;
-    }
-
-    .team__line {
-      grid-template-columns: 2rem minmax(0, 1fr);
-      gap: 0.36rem;
-      font-size: 0.64rem;
     }
   }
 </style>

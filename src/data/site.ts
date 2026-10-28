@@ -4,30 +4,30 @@
  */
 
 export const org = {
-  name: 'Sri Matha Yellamanba Services',
-  shortName: 'SMY Services',
-  initials: 'SMY',
-  tagline: 'Spreading compassion, serving humanity with love.',
-  motto: 'Prayer in action is love, love in action is service.',
-  csr: 'CSR00116527',
-  phone: '+91 9032229748',
-  phoneHref: 'tel:+919032229748',
-  email: 'smyservice888@gmail.com',
-  emailHref: 'mailto:smyservice888@gmail.com',
+  name: "Sri Matha Yellamanba Services",
+  shortName: "SMY Services",
+  initials: "SMY",
+  tagline: "Spreading compassion, serving humanity with love.",
+  motto: "Prayer in action is love, love in action is service.",
+  csr: "CSR00116527",
+  phone: "+91 9032229748",
+  phoneHref: "tel:+919032229748",
+  email: "smyservice888@gmail.com",
+  emailHref: "mailto:smyservice888@gmail.com",
   address: {
-    line1: 'Door No: 21-10/2-257/4H, Srinivasam',
-    line2: 'Near SS Towers, Pandiri Road, GVR Nagar',
-    line3: 'Behind Trendset Meadows',
-    city: 'Vijayawada',
-    pin: '520003',
-    state: 'Andhra Pradesh, India',
+    line1: "Door No: 21-10/2-257/4H, Srinivasam",
+    line2: "Near SS Towers, Pandiri Road, GVR Nagar",
+    line3: "Behind Trendset Meadows",
+    city: "Vijayawada",
+    pin: "520003",
+    state: "Andhra Pradesh, India",
   },
   addressOneLine:
-    'Door No: 21-10/2-257/4H, Srinivasam, Near SS Towers, Pandiri Road, GVR Nagar, Behind Trendset Meadows, Vijayawada - 520003',
+    "Door No: 21-10/2-257/4H, Srinivasam, Near SS Towers, Pandiri Road, GVR Nagar, Behind Trendset Meadows, Vijayawada - 520003",
   mapQuery:
-    'Door+No+21-10%2F2-257%2F4H,+Srinivasam,+Near+SS+Towers,+Pandiri+Road,+GVR+Nagar,+Behind+Trendset+Meadows,+Vijayawada+520003',
-  copyright: '© 2024 Upendra & Co',
-  logo: '/images/logo-removebg-preview.png',
+    "Door+No+21-10%2F2-257%2F4H,+Srinivasam,+Near+SS+Towers,+Pandiri+Road,+GVR+Nagar,+Behind+Trendset+Meadows,+Vijayawada+520003",
+  copyright: "© 2024 Upendra & Co",
+  logo: "/images/logo-removebg-preview.png",
 } as const;
 
 export type SocialLink = { name: string; href: string | null; icon: string };
@@ -41,204 +41,208 @@ export type SocialLink = { name: string; href: string | null; icon: string };
  * the icon appears automatically. See CONTENT-TODO.md item 5.
  */
 export const social: SocialLink[] = [
-  { name: 'Facebook', href: null, icon: 'facebook' },
-  { name: 'X', href: null, icon: 'x' },
-  { name: 'Instagram', href: null, icon: 'instagram' },
-  { name: 'YouTube', href: null, icon: 'youtube' },
+  { name: "Facebook", href: null, icon: "facebook" },
+  { name: "X", href: null, icon: "x" },
+  { name: "Instagram", href: null, icon: "instagram" },
+  { name: "YouTube", href: null, icon: "youtube" },
 ];
 
 /** Only profiles with a real URL are rendered anywhere on the site. */
 export const activeSocial = social.filter(
-  (s): s is SocialLink & { href: string } => typeof s.href === 'string' && s.href.length > 0,
+  (s): s is SocialLink & { href: string } =>
+    typeof s.href === "string" && s.href.length > 0,
 );
 
 export const nav = [
-  { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/about/' },
-  { label: 'Services', href: '/services/' },
-  { label: 'Activities', href: '/activities/' },
-  { label: 'Certificate', href: '/certificate/' },
-  { label: 'CSR Fund', href: '/csr-fund/' },
-  { label: 'Contact', href: '/contact/' },
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about/" },
+  { label: "Services", href: "/services/" },
+  { label: "Activities", href: "/activities/" },
+  { label: "Certificate", href: "/certificate/" },
+  { label: "CSR Fund", href: "/csr-fund/" },
+  { label: "Contact", href: "/contact/" },
 ] as const;
 
 export const legalNav = [
-  { label: 'Privacy Policy', href: '/privacy-policy/' },
-  { label: 'Terms & Conditions', href: '/terms-conditions/' },
-  { label: 'Refund & Cancellation Policy', href: '/refund-policy/' },
+  { label: "Privacy Policy", href: "/privacy-policy/" },
+  { label: "Terms & Conditions", href: "/terms-conditions/" },
+  { label: "Refund & Cancellation Policy", href: "/refund-policy/" },
 ] as const;
 
 /** Rotating hero statements. Headline claims trace back to the source site. */
 export const heroSlides = [
   {
-    eyebrow: 'Child Protection & Relief',
-    title: 'Protecting childhood.',
-    titleAccent: 'Responding with compassion.',
-    body: 'We shield children from harm and move fast when crisis hits — food, shelter, medical aid and a route back to school.',
-    cta: 'Be a lifeline',
-    image: '/images/joyful-children-playing-holi-festival-scaled.jpg',
+    eyebrow: "Child Protection & Relief",
+    title: "Protecting childhood.",
+    titleAccent: "Responding with compassion.",
+    body: "We shield children from harm and move fast when crisis hits — food, shelter, medical aid and a route back to school.",
+    cta: "Be a lifeline",
+    image: "/images/joyful-children-playing-holi-festival-scaled.jpg",
   },
   {
-    eyebrow: 'Women Empowerment',
-    title: 'Empower a woman,',
-    titleAccent: 'empower a nation.',
-    body: 'Self-help groups, microloans, skills training and legal aid — the practical scaffolding a woman needs to stand on her own.',
-    cta: 'Support her journey',
-    image: '/images/woman-teaching-classroom-scaled.jpg',
+    eyebrow: "Women Empowerment",
+    title: "Empower a woman,",
+    titleAccent: "empower a nation.",
+    body: "Self-help groups, microloans, skills training and legal aid — the practical scaffolding a woman needs to stand on her own.",
+    cta: "Support her journey",
+    image: "/images/woman-teaching-classroom-scaled.jpg",
   },
   {
-    eyebrow: 'Health & Nutrition',
-    title: 'Care that reaches',
-    titleAccent: 'the last village.',
-    body: 'Health camps, paediatric care and nutrition programmes for families the nearest hospital was never going to reach.',
-    cta: 'Fund a health camp',
-    image: '/images/portrait-female-pediatrician-work-scaled.jpg',
+    eyebrow: "Health & Nutrition",
+    title: "Care that reaches",
+    titleAccent: "the last village.",
+    body: "Health camps, paediatric care and nutrition programmes for families the nearest hospital was never going to reach.",
+    cta: "Fund a health camp",
+    image: "/images/portrait-female-pediatrician-work-scaled.jpg",
   },
   {
-    eyebrow: 'Environment & Sustainability',
-    title: 'Our planet.',
-    titleAccent: 'Our responsibility.',
-    body: 'Afforestation, clean water and waste management — run by the communities who live with the results.',
-    cta: 'Join the green mission',
-    image: '/images/environment-scaled.jpg',
+    eyebrow: "Environment & Sustainability",
+    title: "Our planet.",
+    titleAccent: "Our responsibility.",
+    body: "Afforestation, clean water and waste management — run by the communities who live with the results.",
+    cta: "Join the green mission",
+    image: "/images/environment-scaled.jpg",
   },
 ] as const;
 
 /** Programme areas shown as a compact grid. All grounded in the listed services. */
 export const causes = [
   {
-    title: 'Education',
-    body: 'Learning support, scholarships and school resources for underprivileged and differently-abled children.',
-    icon: 'book',
+    title: "Education",
+    body: "Learning support, scholarships and school resources for underprivileged and differently-abled children.",
+    icon: "book",
   },
   {
-    title: 'Child Protection',
-    body: 'Safeguarding children from harm, abuse and neglect through prevention, education and rapid response.',
-    icon: 'shield',
+    title: "Child Protection",
+    body: "Safeguarding children from harm, abuse and neglect through prevention, education and rapid response.",
+    icon: "shield",
   },
   {
-    title: 'Healthcare',
-    body: 'Health camps, paediatric care and nutrition programmes for vulnerable rural families.',
-    icon: 'heart',
+    title: "Healthcare",
+    body: "Health camps, paediatric care and nutrition programmes for vulnerable rural families.",
+    icon: "heart",
   },
   {
-    title: 'Environment',
-    body: 'Tree plantations, clean-up drives and climate action led together with local communities.',
-    icon: 'leaf',
+    title: "Environment",
+    body: "Tree plantations, clean-up drives and climate action led together with local communities.",
+    icon: "leaf",
   },
   {
-    title: 'Women Empowerment',
-    body: 'Financial independence, leadership training and advocacy for gender equality and safety.',
-    icon: 'women',
+    title: "Women Empowerment",
+    body: "Financial independence, leadership training and advocacy for gender equality and safety.",
+    icon: "women",
   },
   {
-    title: 'Disaster Relief',
-    body: 'Swift humanitarian aid when floods, pandemics or conflict strike — within hours, not weeks.',
-    icon: 'life-ring',
+    title: "Disaster Relief",
+    body: "Swift humanitarian aid when floods, pandemics or conflict strike — within hours, not weeks.",
+    icon: "life-ring",
   },
 ] as const;
 
 export const about = {
-  kicker: 'About Us',
-  heading: 'Give a Helping Hand for Needy People',
-  subheading: 'Kindness is the key — help the needy today and light the path ahead.',
-  lead: 'A little help goes a long way. Extend your hand today and bring hope, food, and education to those who need it most.',
+  kicker: "About Us",
+  heading: "Give a Helping Hand for Needy People",
+  subheading:
+    "Kindness is the key — help the needy today and light the path ahead.",
+  lead: "A little help goes a long way. Extend your hand today and bring hope, food, and education to those who need it most.",
   body: [
-    'Sri Matha Yellamanba Services is a registered service organisation based in Vijayawada, Andhra Pradesh. We work at the intersection of education, child health, women empowerment, environmental sustainability and disaster relief.',
-    'Our work is built on a simple conviction: true progress begins with empowerment. Rather than one-off charity, we build long-term capability in the communities we serve — skills, education, health and dignity.',
-    'Every rupee contributed is tracked against measurable outcomes, and every contributor receives a receipt, a tax exemption certificate, and periodic updates on the projects their support made possible.',
+    "Sri Matha Yellamanba Services is a registered service organisation based in Vijayawada, Andhra Pradesh. We work at the intersection of education, child health, women empowerment, environmental sustainability and disaster relief.",
+    "Our work is built on a simple conviction: true progress begins with empowerment. Rather than one-off charity, we build long-term capability in the communities we serve — skills, education, health and dignity.",
+    "Every rupee contributed is tracked against measurable outcomes, and every contributor receives a receipt, a tax exemption certificate, and periodic updates on the projects their support made possible.",
   ],
-  image: '/images/Orphans-in-India-1500x996-1.jpg',
-  secondaryImage: '/images/image-19.jpg',
+  image: "/images/Orphans-in-India-1500x996-1.jpg",
+  secondaryImage: "/images/image-19.jpg",
 } as const;
 
 export const stats = [
-  { value: 100, suffix: '+', label: 'Volunteers' },
-  { value: 1150, suffix: '+', label: 'Products & Gifts' },
-  { value: 200, suffix: '+', label: 'Donors' },
+  { value: 100, suffix: "+", label: "Volunteers" },
+  { value: 1150, suffix: "+", label: "Products & Gifts" },
+  { value: 200, suffix: "+", label: "Donors" },
 ] as const;
 
 export const services = [
   {
-    slug: 'digital-education',
-    title: 'Digital Education',
-    icon: 'book',
+    slug: "digital-education",
+    title: "Digital Education",
+    icon: "book",
     summary:
-      'Making government-school classrooms more digitally capable, usable and worth returning to every morning.',
-    body: 'We assess school needs first, then fund and maintain digital education support that closes real classroom gaps instead of supplying convenient one-off commodities.',
+      "Making government-school classrooms more digitally capable, usable and worth returning to every morning.",
+    body: "We assess school needs first, then fund and maintain digital education support that closes real classroom gaps instead of supplying convenient one-off commodities.",
     project:
-      'Special project: SMYS Vidya Seva Initiative (SMYS-VSI) improves Government schools as complete learning environments, including digital capability, classroom infrastructure, administration support, sanitation, safe drinking water and maintenance monitoring.',
+      "Special project: SMYS Vidya Seva Initiative (SMYS-VSI) improves Government schools as complete learning environments, including digital capability, classroom infrastructure, administration support, sanitation, safe drinking water and maintenance monitoring.",
     points: [
-      'School-level infrastructure assessment',
-      'Digital learning tools and classroom support',
-      'Maintenance for the full partnership term',
-      'Usage monitoring and evidence-backed reporting',
-      'Accountability to schools, government and funding partners',
+      "School-level infrastructure assessment",
+      "Digital learning tools and classroom support",
+      "Maintenance for the full partnership term",
+      "Usage monitoring and evidence-backed reporting",
+      "Accountability to schools, government and funding partners",
     ],
-    image: '/images/woman-teaching-classroom-scaled.jpg',
+    image: "/images/woman-teaching-classroom-scaled.jpg",
   },
   {
-    slug: 'environment-sustainability',
-    title: 'Environment & Sustainability',
-    icon: 'leaf',
+    slug: "environment-sustainability",
+    title: "Environment & Sustainability",
+    icon: "leaf",
     summary:
-      'Engaging communities in resource preservation, climate action and everyday sustainability.',
-    body: 'Environmental protection drives our sustainability initiatives. We engage communities directly in resource preservation and climate action, so the change outlasts the campaign.',
+      "Engaging communities in resource preservation, climate action and everyday sustainability.",
+    body: "Environmental protection drives our sustainability initiatives. We engage communities directly in resource preservation and climate action, so the change outlasts the campaign.",
     project:
-      'SMYS-VSI includes the school environment as a defined development objective, so clean campuses, safe surroundings, plantations and maintainable civic improvements are treated as part of school readiness.',
+      "SMYS-VSI includes the school environment as a defined development objective, so clean campuses, safe surroundings, plantations and maintainable civic improvements are treated as part of school readiness.",
     points: [
-      'Tree planting and afforestation',
-      'Waste management and recycling',
-      'Clean water and sanitation development',
-      'Climate change awareness',
-      'Renewable energy and eco-friendly practices',
+      "Tree planting and afforestation",
+      "Waste management and recycling",
+      "Clean water and sanitation development",
+      "Climate change awareness",
+      "Renewable energy and eco-friendly practices",
     ],
-    image: '/images/environment-scaled.jpg',
+    image: "/images/environment-scaled.jpg",
   },
   {
-    slug: 'women-empowerment',
-    title: 'Women Empowerment',
-    icon: 'women',
+    slug: "women-empowerment",
+    title: "Women Empowerment",
+    icon: "women",
     summary:
-      'Helping women build confidence, practical skills and stronger participation in family and community decisions.',
-    body: 'Women empowerment programmes focus on capability that lasts: skills, awareness, dignity, and support systems that help women participate safely and independently.',
+      "Helping women build confidence, practical skills and stronger participation in family and community decisions.",
+    body: "Women empowerment programmes focus on capability that lasts: skills, awareness, dignity, and support systems that help women participate safely and independently.",
     project:
-      'Women empowerment connects with SMYS-VSI through safe school spaces, girls\' sanitation, awareness support and community participation around Government-school development.',
+      "Women empowerment connects with SMYS-VSI through safe school spaces, girls' sanitation, awareness support and community participation around Government-school development.",
     points: [
-      'Skills and livelihood readiness',
-      'Awareness and confidence-building sessions',
-      'Health and hygiene support',
-      'Leadership and community participation',
-      'Referral support where specialist help is needed',
+      "Skills and livelihood readiness",
+      "Awareness and confidence-building sessions",
+      "Health and hygiene support",
+      "Leadership and community participation",
+      "Referral support where specialist help is needed",
     ],
-    image: '/images/person-doing-diy-activity-online-content-creation-scaled.jpg',
+    image:
+      "/images/person-doing-diy-activity-online-content-creation-scaled.jpg",
   },
   {
-    slug: 'disaster-management',
-    title: 'Disaster Management',
-    icon: 'shield',
+    slug: "disaster-management",
+    title: "Disaster Management",
+    icon: "shield",
     summary:
-      'Prepared, practical support for communities during floods, emergencies and disruption.',
-    body: 'Disaster management work focuses on readiness, response and responsible follow-through so urgent aid reaches people quickly and recovery does not stop after the first distribution.',
+      "Prepared, practical support for communities during floods, emergencies and disruption.",
+    body: "Disaster management work focuses on readiness, response and responsible follow-through so urgent aid reaches people quickly and recovery does not stop after the first distribution.",
     project:
-      'When emergencies affect schools or local institutions, SMYS-VSI-style assessment helps identify what must be restored first: safe water, sanitation, electrical readiness, classrooms and support manpower.',
+      "When emergencies affect schools or local institutions, SMYS-VSI-style assessment helps identify what must be restored first: safe water, sanitation, electrical readiness, classrooms and support manpower.",
     points: [
-      'Emergency needs assessment',
-      'Food, water and essential relief support',
-      'Coordination with local institutions',
-      'Post-crisis follow-up and documentation',
+      "Emergency needs assessment",
+      "Food, water and essential relief support",
+      "Coordination with local institutions",
+      "Post-crisis follow-up and documentation",
     ],
-    image: '/images/campaign-02.jpg',
+    image: "/images/campaign-02.jpg",
   },
 ] as const;
 
 export interface TeamMember {
   readonly name: string;
   readonly role: string;
-  readonly image: string;
+  readonly image?: string;
   readonly email?: string;
   readonly phone?: string;
   readonly phoneHref?: string;
+  readonly qualification?: string;
   readonly bio: string;
   readonly source: string;
   readonly verified: boolean;
@@ -246,106 +250,125 @@ export interface TeamMember {
 
 export const team: readonly TeamMember[] = [
   {
-    name: 'Mopuri Aushish Kumar',
-    role: 'Chairman',
-    image: '/images/Leadership/IMG-20260904-WA0021.jpg',
+    name: "Mopuri Aushish Kumar",
+    role: "Chairman",
+    image: "/images/Leadership/IMG-20260904-WA0021.jpg",
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Leads the trust with a focus on transparency, accountable partnerships and programmes that create lasting community capability.',
-    source: 'Role verified from the supplied chairman message.',
+    qualification: "MBA, Narayana College, Tadipatri",
+    bio: "Leads the trust with a focus on transparency, accountable partnerships and programmes that create lasting community capability.",
+    source: "Role verified from the supplied chairman message.",
     verified: true,
   },
   {
-    name: 'Gopal Krishna',
-    role: 'Treasurer',
-    image: '/images/Leadership/IMG-20260904-WA0022.jpg',
+    name: "Pothuraju Suneel Manohar",
+    role: "Secretary",
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Supports financial stewardship, donor accountability and programme administration for the trust.',
-    source: 'Role information compiled from available organisation references.',
+    qualification: "MS in Chemical Engineering, USA",
+    bio: "Business owner and entrepreneur serving as Secretary, overseeing governance, documentation and the trust's strategic direction.",
+    source:
+      "Role and background compiled from the organisation's supplied leadership information (leadership_info.md). Portrait not yet supplied.",
     verified: false,
   },
   {
-    name: 'Ramu Kondala',
-    role: 'President',
-    image: '/images/Leadership/Gemini_Generated_Image_9chgej9chgej9chg.png',
+    name: "Kondala Ramu",
+    role: "Treasurer",
+    image: "/images/Leadership/IMG-20260904-WA0020.png",
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Guides programme priorities with a focus on community welfare, education support and inclusive development.',
-    source: 'Role information compiled from available organisation references.',
+    qualification: "BE (Electronics and Communication Engineering)",
+    bio: "Manages financial stewardship for the trust and is an active participant in community service through the Sri Sathya Sai Seva Organisation.",
+    source:
+      "Role and background compiled from the organisation's supplied leadership information (leadership_info.md).",
     verified: false,
   },
   {
-    name: 'Manohar',
-    role: 'Secretary',
-    image: '/images/Leadership/manohar image2.jpg',
+    name: "Gurijala Vijay Kumar Reddy",
+    role: "Honarary Advisor",
+    image: "/images/Leadership/IMG-20260904-WA0062.jpg",
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Coordinates documentation, communication and field-level follow-through across service activities.',
-    source: 'Role information compiled from available organisation references.',
+    qualification: "MBA (Finance)",
+    bio: "MBA in Finance with prior experience in the finance sector at MAFIL in Bangalore and Kerala; currently runs his own business and works in real estate.",
+    source:
+      "Role and background compiled from the organisation's supplied leadership information (leadership_info.md).",
     verified: false,
   },
   {
-    name: 'CH. Lokesh Kumar',
-    role: 'Managing Director',
-    image: '/images/Leadership/IMG-20260905-WA0015.jpg',
+    name: "Nallapalli Vijaya Bhaskar",
+    role: "Honarary Advisor",
+    image: "/images/Leadership/IMG-20260904-WA0022.jpg",
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Works on programme execution, partner coordination and practical delivery of community initiatives.',
-    source: 'Role information compiled from available organisation references.',
+    bio: "Serves as President of the Andhra Pradesh State Employees Association, advising the trust on institutional and community partnerships.",
+    source:
+      "Role and background compiled from the organisation's supplied leadership information (leadership_info.md).",
     verified: false,
   },
   {
-    name: 'Sajja Venkata Siva Kumar',
-    role: 'Member',
-    image: '/images/Leadership/IMG-20260904-WA0062.jpg',
+    name: "Sajja Venkata Siva Kumar (Sivanna)",
+    role: "Honarary Advisor",
+    image: "/images/Leadership/IMG-20260905-WA0015.jpg",
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: 'Contributes to outreach, operations support and programme coordination for service activities.',
-    source: 'Background compiled from supplied member note and organisation material.',
+    bio: "A former journalist and Treasurer of the Andhra Pradesh State Employees Association, dedicated to the welfare of BC communities and employed in the AP Government undertaking sector (APGENCO).",
+    source:
+      "Role and background compiled from the organisation's supplied leadership information (leadership_info.md).",
+    verified: false,
+  },
+  {
+    name: "Manohar Bonu",
+    role: "Member",
+    image: "/images/Leadership/manohar image2.jpg",
+    email: org.email,
+    phone: org.phone,
+    phoneHref: org.phoneHref,
+    bio: "Coordinates documentation, communication and field-level follow-through across service activities.",
+    source: "Role information compiled from available organisation references.",
     verified: false,
   },
 ];
 
 export const csr = {
-  heading: 'Partner With Us Through CSR',
-  lead: 'True progress begins with empowerment. We invite corporations to partner with us on programmes in women empowerment and child care.',
+  heading: "Partner With Us Through CSR",
+  lead: "True progress begins with empowerment. We invite corporations to partner with us on programmes in women empowerment and child care.",
   reasons: [
     {
-      title: 'Transparent Impact',
-      body: 'Every contribution is tracked against measurable, reportable outcomes.',
+      title: "Transparent Impact",
+      body: "Every contribution is tracked against measurable, reportable outcomes.",
     },
     {
-      title: 'Aligned with National Priorities',
-      body: 'Our programmes address UN Sustainable Development Goals 4, 5, 8 and 10.',
+      title: "Aligned with National Priorities",
+      body: "Our programmes address UN Sustainable Development Goals 4, 5, 8 and 10.",
     },
     {
-      title: 'Scalable Projects',
-      body: 'Designed from the outset for long-term community development, not one-off events.',
+      title: "Scalable Projects",
+      body: "Designed from the outset for long-term community development, not one-off events.",
     },
   ],
   models: [
-    'Project adoption',
-    'Co-branded campaigns',
-    'Employee engagement programmes',
-    'Capacity-building partnerships',
+    "Project adoption",
+    "Co-branded campaigns",
+    "Employee engagement programmes",
+    "Capacity-building partnerships",
   ],
 } as const;
 
 export const donate = {
-  heading: 'Support a Cause. Change a Life.',
-  lead: 'At SMY Services, we believe that meaningful change begins with collective action. Every donation — big or small — creates measurable impact.',
-  body: 'We ensure that every contribution is utilised responsibly, transparently, and effectively.',
+  heading: "Support a Cause. Change a Life.",
+  lead: "At SMY Services, we believe that meaningful change begins with collective action. Every donation — big or small — creates measurable impact.",
+  body: "We ensure that every contribution is utilised responsibly, transparently, and effectively.",
   trust: [
-    'Confirmation receipt for every contribution',
-    'Tax exemption certificate',
-    'Periodic updates on project impact',
+    "Confirmation receipt for every contribution",
+    "Tax exemption certificate",
+    "Periodic updates on project impact",
   ],
   /**
    * Bank details are injected from the environment, never committed. The trust
@@ -355,14 +378,16 @@ export const donate = {
    * donate page shows a "details available on request" panel instead.
    */
   bank: {
-    accountName: import.meta.env.PUBLIC_BANK_ACCOUNT_NAME ?? 'Sri Matha Yellamanba Services',
-    account: import.meta.env.PUBLIC_BANK_ACCOUNT ?? '',
-    cif: import.meta.env.PUBLIC_BANK_CIF ?? '',
-    ifsc: import.meta.env.PUBLIC_BANK_IFSC ?? '',
-    micr: import.meta.env.PUBLIC_BANK_MICR ?? '',
-    product: import.meta.env.PUBLIC_BANK_PRODUCT ?? '',
-    currency: 'INR',
-    email: import.meta.env.PUBLIC_BANK_EMAIL ?? 'smyservice888@gmail.com',
+    accountName:
+      import.meta.env.PUBLIC_BANK_ACCOUNT_NAME ??
+      "Sri Matha Yellamanba Services",
+    account: import.meta.env.PUBLIC_BANK_ACCOUNT ?? "",
+    cif: import.meta.env.PUBLIC_BANK_CIF ?? "",
+    ifsc: import.meta.env.PUBLIC_BANK_IFSC ?? "",
+    micr: import.meta.env.PUBLIC_BANK_MICR ?? "",
+    product: import.meta.env.PUBLIC_BANK_PRODUCT ?? "",
+    currency: "INR",
+    email: import.meta.env.PUBLIC_BANK_EMAIL ?? "smyservice888@gmail.com",
   },
 } as const;
 
@@ -375,15 +400,15 @@ export interface CertificateDoc {
 
 export const certificates: readonly CertificateDoc[] = [
   {
-    title: 'Registration Certificate',
-    label: 'Entity registration document',
-    status: 'Available on request',
+    title: "Registration Certificate",
+    label: "Entity registration document",
+    status: "Available on request",
     image: null,
   },
   {
-    title: 'CSR Registration',
+    title: "CSR Registration",
     label: `CSR Registration Number ${org.csr}`,
-    status: 'Available on request',
+    status: "Available on request",
     image: null,
   },
 ] as const;
