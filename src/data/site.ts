@@ -287,6 +287,21 @@ export const team: readonly TeamMember[] = [
     verified: false,
   },
   {
+    name: "Manohar Bonu",
+    role: "Member",
+    image: "/images/Leadership/manohar image2.jpg",
+    email: org.email,
+    phone: org.phone,
+    phoneHref: org.phoneHref,
+    bio: "Coordinates documentation, communication and field-level follow-through across service activities.",
+    source: "Role information compiled from available organisation references.",
+    verified: false,
+  },
+];
+
+/** Honorary advisors, shown in a separate "Advisory Board" section below the core team. */
+export const advisoryBoard: readonly TeamMember[] = [
+  {
     name: "Gurijala Vijay Kumar Reddy",
     role: "Honarary Advisor",
     image: "/images/Leadership/IMG-20260904-WA0062.jpg",
@@ -321,17 +336,6 @@ export const team: readonly TeamMember[] = [
     bio: "A former journalist and Treasurer of the Andhra Pradesh State Employees Association, dedicated to the welfare of BC communities and employed in the AP Government undertaking sector (APGENCO).",
     source:
       "Role and background compiled from the organisation's supplied leadership information (leadership_info.md).",
-    verified: false,
-  },
-  {
-    name: "Manohar Bonu",
-    role: "Member",
-    image: "/images/Leadership/manohar image2.jpg",
-    email: org.email,
-    phone: org.phone,
-    phoneHref: org.phoneHref,
-    bio: "Coordinates documentation, communication and field-level follow-through across service activities.",
-    source: "Role information compiled from available organisation references.",
     verified: false,
   },
 ];

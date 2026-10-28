@@ -7,7 +7,7 @@ import StatsBar from '../components/StatsBar.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import LeadershipGrid from '../components/LeadershipGrid.astro';
-import { org, about, team, csr } from '../data/site';
+import { org, about, team, advisoryBoard, csr } from '../data/site';
 ---
 
 <BaseLayout
@@ -122,6 +122,18 @@ import { org, about, team, csr } from '../data/site';
       </div>
 
       <LeadershipGrid members={team} />
+    </div>
+  </section>
+
+  <!-- Advisory Board -->
+  <section class="section-y pt-0">
+    <div class="container-x">
+      <div class="max-w-2xl">
+        <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>Advisory Board</p>
+        <h2 class="h2 mt-5" data-split-text>Honorary advisors</h2>
+      </div>
+
+      <LeadershipGrid members={advisoryBoard} />
     </div>
   </section>
 

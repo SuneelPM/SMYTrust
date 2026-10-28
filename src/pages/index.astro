@@ -8,7 +8,7 @@ import CausesGrid from '../components/CausesGrid.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Icon from '../components/Icon.astro';
 import LeadershipGrid from '../components/LeadershipGrid.astro';
-import { org, about, services, team, csr } from '../data/site';
+import { org, about, services, team, advisoryBoard, csr } from '../data/site';
 import { gallery } from '../data/media';
 ---
 
@@ -190,6 +190,18 @@ import { gallery } from '../data/media';
       </div>
 
       <LeadershipGrid members={team} />
+    </div>
+  </section>
+
+  <!-- ================= ADVISORY BOARD ================= -->
+  <section class="section-y pt-0">
+    <div class="container-x">
+      <div class="max-w-2xl">
+        <p class="eyebrow" data-reveal="fade"><span class="eyebrow-dot"></span>Advisory Board</p>
+        <h2 class="h2 mt-5" data-split-text>Honorary advisors</h2>
+      </div>
+
+      <LeadershipGrid members={advisoryBoard} />
     </div>
   </section>
 

@@ -1,6 +1,8 @@
 # Sri Mathaa Yellamanba Services Leadership team
 
-## Chairman
+## Team
+
+### Chairman
 
 - Name: Mopuri Aushish Kumar
 - S/o : Mopuri Anjaneyulu
@@ -14,7 +16,7 @@
 - Position: Chairman
 - Image : IMG-20260904-WA0021.jpg
 
-## Secretary
+### Secretary
 
 - Name: Pothuraju Suneel Manohar
 - S/o : Pothuraju Nagamalleswara Rao
@@ -28,7 +30,7 @@
 - Position: Secretary
 - Image : IMG-20260904-WA0023.jpg (Image to be provided)
 
-## Treasurer
+### Treasurer
 
 - Name : Kondala Ramu
 - S/o : K laksmi Narayana
@@ -44,7 +46,23 @@
 - Position : Treasurer
 - Image: IMG-20260904-WA0020.png
 
-## Honarary Advisor
+### Team Member
+
+- name: "Manohar Bonu",
+- role: "Member",
+- image: "/images/Leadership/manohar image2.jpg",
+- email: org.email,
+- phone: org.phone,
+- phoneHref: org.phoneHref,
+- bio: "Coordinates documentation, communication and - field-level follow-through across service activities.",
+- source: "Role information compiled from available - organisation references.",
+- verified: false,
+
+---
+
+## Advisory Board
+
+### Honarary Advisor
 
 - Name : Gurijala Vijay Kumar reddy.
 - S/o : G . Rama Chandra reddy.
@@ -56,7 +74,7 @@
 - Position: Honarary Advisor
 - Image: IMG-20260904-WA0062.jpg
 
-## Honarary Advisor
+### Honarary Advisor
 
 - Name : Nallapalli Vijaya Bhaskar.
 - S/o :
@@ -67,7 +85,7 @@
 - Position: Honarary Advisor
 - Image: IMG-20260904-WA0022.jpg
 
-## Honarary Advisor
+### Honarary Advisor
 
 - Name : Sajja Venkata Siva Kumar (Sivanna)
 - S/o :
@@ -81,15 +99,3 @@
 - Address :
 - Position: Honarary Advisor
 - Image: IMG-20260905-WA0015.jpg
-
-## Team Member
-
-- name: "Manohar Bonu",
-- role: "Member",
-- image: "/images/Leadership/manohar image2.jpg",
-- email: org.email,
-- phone: org.phone,
-- phoneHref: org.phoneHref,
-- bio: "Coordinates documentation, communication and - field-level follow-through across service activities.",
-- source: "Role information compiled from available - organisation references.",
-- verified: false,
