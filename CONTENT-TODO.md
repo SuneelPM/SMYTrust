@@ -96,12 +96,11 @@ real URL is set.
 
 ---
 
-## 6. Office hours — please confirm
+## 6. Office hours — confirmed
 
 **Page:** `/contact/` · **File:** `src/pages/contact.astro`
 
-Currently states "Monday – Saturday, 10:00 – 18:00 IST" with a visible note asking for
-confirmation. Tell us the real hours and the note is removed.
+Monday – Saturday, 10 AM – 6 PM (IST). Closed on public holidays.
 
 ---
 
