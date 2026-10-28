@@ -4,5 +4,6 @@ Allow: /
 
 # Nothing here is private, but these carry no crawlable value.
 Disallow: /opt/
+Disallow: /gallery/
 
 Sitemap: https://smytrust.in/sitemap-index.xml

@@ -18,6 +18,7 @@ const mapSrc = `https://www.google.com/maps?q=${org.mapQuery}&output=embed`;
   title="Contact Us"
   description={`Get in touch with ${org.name} — ${org.addressOneLine}. Phone ${org.phone}, email ${org.email}.`}
   overlay
+  breadcrumbs={[{ label: 'Contact Us', href: '/contact/' }]}
 >
   <PageHero
     eyebrow="Contact Us"

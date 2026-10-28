@@ -13,6 +13,10 @@ interface Props {
   /** Transparent header sitting over a hero image. */
   overlay?: boolean;
   ogImage?: string;
+  /** Excludes this page from search indexing (e.g. the /gallery/ redirect). */
+  noindex?: boolean;
+  /** Breadcrumb trail for BreadcrumbList structured data, home page excluded. */
+  breadcrumbs?: { label: string; href: string }[];
 }
 
 const {
@@ -20,6 +24,8 @@ const {
   description,
   overlay = false,
   ogImage = '/images/joyful-children-playing-holi-festival-scaled.jpg',
+  noindex = false,
+  breadcrumbs = [],
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://smytrust.in');
@@ -45,6 +51,23 @@ const jsonLd = {
     addressCountry: 'IN',
   },
 };
+
+const breadcrumbLd =
+  breadcrumbs.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', canonical.origin).href },
+          ...breadcrumbs.map((b, i) => ({
+            '@type': 'ListItem',
+            position: i + 2,
+            name: b.label,
+            item: new URL(b.href, canonical.origin).href,
+          })),
+        ],
+      }
+    : null;
 ---
 
 <!doctype html>
@@ -55,6 +78,7 @@ const jsonLd = {
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical.href} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" href={u(org.logo)} />
     <link rel="apple-touch-icon" href={u('/images/cropped-cropped-logo-removebg-preview.png')} />
     <meta name="theme-color" content="#0b64f3" />
@@ -65,7 +89,11 @@ const jsonLd = {
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical.href} />
     <meta property="og:image" content={ogUrl.href} />
+    <meta property="og:locale" content="en_IN" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl.href} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -78,6 +106,7 @@ const jsonLd = {
       document.documentElement.classList.remove('no-js');
     </script>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {breadcrumbLd && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbLd)} />}
   </head>
 
   <body>

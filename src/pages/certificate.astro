@@ -20,6 +20,7 @@ const documentRequestHref = (title: string) =>
   title="Certificate"
   description={`Registration and compliance documents for ${org.name} — CSR ${org.csr}.`}
   overlay
+  breadcrumbs={[{ label: 'Certificate', href: '/certificate/' }]}
 >
   <PageHero
     eyebrow="Certificate"
