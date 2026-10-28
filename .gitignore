@@ -10,3 +10,6 @@ graphify-out/
 .archive/
 test-results/
 playwright-report/
+.whatsapp-rename-map.txt
+.whatsapp-video-rename-map.txt
+.jpeg-rename-map.txt

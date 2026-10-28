@@ -1,7 +1,8 @@
 /**
- * Generates responsive WebP variants for every image in public/images.
+ * Generates responsive WebP variants for every image in public/images,
+ * including subdirectories such as public/images/gallery.
  *
- * Output: public/opt/<name>-<width>.webp
+ * Output: public/opt/<relative-name>-<width>.webp (directory structure mirrored)
  * Results are cached — a variant is only rebuilt when the source file is newer.
  * Run automatically before every build via the `prebuild` npm script.
  */
@@ -16,18 +17,29 @@ const QUALITY = 74;
 
 fs.mkdirSync(OUT, { recursive: true });
 
-const files = fs
-  .readdirSync(SRC)
-  .filter((f) => /\.(jpe?g|png)$/i.test(f))
-  .sort();
+/** Recursively list image files under `dir`, returned as paths relative to SRC (posix separators). */
+function walk(dir) {
+  const out = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      out.push(...walk(full));
+    } else if (/\.(jpe?g|png)$/i.test(entry.name)) {
+      out.push(path.relative(SRC, full).split(path.sep).join('/'));
+    }
+  }
+  return out;
+}
+
+const files = walk(SRC).sort();
 
 let built = 0;
 let skipped = 0;
 let srcBytes = 0;
 let outBytes = 0;
 
-for (const file of files) {
-  const srcPath = path.join(SRC, file);
+for (const rel of files) {
+  const srcPath = path.join(SRC, rel);
   const stat = fs.statSync(srcPath);
   srcBytes += stat.size;
 
@@ -35,11 +47,12 @@ for (const file of files) {
   try {
     meta = await sharp(srcPath).metadata();
   } catch {
-    console.warn(`  skip (unreadable): ${file}`);
+    console.warn(`  skip (unreadable): ${rel}`);
     continue;
   }
 
-  const base = file.replace(/\.[^.]+$/, '');
+  const base = rel.replace(/\.[^.]+$/, '');
+  fs.mkdirSync(path.join(OUT, path.dirname(base)), { recursive: true });
 
   // Also emit a variant at the source's own width when it falls between our
   // breakpoints, so large screens still get a sharp image instead of upscaling.
@@ -60,6 +73,7 @@ for (const file of files) {
     }
 
     await sharp(srcPath)
+      .rotate() // apply EXIF orientation so phone photos aren't sideways
       .resize({ width: w, withoutEnlargement: true })
       .webp({ quality: QUALITY, effort: 5 })
       .toFile(outPath);
@@ -73,14 +87,23 @@ for (const file of files) {
 // not keep shipping its WebP derivatives.
 const liveStems = new Set(files.map((f) => f.replace(/\.[^.]+$/, '')));
 let pruned = 0;
-for (const variant of fs.readdirSync(OUT)) {
-  const m = variant.match(/^(.+)-\d+\.webp$/);
-  if (!m) continue;
-  if (!liveStems.has(m[1])) {
-    fs.unlinkSync(path.join(OUT, variant));
-    pruned++;
+function pruneDir(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      pruneDir(full);
+      continue;
+    }
+    const m = entry.name.match(/^(.+)-\d+\.webp$/);
+    if (!m) continue;
+    const stem = path.join(path.relative(OUT, dir), m[1]).split(path.sep).join('/');
+    if (!liveStems.has(stem)) {
+      fs.unlinkSync(full);
+      pruned++;
+    }
   }
 }
+pruneDir(OUT);
 
 const mb = (n) => (n / 1024 / 1024).toFixed(1) + ' MB';
 console.log(

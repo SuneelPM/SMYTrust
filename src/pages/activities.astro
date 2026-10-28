@@ -5,7 +5,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import Lightbox from '../components/Lightbox.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { gallery } from '../data/media';
+import { gallery, galleryVideos } from '../data/media';
 ---
 
 <BaseLayout
@@ -73,6 +73,34 @@ import { gallery } from '../data/media';
             <p class="mt-4 text-base leading-relaxed" style="color: var(--c-muted)">
               We are currently curating and uploading new high-resolution photographs documenting our recent field programmes, welfare distribution drives, and community initiatives. Please check back soon.
             </p>
+          </div>
+        )
+      }
+
+      {
+        galleryVideos.length > 0 && (
+          <div class="video-section" data-reveal="fade">
+            <div class="gallery-head">
+              <p class="gallery-head__kicker">Field footage</p>
+              <p class="gallery-head__copy">Short video clips from recent outreach and distribution drives.</p>
+            </div>
+
+            <div class="video-grid" data-reveal-group data-reveal-stagger="0.05">
+              {
+                galleryVideos.map((v, i) => (
+                  <div class="video-card">
+                    <video
+                      src={u(v.src)}
+                      poster={u(v.poster)}
+                      controls
+                      preload="none"
+                      playsinline
+                      aria-label={`Activity video ${i + 1}: ${v.alt}`}
+                    />
+                  </div>
+                ))
+              }
+            </div>
           </div>
         )
       }
@@ -284,5 +312,46 @@ import { gallery } from '../data/media';
       animation: none;
       transition: none;
     }
+  }
+
+  .video-section {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--c-line);
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .video-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .video-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .video-card {
+    position: relative;
+    border-radius: 1.15rem;
+    overflow: hidden;
+    background: var(--c-surface);
+    border: 1px solid var(--c-line);
+    box-shadow: 0 22px 55px -42px hsl(222 47% 11% / 0.65);
+  }
+
+  .video-card video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: hsl(222 47% 8%);
   }
 </style>

@@ -1,10 +1,80 @@
 /** Auto-generated image manifests. Source: smyservices.org media library. */
 
 export type Media = { src: string; alt: string };
+export type VideoMedia = { src: string; poster: string; alt: string };
 
-// Emptied until new photographs are curated; /activities/ and the home page
-// render a placeholder while this is empty. Previous entries are in git history.
-export const gallery: Media[] = [];
+// Curated photographs from public/images/gallery. Shown (first 8) on the home
+// page and in full on /activities/.
+export const gallery: Media[] = [
+  { src: "/images/gallery/IMG_0267.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0274.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0291.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0315.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0331.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0339.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0379.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0400.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0500.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0501.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0502.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0503.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0504.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0505.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0506.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0507.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0508.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0509.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0510.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0512.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0513.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0514.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0515.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0516.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0517.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0518.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0520.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0521.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0522.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0523.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0524.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0525.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0526.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0527.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0528.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0529.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0530.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0531.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0532.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0533.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0534.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0535.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0536.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0537.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0538.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0539.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0540.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0541.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0542.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0543.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0544.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0545.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0546.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0547.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0548.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0549.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0550.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0551.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0552.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0553.jpeg", alt: "SMY Services field activity photograph" },
+  { src: "/images/gallery/IMG_0554.jpeg", alt: "SMY Services field activity photograph" },
+];
+
+// Field video clips from public/images/gallery. Shown only on /activities/.
+export const galleryVideos: VideoMedia[] = [
+  { src: "/images/gallery/VID_0555.mp4", poster: "/images/gallery/VID_0555-poster.jpg", alt: "SMY Services field activity video" },
+  { src: "/images/gallery/VID_0556.mp4", poster: "/images/gallery/VID_0556-poster.jpg", alt: "SMY Services field activity video" },
+  { src: "/images/gallery/VID_0557.mp4", poster: "/images/gallery/VID_0557-poster.jpg", alt: "SMY Services field activity video" },
+];
 
 export const activityPhotos: Media[] = [
   { src: "/images/IMG_0267-scaled.jpg", alt: "SMY Services volunteers on the ground" },
