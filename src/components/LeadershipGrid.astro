@@ -16,71 +16,88 @@ const { members } = Astro.props;
       data-reveal-group
       data-reveal-stagger="0.08"
     >
-      {members.map((m) => (
-        <article class="team-card group">
-          <div class="team__profile">
-            <div class="team__media">
-              {m.image ? (
-                <Picture
-                  src={m.image}
-                  alt={m.name}
-                  class="media-cover"
-                  width="500"
-                  height="620"
-                  loading="lazy"
-                  sizes="7rem"
-                />
-              ) : (
-                <div class="team__media-placeholder" aria-hidden="true">
-                  <span class="team__initials">
-                    {m.name
-                      .split(/\s+/)
-                      .filter(Boolean)
-                      .slice(0, 2)
-                      .map((part) => part[0]?.toUpperCase())
-                      .join('')}
-                  </span>
+      {members.map((m) => {
+        const bioParagraphs = m.bio
+          ? m.bio
+              .split(/\n\s*\n/)
+              .map((p) => p.replace(/\s+/g, ' ').trim())
+              .filter(Boolean)
+          : [];
+        const bioPreview = bioParagraphs.join(' ');
+
+        return (
+          <article class="team-card group">
+            <div class="team__profile">
+              <div class="team__media">
+                {m.image ? (
+                  <Picture
+                    src={m.image}
+                    alt={m.name}
+                    class="media-cover"
+                    width="500"
+                    height="620"
+                    loading="lazy"
+                    sizes="7rem"
+                  />
+                ) : (
+                  <div class="team__media-placeholder" aria-hidden="true">
+                    <span class="team__initials">
+                      {m.name
+                        .split(/\s+/)
+                        .filter(Boolean)
+                        .slice(0, 2)
+                        .map((part) => part[0]?.toUpperCase())
+                        .join('')}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <p class="team__role">{m.role}</p>
+            </div>
+
+            <div class="team__content">
+              <h3 class="team__name">{m.name}</h3>
+
+              {bioPreview && (
+                <div class="team__bio-wrap" data-bio-wrap>
+                  <p class="team__bio" data-bio>
+                    {bioPreview}
+                  </p>
+                  {bioParagraphs.length > 1 && (
+                    <div class="team__bio-full" data-bio-full hidden>
+                      {bioParagraphs.map((paragraph) => (
+                        <p>{paragraph}</p>
+                      ))}
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    class="team__bio-more"
+                    data-bio-toggle
+                    aria-expanded="false"
+                    aria-label={`Show full bio for ${m.name}`}
+                    hidden
+                  >
+                    <span data-bio-toggle-label>Read more</span>
+                    <svg class="team__bio-more-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+
+              {m.qualification && (
+                <div class="team__contact" aria-label={`Qualification of ${m.name}`}>
+                  <p class="team__line team__line--stacked">
+                    <span class="team__line-label">Qualification</span>
+                    <span class="team__line-value">{m.qualification}</span>
+                  </p>
                 </div>
               )}
             </div>
-            <p class="team__role">{m.role}</p>
-          </div>
-
-          <div class="team__content">
-            <h3 class="team__name">{m.name}</h3>
-
-            {m.bio && (
-              <div class="team__bio-wrap">
-                <p class="team__bio" data-bio>
-                  {m.bio}
-                </p>
-                <button
-                  type="button"
-                  class="team__bio-more"
-                  data-bio-toggle
-                  aria-expanded="false"
-                  aria-label={`Show full bio for ${m.name}`}
-                  hidden
-                >
-                  <span data-bio-toggle-label>Read more</span>
-                  <svg class="team__bio-more-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </button>
-              </div>
-            )}
-
-            {m.qualification && (
-              <div class="team__contact" aria-label={`Qualification of ${m.name}`}>
-                <p class="team__line team__line--stacked">
-                  <span class="team__line-label">Qualification</span>
-                  <span class="team__line-value">{m.qualification}</span>
-                </p>
-              </div>
-            )}
-          </div>
-        </article>
-      ))}
+          </article>
+        );
+      })}
     </div>
   ) : (
     <div
@@ -121,6 +138,7 @@ const { members } = Astro.props;
 
   wraps.forEach((wrap) => {
     const bio = wrap.querySelector<HTMLElement>('[data-bio]');
+    const full = wrap.querySelector<HTMLElement>('[data-bio-full]');
     const toggle = wrap.querySelector<HTMLButtonElement>('[data-bio-toggle]');
     const label = wrap.querySelector<HTMLElement>('[data-bio-toggle-label]');
     if (!bio || !toggle || !label) return;
@@ -130,6 +148,10 @@ const { members } = Astro.props;
       toggle.classList.toggle('is-open', expanded);
       toggle.setAttribute('aria-expanded', String(expanded));
       label.textContent = expanded ? 'Show less' : 'Read more';
+      if (full) {
+        full.hidden = !expanded;
+        bio.hidden = expanded;
+      }
     });
   });
 
@@ -302,6 +324,21 @@ const { members } = Astro.props;
   .team__bio.is-expanded {
     -webkit-line-clamp: unset;
     overflow: visible;
+  }
+
+  .team__bio-full {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+    margin-top: 0.38rem;
+    font-size: 0.76rem;
+    line-height: 1.5;
+    color: var(--c-muted);
+    text-wrap: pretty;
+  }
+
+  .team__bio-full p {
+    margin: 0;
   }
 
   .team__bio-more {

@@ -321,7 +321,11 @@ export const advisoryBoard: readonly TeamMember[] = [
     email: org.email,
     phone: org.phone,
     phoneHref: org.phoneHref,
-    bio: "Serves as President of the Andhra Pradesh State Employees Association, advising the trust on institutional and community partnerships.",
+    bio: `Serves as President of the Andhra Pradesh State Employees Association, advising the trust on institutional and community partnerships. 
+    
+    He is a dedicated educator in Mayadarlapalli village, Anantapur district, celebrated as a selfless guardian of his students' futures. When a government mandate threatened to merge the local primary school, jeopardizing the education of hundreds of children, he led a powerful grassroots movement. 
+    
+    Risking his own job security, Mr. Bhaskar united the entire village across caste and political lines to successfully halt the merger. Thanks to his relentless perseverance and the community's solidarity, the school remains open today. He stands as a powerful testament that a true teacher's dedication extends far beyond the classroom.`,
     source:
       "Role and background compiled from the organisation's supplied leadership information (leadership_info.md).",
     verified: false,
